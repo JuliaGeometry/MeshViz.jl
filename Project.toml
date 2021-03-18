@@ -1,0 +1,13 @@
+name = "MeshViz"
+uuid = "9ecf9c4f-6e5a-4b5e-83ae-06f2c7a661d8"
+authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
