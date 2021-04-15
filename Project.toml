@@ -8,6 +8,7 @@ AbstractPlotting = "537997a7-5e4e-5d89-9595-2241ea00577e"
 Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
 
 [compat]
+AbstractPlotting = "0.17"
 julia = "1"
 
 [extras]
