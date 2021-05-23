@@ -12,7 +12,7 @@ import Makie: convert_arguments, plottype
 plottype(::PointSet) = Makie.Scatter
 
 convert_arguments(P::Type{<:Makie.Scatter}, pset::PointSet) =
-  convert_arguments(P, map(coordinates, pset))
+  convert_arguments(P, coordinates.(pset))
 
 # -----------
 # SimpleMesh
