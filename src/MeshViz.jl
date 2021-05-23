@@ -1,11 +1,32 @@
 module MeshViz
 
 using Meshes
-using AbstractPlotting
+using Makie
 
-import AbstractPlotting: convert_arguments
+import Makie: convert_arguments, plottype
 
-convert_arguments(P::AbstractPlotting.PointBased, pset::PointSet) =
-  convert_arguments(P, [coordinates(pset[i]) for i in 1:nelements(pset)])
+# ---------
+# PointSet
+# ---------
+
+plottype(::PointSet) = Makie.Scatter
+
+convert_arguments(P::Type{<:Makie.Scatter}, pset::PointSet) =
+  convert_arguments(P, map(coordinates, pset))
+
+# -----------
+# SimpleMesh
+# -----------
+
+plottype(::SimpleMesh) = Makie.Mesh
+
+function convert_arguments(P::Type{<:Makie.Mesh}, mesh::SimpleMesh)
+  topo  = topology(mesh)
+  verts = vertices(mesh)
+  elems = elements(topo)
+  coord = reduce(hcat, coordinates.(verts))'
+  faces = reduce(hcat, collect.(indices.(elems)))'
+  convert_arguments(P, coord, faces)
+end
 
 end

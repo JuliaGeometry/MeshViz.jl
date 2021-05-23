@@ -4,10 +4,12 @@ authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com> and contributors"]
 version = "0.1.0"
 
 [deps]
-AbstractPlotting = "537997a7-5e4e-5d89-9595-2241ea00577e"
+Makie = "ee78f7c6-11fb-53f2-987a-cfe4a2b5a57a"
 Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
 
 [compat]
+Makie = "0.13"
+Meshes = "0.14"
 julia = "1"
 
 [extras]
