@@ -1,9 +1,10 @@
 module MeshViz
 
 using Meshes
-using Makie
 
-import Makie: convert_arguments, plottype
+import Makie
+import Makie: convert_arguments
+import Makie: plottype
 
 # ---------
 # PointSet
@@ -21,12 +22,16 @@ convert_arguments(P::Type{<:Makie.Scatter}, pset::PointSet) =
 plottype(::SimpleMesh) = Makie.Mesh
 
 function convert_arguments(P::Type{<:Makie.Mesh}, mesh::SimpleMesh)
-  topo  = topology(mesh)
+  # retrieve geometry + topology
   verts = vertices(mesh)
+  topo  = topology(mesh)
   elems = elements(topo)
-  coord = reduce(hcat, coordinates.(verts))'
-  faces = reduce(hcat, collect.(indices.(elems)))'
-  convert_arguments(P, coord, faces)
+
+  # convert to Julia arrays
+  coords = reduce(hcat, coordinates(v) for v in verts)'
+  connec = reduce(hcat, collect(indices(e)) for e in elems)'
+
+  convert_arguments(P, coords, connec)
 end
 
 end
