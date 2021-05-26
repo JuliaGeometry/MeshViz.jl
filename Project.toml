@@ -9,7 +9,7 @@ Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
 
 [compat]
 Makie = "0.13"
-Meshes = "0.16"
+Meshes = "0.16, 0.15"
 julia = "1"
 
 [extras]
