@@ -27,8 +27,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   elems = elements(topo)
 
   # convert to Julia arrays
-  coords = reduce(hcat, coordinates(v) for v in verts)'
-  connec = reduce(hcat, collect(indices(e)) for e in elems)'
+  coords = reduce(hcat, coordinates.(verts))'
+  connec = reduce(hcat, collect.(indices.(elems)))'
 
   # enable shading in 3D
   shading = embeddim(mesh) == 3
