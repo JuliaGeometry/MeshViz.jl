@@ -3,25 +3,28 @@ module MeshViz
 using Meshes
 
 import Makie
-import Makie: convert_arguments
-import Makie: plottype
 
-# ---------
-# PointSet
-# ---------
-
-plottype(::PointSet) = Makie.Scatter
-
-convert_arguments(P::Type{<:Makie.Scatter}, pset::PointSet) =
-  convert_arguments(P, coordinates.(pset))
+@Makie.recipe(Viz, obj) do scene
+  Makie.Attributes(;
+    color        = Makie.theme(scene, :patchcolor),
+    visible      = Makie.theme(scene, :visible),
+    strokecolor  = Makie.theme(scene, :patchstrokecolor),
+    colormap     = Makie.theme(scene, :colormap),
+    colorrange   = Makie.automatic,
+    strokewidth  = Makie.theme(scene, :patchstrokewidth),
+    inspectable  = Makie.theme(scene, :inspectable)
+  )
+end
 
 # -----------
 # SimpleMesh
 # -----------
 
-plottype(::SimpleMesh) = Makie.Mesh
+Makie.plottype(::SimpleMesh) = Viz{<:Tuple{SimpleMesh}}
 
-function convert_arguments(P::Type{<:Makie.Mesh}, mesh::SimpleMesh)
+function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
+  mesh = plot[:obj][]
+
   # retrieve geometry + topology
   verts = vertices(mesh)
   topo  = topology(mesh)
@@ -31,7 +34,33 @@ function convert_arguments(P::Type{<:Makie.Mesh}, mesh::SimpleMesh)
   coords = reduce(hcat, coordinates(v) for v in verts)'
   connec = reduce(hcat, collect(indices(e)) for e in elems)'
 
-  convert_arguments(P, coords, connec)
+  # enable shading in 3D
+  shading = embeddim(mesh) == 3
+
+  Makie.mesh!(
+    plot, coords, connec,
+    color = plot[:color], colormap = plot[:colormap], colorrange = plot[:colorrange],
+    shading = shading, visible = plot[:visible], inspectable = plot[:inspectable]
+  )
+end
+
+# ---------
+# PointSet
+# ---------
+
+Makie.plottype(::PointSet) = Viz{<:Tuple{PointSet}}
+
+function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
+  pset = plot[:obj][]
+
+  # retrieve coordinates of points
+  coords = coordinates.(pset)
+
+  Makie.scatter!(
+    plot, coords,
+    color = plot[:color], colormap = plot[:colormap], colorrange = plot[:colorrange],
+    visible = plot[:visible], inspectable = plot[:inspectable]
+  )
 end
 
 end
