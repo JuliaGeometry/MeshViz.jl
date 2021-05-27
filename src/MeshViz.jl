@@ -6,10 +6,9 @@ import Makie
 
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
-    color        = Makie.theme(scene, :patchcolor),
-    colormap     = Makie.theme(scene, :colormap),
-    strokecolor  = Makie.theme(scene, :patchstrokecolor),
-    strokewidth  = Makie.theme(scene, :patchstrokewidth),
+    color        = :slategray3,
+    markercolor  = :black,
+    strokecolor  = :black,
   )
 end
 
@@ -34,10 +33,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # enable shading in 3D
   shading = embeddim(mesh) == 3
 
-  Makie.mesh!(
-    plot, coords, connec,
-    color = plot[:color], colormap = plot[:colormap],
-    shading = shading,
+  Makie.mesh!(plot, coords, connec,
+    color = plot[:color], shading = shading,
   )
 end
 
@@ -53,9 +50,8 @@ function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
   # retrieve coordinates of points
   coords = coordinates.(pset)
 
-  Makie.scatter!(
-    plot, coords,
-    color = plot[:color], colormap = plot[:colormap],
+  Makie.scatter!(plot, coords,
+    color = plot[:color],
   )
 end
 
