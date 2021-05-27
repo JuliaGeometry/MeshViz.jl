@@ -7,12 +7,9 @@ import Makie
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
     color        = Makie.theme(scene, :patchcolor),
-    visible      = Makie.theme(scene, :visible),
-    strokecolor  = Makie.theme(scene, :patchstrokecolor),
     colormap     = Makie.theme(scene, :colormap),
-    colorrange   = Makie.automatic,
+    strokecolor  = Makie.theme(scene, :patchstrokecolor),
     strokewidth  = Makie.theme(scene, :patchstrokewidth),
-    inspectable  = Makie.theme(scene, :inspectable)
   )
 end
 
@@ -39,8 +36,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   Makie.mesh!(
     plot, coords, connec,
-    color = plot[:color], colormap = plot[:colormap], colorrange = plot[:colorrange],
-    shading = shading, visible = plot[:visible], inspectable = plot[:inspectable]
+    color = plot[:color], colormap = plot[:colormap],
+    shading = shading,
   )
 end
 
@@ -58,8 +55,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
 
   Makie.scatter!(
     plot, coords,
-    color = plot[:color], colormap = plot[:colormap], colorrange = plot[:colorrange],
-    visible = plot[:visible], inspectable = plot[:inspectable]
+    color = plot[:color], colormap = plot[:colormap],
   )
 end
 
