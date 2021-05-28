@@ -12,6 +12,7 @@ Visualize Meshes.jl `object` with various options:
 * `elementcolor` - color of the elements (e.g. triangles)
 * `facetcolor`   - color of the facets (e.g. edges)
 * `vertexcolor`  - color of the vertices (i.e. points)
+* `showvertices` - tells whether or not to show the vertices
 * `showfacets`   - tells whether or not to show the facets
 """
 @Makie.recipe(Viz, obj) do scene
@@ -23,6 +24,7 @@ Visualize Meshes.jl `object` with various options:
     elementcolor = :slategray3,
     facetcolor   = :gray30,
     vertexcolor  = :black,
+    showvertices = false,
     showfacets   = false,
   )
 end
@@ -41,7 +43,9 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   # Meshes.jl attributes
   elementcolor = plot[:elementcolor][]
+  vertexcolor  = plot[:vertexcolor][]
   facetcolor   = plot[:facetcolor][]
+  showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
 
   # retrieve geometry + topology
@@ -83,9 +87,17 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   end
 
   Makie.mesh!(plot, coords, faces,
-    color = color, colormap = plot[:colormap],
-    shading = shading, interpolate = false,
+    colormap = plot[:colormap],
+    shading = shading, 
+    color = color,
   )
+
+
+  if showvertices
+    Makie.scatter!(plot, Vec{d}.(eachrow(coords)),
+      color = vertexcolor,
+    )
+  end
 
   if showfacets
     # use a sophisticated data structure
@@ -121,13 +133,17 @@ end
 Makie.plottype(::PointSet) = Viz{<:Tuple{PointSet}}
 
 function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
+  # retrieve point set object
   pset = plot[:obj][]
+
+  # Meshes.jl attributes
+  vertexcolor = plot[:vertexcolor][]
 
   # retrieve coordinates of points
   coords = coordinates.(pset)
 
   Makie.scatter!(plot, coords,
-    color = plot[:vertexcolor],
+    color = vertexcolor,
   )
 end
 
