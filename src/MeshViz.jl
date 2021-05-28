@@ -1,6 +1,7 @@
 module MeshViz
 
 using Meshes
+using Tables
 
 import Makie
 
@@ -14,6 +15,7 @@ Visualize Meshes.jl `object` with various options:
 * `vertexcolor`  - color of the vertices (i.e. points)
 * `showvertices` - tells whether or not to show the vertices
 * `showfacets`   - tells whether or not to show the facets
+* `variable`     - informs which variable to visualize
 """
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
@@ -26,6 +28,7 @@ Visualize Meshes.jl `object` with various options:
     vertexcolor  = :black,
     showvertices = false,
     showfacets   = false,
+    variable     = nothing,
   )
 end
 
@@ -145,6 +148,29 @@ function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
   Makie.scatter!(plot, coords,
     color = vertexcolor,
   )
+end
+
+# ----------
+# Mesh data
+# ----------
+
+Makie.plottype(::MeshData) = Viz{<:Tuple{MeshData}}
+
+function Makie.plot!(plot::Viz{<:Tuple{MeshData}})
+  # retrieve data object
+  dat = plot[:obj][]
+
+  # Meshes.jl attributes
+  variable = plot[:variable][]
+
+  # retrieve domain and element table
+  dom, tab = domain(dat), values(dat)
+
+  # element color from variable column
+  elementcolor = Tables.getcolumn(tab, variable)
+
+  # call existing recipe for underlying domain
+  viz!(plot, dom, elementcolor = elementcolor)
 end
 
 end
