@@ -40,7 +40,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve coordinates of vertices
   coords = reduce(hcat, coordinates.(verts))'
 
-  # decompose n-gons into simplices by
+  # decompose n-gons into triangles by
   # fan triangulation (assumes convexity)
   # https://en.wikipedia.org/wiki/Fan_triangulation
   triangles = Vector{Int}[]
