@@ -16,6 +16,10 @@ Visualize Meshes.jl `object` with various options:
 """
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
+    # generic attributes
+    colormap     = Makie.theme(scene, :colormap),
+
+    # Meshes.jl attributes
     elementcolor = :slategray3,
     facetcolor   = :gray30,
     vertexcolor  = :black,
@@ -30,7 +34,15 @@ end
 Makie.plottype(::SimpleMesh) = Viz{<:Tuple{SimpleMesh}}
 
 function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
+  # retrieve mesh object
   mesh = plot[:obj][]
+  d = embeddim(mesh)
+  n = nvertices(mesh)
+
+  # Meshes.jl attributes
+  elementcolor = plot[:elementcolor][]
+  facetcolor   = plot[:facetcolor][]
+  showfacets   = plot[:showfacets][]
 
   # retrieve geometry + topology
   verts = vertices(mesh)
@@ -43,29 +55,43 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # decompose n-gons into triangles by
   # fan triangulation (assumes convexity)
   # https://en.wikipedia.org/wiki/Fan_triangulation
-  triangles = Vector{Int}[]
+  tris = Vector{Int}[]
   for elem in elems
     inds = indices(elem)
     for i in 2:length(inds)-1
-      push!(triangles, [inds[1], inds[i], inds[i+1]])
+      push!(tris, [inds[1], inds[i], inds[i+1]])
     end
   end
-  faces = reduce(hcat, triangles)'
+  faces = reduce(hcat, tris)'
 
   # enable shading in 3D
   shading = embeddim(mesh) == 3
 
+  # set element color
+  color = if elementcolor isa Symbol
+    # default to single color
+    elementcolor
+  else
+    # copy color to all vertices of elements
+    colors = Vector{eltype(elementcolor)}(undef, n)
+    for (e, elem) in Iterators.enumerate(elems)
+      for i in indices(elem)
+        colors[i] = elementcolor[e]
+      end
+    end
+    colors
+  end
+
   Makie.mesh!(plot, coords, faces,
-    color = plot[:elementcolor], shading = shading,
+    color = color, colormap = plot[:colormap],
+    shading = shading, interpolate = false,
   )
 
-  if plot[:showfacets][]
+  if showfacets
     # use a sophisticated data structure
     # to extract the edges from the n-gons
     t = convert(HalfEdgeTopology, topo)
     ∂ = Boundary{1,0}(t)
-    d = embeddim(mesh)
-    n = nvertices(mesh)
 
     # append indices of incident vertices
     # interleaved with a sentinel index
@@ -83,7 +109,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     xyz = [coords[inds,j] for j in 1:d]
 
     Makie.linesegments!(plot, xyz...,
-      color = plot[:facetcolor],
+      color = facetcolor,
     )
   end
 end
