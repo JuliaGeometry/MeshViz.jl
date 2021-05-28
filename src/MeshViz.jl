@@ -4,6 +4,15 @@ using Meshes
 
 import Makie
 
+"""
+    viz(object)
+
+Visualize Meshes.jl `object` with various options:
+
+* `elementcolor` - color of the elements (e.g. triangles)
+* `facetcolor`   - color of the facets (e.g. edges)
+* `showfacets`   - tells whether or not to show the facets
+"""
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
     elementcolor = :slategray3,
