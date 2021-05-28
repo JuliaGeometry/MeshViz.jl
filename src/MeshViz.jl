@@ -11,12 +11,14 @@ Visualize Meshes.jl `object` with various options:
 
 * `elementcolor` - color of the elements (e.g. triangles)
 * `facetcolor`   - color of the facets (e.g. edges)
+* `vertexcolor`  - color of the vertices (i.e. points)
 * `showfacets`   - tells whether or not to show the facets
 """
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
     elementcolor = :slategray3,
     facetcolor   = :gray30,
+    vertexcolor  = :black,
     showfacets   = false,
   )
 end
@@ -99,7 +101,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
   coords = coordinates.(pset)
 
   Makie.scatter!(plot, coords,
-    color = plot[:markercolor],
+    color = plot[:vertexcolor],
   )
 end
 
