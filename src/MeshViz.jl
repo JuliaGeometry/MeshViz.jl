@@ -26,14 +26,25 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   topo  = topology(mesh)
   elems = elements(topo)
 
-  # convert to Julia arrays
+  # retrieve coordinates of vertices
   coords = reduce(hcat, coordinates.(verts))'
-  connec = reduce(hcat, collect.(indices.(elems)))'
+
+  # decompose n-gons into simplices by
+  # fan triangulation (assumes convexity)
+  # https://en.wikipedia.org/wiki/Fan_triangulation
+  triangles = Vector{Int}[]
+  for elem in elems
+    inds = indices(elem)
+    for i in 2:length(inds)-1
+      push!(triangles, [inds[1], inds[i], inds[i+1]])
+    end
+  end
+  faces = reduce(hcat, triangles)'
 
   # enable shading in 3D
   shading = embeddim(mesh) == 3
 
-  Makie.mesh!(plot, coords, connec,
+  Makie.mesh!(plot, coords, faces,
     color = plot[:color], shading = shading,
   )
 end
@@ -51,7 +62,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
   coords = coordinates.(pset)
 
   Makie.scatter!(plot, coords,
-    color = plot[:color],
+    color = plot[:markercolor],
   )
 end
 
