@@ -17,7 +17,7 @@ Visualize Meshes.jl `object` with various options:
 * `showfacets`   - tells whether or not to show the facets
 * `variable`     - informs which variable to visualize
 """
-@Makie.recipe(Viz, obj) do scene
+@Makie.recipe(Viz, object) do scene
   Makie.Attributes(;
     # generic attributes
     colormap     = Makie.theme(scene, :colormap),
@@ -40,7 +40,7 @@ Makie.plottype(::SimpleMesh) = Viz{<:Tuple{SimpleMesh}}
 
 function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve mesh object
-  mesh = plot[:obj][]
+  mesh = plot[:object][]
   d = embeddim(mesh)
   n = nvertices(mesh)
 
@@ -137,7 +137,7 @@ Makie.plottype(::PointSet) = Viz{<:Tuple{PointSet}}
 
 function Makie.plot!(plot::Viz{<:Tuple{PointSet}})
   # retrieve point set object
-  pset = plot[:obj][]
+  pset = plot[:object][]
 
   # Meshes.jl attributes
   vertexcolor = plot[:vertexcolor][]
@@ -158,7 +158,7 @@ Makie.plottype(::MeshData) = Viz{<:Tuple{MeshData}}
 
 function Makie.plot!(plot::Viz{<:Tuple{MeshData}})
   # retrieve data object
-  dat = plot[:obj][]
+  dat = plot[:object][]
 
   # Meshes.jl attributes
   variable = plot[:variable][]
