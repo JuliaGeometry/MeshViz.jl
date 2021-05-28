@@ -7,7 +7,7 @@ import Makie
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
     elementcolor = :slategray3,
-    facetcolor   = :black,
+    facetcolor   = :gray30,
     showfacets   = false,
   )
 end
