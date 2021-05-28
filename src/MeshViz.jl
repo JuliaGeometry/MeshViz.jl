@@ -6,9 +6,9 @@ import Makie
 
 @Makie.recipe(Viz, obj) do scene
   Makie.Attributes(;
-    color        = :slategray3,
-    markercolor  = :black,
-    strokecolor  = :black,
+    elementcolor = :slategray3,
+    facetcolor   = :black,
+    showfacets   = false,
   )
 end
 
@@ -45,8 +45,36 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   shading = embeddim(mesh) == 3
 
   Makie.mesh!(plot, coords, faces,
-    color = plot[:color], shading = shading,
+    color = plot[:elementcolor], shading = shading,
   )
+
+  if plot[:showfacets][]
+    # use a sophisticated data structure
+    # to extract the edges from the n-gons
+    t = convert(HalfEdgeTopology, topo)
+    ∂ = Boundary{1,0}(t)
+    d = embeddim(mesh)
+    n = nvertices(mesh)
+
+    # append indices of incident vertices
+    # interleaved with a sentinel index
+    inds = Int[]
+    for i in 1:nfacets(t)
+      append!(inds, ∂(i))
+      push!(inds, n+1)
+      push!(inds, n+1)
+    end
+
+    # fill sentinel index with NaN coordinates
+    coords = [coords; fill(NaN, d)']
+
+    # split coordinates to match signature
+    xyz = [coords[inds,j] for j in 1:d]
+
+    Makie.linesegments!(plot, xyz...,
+      color = plot[:facetcolor],
+    )
+  end
 end
 
 # ---------
