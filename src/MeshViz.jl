@@ -69,7 +69,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
       push!(tris, [inds[1], inds[i], inds[i+1]])
     end
   end
-  faces = reduce(hcat, tris)'
+  connec = reduce(hcat, tris)'
 
   # enable shading in 3D
   shading = embeddim(mesh) == 3
@@ -89,7 +89,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     colors
   end
 
-  Makie.mesh!(plot, coords, faces,
+  Makie.mesh!(plot, coords, connec,
     colormap = plot[:colormap],
     shading = shading, 
     color = color,
@@ -178,7 +178,11 @@ function Makie.plot!(plot::Viz{<:Tuple{MeshData}})
   # call existing recipe for underlying domain
   viz!(plot, dom,
     colormap = plot[:colormap],
-    elementcolor = elementcolor
+    elementcolor = elementcolor,
+    vertexcolor  = plot[:vertexcolor],
+    facetcolor   = plot[:facetcolor],
+    showvertices = plot[:showvertices],
+    showfacets   = plot[:showfacets],
   )
 end
 
