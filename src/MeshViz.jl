@@ -158,19 +158,28 @@ Makie.plottype(::MeshData) = Viz{<:Tuple{MeshData}}
 
 function Makie.plot!(plot::Viz{<:Tuple{MeshData}})
   # retrieve data object
-  dat = plot[:object][]
+  data = plot[:object][]
 
   # Meshes.jl attributes
   variable = plot[:variable][]
 
   # retrieve domain and element table
-  dom, tab = domain(dat), values(dat)
+  dom, tab = domain(data), values(data)
+
+  # list of all variables
+  variables = Tables.columnnames(tab)
+
+  # select variable to visualize
+  var = isnothing(variable) ? first(variables) : variable
 
   # element color from variable column
-  elementcolor = Tables.getcolumn(tab, variable)
+  elementcolor = Tables.getcolumn(tab, var)
 
   # call existing recipe for underlying domain
-  viz!(plot, dom, elementcolor = elementcolor)
+  viz!(plot, dom,
+    colormap = plot[:colormap],
+    elementcolor = elementcolor
+  )
 end
 
 end
