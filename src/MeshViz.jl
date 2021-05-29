@@ -38,6 +38,7 @@ end
 
 include("pointset.jl")
 include("simplemesh.jl")
+include("cartesiangrid.jl")
 include("data.jl")
 
 end
