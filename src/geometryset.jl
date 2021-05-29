@@ -1,0 +1,64 @@
+# ------------------------------------------------------------------
+# Licensed under the MIT License. See LICENSE in the project root.
+# ------------------------------------------------------------------
+
+Makie.plottype(::GeometrySet) = Viz{<:Tuple{GeometrySet}}
+
+function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
+  # retrieve point set object
+  gset = plot[:object][]
+
+  # Meshes.jl attributes
+  elementcolor = plot[:elementcolor][]
+  vertexcolor  = plot[:vertexcolor][]
+  facetcolor   = plot[:facetcolor][]
+  showvertices = plot[:showvertices][]
+  showfacets   = plot[:showfacets][]
+
+  # retrieve parametric dimension
+  ranks = paramdim.(gset)
+  if all(ranks .== 1)
+    # split 1D geometries into line segments
+    coords = geomsegments(gset)
+    Makie.linesegments!(plot, coords,
+      color = facetcolor,
+    )
+  elseif all(ranks .== 2)
+    # split 2D geometries into triangles
+  elseif all(ranks .== 3)
+    throw(ErrorException("not implemented"))
+  else # mixed dimension
+    # visualize geometries in subsets of equal rank
+    geoms = collect(gset)
+    inds1 = findall(g -> paramdim(g) == 1, geoms)
+    inds2 = findall(g -> paramdim(g) == 2, geoms)
+    inds3 = findall(g -> paramdim(g) == 3, geoms)
+    isempty(inds1) || viz!(plot, GeometrySet(geoms[inds1]))
+    isempty(inds2) || viz!(plot, GeometrySet(geoms[inds2]))
+    isempty(inds3) || viz!(plot, GeometrySet(geoms[inds3]))
+  end
+end
+
+# helper function to split 1D geometries
+# such as chains into line segments
+function geomsegments(gset)
+  chains = []
+  for geom in gset
+    if geom isa Multi
+      append!(chains, vertices.(geom))
+    else
+      push!(chains, vertices(geom))
+    end
+  end
+
+  Dim = embeddim(gset)
+  nan = Vec(ntuple(i->NaN, Dim))
+  coords = Vec{Dim,Float64}[]
+  for chain in chains
+    for point in chain
+      push!(coords, coordinates(point))
+    end
+    append!(coords, [nan, nan])
+  end
+  coords
+end

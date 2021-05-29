@@ -40,9 +40,13 @@ Visualize Meshes.jl `object` with various options:
   )
 end
 
+# domain
 include("pointset.jl")
+include("geometryset.jl")
 include("simplemesh.jl")
 include("cartesiangrid.jl")
+
+# data
 include("data.jl")
 
 end
