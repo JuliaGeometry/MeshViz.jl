@@ -33,6 +33,8 @@ Visualize Meshes.jl `object` with various options:
     showvertices = false,
     showfacets   = false,
     variable     = nothing,
+    isovalue     = 0.0,
+    isorange     = 0.05,
   )
 end
 

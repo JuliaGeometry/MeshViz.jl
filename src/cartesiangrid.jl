@@ -18,10 +18,12 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   facetcolor   = plot[:facetcolor][]
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
+  isovalue     = plot[:isovalue][]
+  isorange     = plot[:isorange][]
 
   if elementcolor isa Symbol
     # create the smallest mesh of simplices
-    # and draw segments manually for speed
+    # and minimum number of segments for grid
     mesh = cartesianmesh(or, sp, sz, nd)
     xyz  = cartesiansegments(or, sp, sz, nd)
     viz!(plot, mesh,
@@ -34,6 +36,20 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     )
   else
     # create a full heatmap or volume
+    xyz = cartesiancenters(or, sp, sz, nd)
+    C   = reshape(elementcolor, sz)
+    if nd == 2
+      Makie.heatmap!(plot, xyz..., C,
+        colormap = plot[:colormap],
+      )
+    elseif nd == 3
+      Makie.volume!(plot, C,
+        colormap = plot[:colormap],
+        algorithm = :iso,
+        isovalue = isovalue,
+        isorange = isorange
+      )
+    end
   end
 end
 
@@ -66,8 +82,8 @@ function cartesianmesh(or, sp, sz, nd)
   end
 end
 
-# helper function to compute a minimum number
-# of line segments in entire Cartesian grid
+# helper function to create a minimum number
+# of line segments within Cartesian grid
 function cartesiansegments(or, sp, sz, nd)
   if nd == 2
     xs = range(or[1], step=sp[1], length=sz[1]+1)
@@ -115,6 +131,23 @@ function cartesiansegments(or, sp, sz, nd)
     y = getindex.(coords, 2)
     z = getindex.(coords, 3)
     x, y, z
+  else
+    throw(ErrorException("not implemented"))
+  end
+end
+
+# helper function to create the center of
+# the elements of the Cartesian grid
+function cartesiancenters(or, sp, sz, nd)
+  if nd == 2
+    xs = range(or[1]+sp[1], step=sp[1], length=sz[1])
+    ys = range(or[2]+sp[2], step=sp[2], length=sz[2])
+    xs, ys
+  elseif nd == 3
+    xs = range(or[1]+sp[1], step=sp[1], length=sz[1])
+    ys = range(or[2]+sp[2], step=sp[2], length=sz[2])
+    zs = range(or[3]+sp[3], step=sp[3], length=sz[3])
+    xs, ys, zs
   else
     throw(ErrorException("not implemented"))
   end
