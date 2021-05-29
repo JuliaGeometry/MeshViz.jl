@@ -23,17 +23,20 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
 
   if elementcolor isa Symbol
     # create the smallest mesh of simplices
-    # and minimum number of segments for grid
     mesh = cartesianmesh(or, sp, sz, nd)
-    xyz  = cartesiansegments(or, sp, sz, nd)
     viz!(plot, mesh,
       elementcolor = elementcolor,
       showvertices = false,
       showfacets = false
     )
-    Makie.linesegments!(plot, xyz...,
-      color = facetcolor
-    )
+
+    if showfacets
+      # create a minimum number of segments
+      xyz  = cartesiansegments(or, sp, sz, nd)
+      Makie.linesegments!(plot, xyz...,
+        color = facetcolor
+      )
+    end
   else
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
@@ -43,11 +46,13 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
         colormap = plot[:colormap],
       )
     elseif nd == 3
-      Makie.volume!(plot, C,
+      xs, ys, zs = xyz
+      coords = [(x,y,z) for x in xs for y in ys for z in zs]
+      Makie.meshscatter!(plot, coords,
         colormap = plot[:colormap],
-        algorithm = :iso,
-        isovalue = isovalue,
-        isorange = isorange
+        marker = Makie.Rect3D(-sp, sp),
+        markersize = 1,
+        color = elementcolor,
       )
     end
   end
