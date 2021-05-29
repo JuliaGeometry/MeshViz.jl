@@ -30,12 +30,12 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
   else # mixed dimension
     # visualize geometries in subsets of equal rank
     geoms = collect(gset)
-    inds1 = findall(g -> paramdim(g) == 1, geoms)
-    inds2 = findall(g -> paramdim(g) == 2, geoms)
     inds3 = findall(g -> paramdim(g) == 3, geoms)
-    isempty(inds1) || viz!(plot, GeometrySet(geoms[inds1]))
-    isempty(inds2) || viz!(plot, GeometrySet(geoms[inds2]))
+    inds2 = findall(g -> paramdim(g) == 2, geoms)
+    inds1 = findall(g -> paramdim(g) == 1, geoms)
     isempty(inds3) || viz!(plot, GeometrySet(geoms[inds3]))
+    isempty(inds2) || viz!(plot, GeometrySet(geoms[inds2]))
+    isempty(inds1) || viz!(plot, GeometrySet(geoms[inds1]))
   end
 end
 
