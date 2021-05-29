@@ -1,6 +1,16 @@
 # MeshViz.jl
 
-Recipes for visualization of Meshes.jl objects with Makie.jl.
+Makie.jl recipes for visualization of Meshes.jl objects.
+
+## Installation
+
+Get the latest stable release with Julia's package manager:
+
+```julia
+] add MeshViz
+```
+
+## Usage
 
 ```julia
 using Meshes, MeshViz
