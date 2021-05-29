@@ -23,3 +23,5 @@ mesh = readply("beethoven.ply")
 viz(mesh, showfacets=true)
 ```
 ![beethoven](beethoven.png)
+
+Please check the docstring `?viz` for available attributes.
