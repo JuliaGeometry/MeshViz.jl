@@ -33,7 +33,7 @@ Visualize Meshes.jl `object` with various options:
     facetcolor   = :gray30,
     vertexcolor  = :black,
     showvertices = false,
-    showfacets   = false,
+    showfacets   = true,
     variable     = nothing,
     isovalue     = 0.0,
     isorange     = 0.05,
