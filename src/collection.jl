@@ -2,11 +2,11 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-Makie.plottype(::GeometrySet) = Viz{<:Tuple{GeometrySet}}
+Makie.plottype(::Collection) = Viz{<:Tuple{Collection}}
 
-function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
-  # retrieve point set object
-  gset = plot[:object][]
+function Makie.plot!(plot::Viz{<:Tuple{Collection}})
+  # retrieve collection object
+  collection = plot[:object][]
 
   # Meshes.jl attributes
   elementcolor = plot[:elementcolor][]
@@ -20,16 +20,22 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
   triangulate(geometry) = discretize(geometry, FIST())
 
   # retrieve parametric dimension
-  ranks = paramdim.(gset)
-  if all(ranks .== 1)
+  ranks = paramdim.(collection)
+  if all(ranks .== 0)
+    # visualize point set
+    coords = coordinates.(collection)
+    Makie.scatter!(plot, coords,
+      color = vertexcolor,
+    )
+  elseif all(ranks .== 1)
     # split 1D geometries into line segments
-    coords = geomsegments(gset)
+    coords = geomsegments(collection)
     Makie.lines!(plot, coords,
       color = facetcolor,
     )
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
-    polygons = decimate.(gset)
+    polygons = decimate.(collection)
     mesh = mapreduce(triangulate, merge, polygons)
     viz!(plot, mesh,
       elementcolor = elementcolor,
@@ -38,21 +44,23 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
     )
     if showfacets
       polychains = mapreduce(chains, vcat, polygons)
-      viz!(plot, GeometrySet(polychains),
+      viz!(plot, Collection(polychains),
         facetcolor = facetcolor,
       )
     end
   elseif all(ranks .== 3)
     throw(ErrorException("not implemented"))
   else # mixed dimension
-    # visualize geometries in subsets of equal rank
-    geoms = collect(gset)
-    inds3 = findall(g -> paramdim(g) == 3, geoms)
-    inds2 = findall(g -> paramdim(g) == 2, geoms)
-    inds1 = findall(g -> paramdim(g) == 1, geoms)
-    isempty(inds3) || viz!(plot, GeometrySet(geoms[inds3]))
-    isempty(inds2) || viz!(plot, GeometrySet(geoms[inds2]))
-    isempty(inds1) || viz!(plot, GeometrySet(geoms[inds1]))
+    # visualize subsets of equal rank
+    items = collect(collection)
+    inds3 = findall(g -> paramdim(g) == 3, items)
+    inds2 = findall(g -> paramdim(g) == 2, items)
+    inds1 = findall(g -> paramdim(g) == 1, items)
+    inds0 = findall(g -> paramdim(g) == 0, items)
+    isempty(inds3) || viz!(plot, Collection(items[inds3]))
+    isempty(inds2) || viz!(plot, Collection(items[inds2]))
+    isempty(inds1) || viz!(plot, Collection(items[inds1]))
+    isempty(inds0) || viz!(plot, Collection(items[inds0]))
   end
 end
 
