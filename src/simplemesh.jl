@@ -41,11 +41,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   shading = embeddim(mesh) == 3
 
   # set element color
-  color = if elementcolor isa Symbol
-    # default to single color
-    elementcolor
-  else
-    # copy color to all vertices of elements
+  color = if elementcolor isa AbstractVector
+    # map color to all vertices of elements
     colors = Vector{eltype(elementcolor)}(undef, n)
     for (e, elem) in Iterators.enumerate(elems)
       for i in indices(elem)
@@ -53,6 +50,9 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
       end
     end
     colors
+  else
+    # default to single color
+    elementcolor
   end
 
   Makie.mesh!(plot, coords, connec,
