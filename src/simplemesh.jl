@@ -80,7 +80,6 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     for i in 1:nfacets(t)
       append!(inds, ∂(i))
       push!(inds, n+1)
-      push!(inds, n+1)
     end
 
     # fill sentinel index with NaN coordinates
@@ -89,7 +88,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     # split coordinates to match signature
     xyz = [coords[inds,j] for j in 1:d]
 
-    Makie.linesegments!(plot, xyz...,
+    Makie.lines!(plot, xyz...,
       color = facetcolor,
     )
   end

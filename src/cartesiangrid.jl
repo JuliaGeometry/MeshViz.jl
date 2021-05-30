@@ -49,7 +49,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     if showfacets
       # create a minimum number of segments
       xyz  = cartesiansegments(or, sp, sz, nd)
-      Makie.linesegments!(plot, xyz...,
+      Makie.lines!(plot, xyz...,
         color = facetcolor
       )
     end
@@ -96,12 +96,10 @@ function cartesiansegments(or, sp, sz, nd)
       push!(coords, (x, first(ys)))
       push!(coords, (x, last(ys)))
       push!(coords, (NaN, NaN))
-      push!(coords, (NaN, NaN))
     end
     for y in ys
       push!(coords, (first(xs), y))
       push!(coords, (last(xs), y))
-      push!(coords, (NaN, NaN))
       push!(coords, (NaN, NaN))
     end
     x = getindex.(coords, 1)
@@ -116,18 +114,15 @@ function cartesiansegments(or, sp, sz, nd)
       push!(coords, (first(xs), y, z))
       push!(coords, (last(xs), y, z))
       push!(coords, (NaN, NaN, NaN))
-      push!(coords, (NaN, NaN, NaN))
     end
     for x in xs, z in zs
       push!(coords, (x, first(ys), z))
       push!(coords, (x, last(ys), z))
       push!(coords, (NaN, NaN, NaN))
-      push!(coords, (NaN, NaN, NaN))
     end
     for x in xs, y in ys
       push!(coords, (x, y, first(zs)))
       push!(coords, (x, y, last(zs)))
-      push!(coords, (NaN, NaN, NaN))
       push!(coords, (NaN, NaN, NaN))
     end
     x = getindex.(coords, 1)
