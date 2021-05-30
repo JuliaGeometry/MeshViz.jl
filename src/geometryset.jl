@@ -33,12 +33,13 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
     mesh = mapreduce(triangulate, merge, polygons)
     viz!(plot, mesh,
       elementcolor = elementcolor,
+      showvertices = false,
       showfacets = false,
     )
     if showfacets
       polychains = mapreduce(chains, vcat, polygons)
       viz!(plot, GeometrySet(polychains),
-        color = facetcolor,
+        facetcolor = facetcolor,
       )
     end
   elseif all(ranks .== 3)
