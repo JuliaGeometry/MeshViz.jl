@@ -15,12 +15,14 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
   facetcolor   = plot[:facetcolor][]
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
+  decimation   = plot[:decimation][]
 
   viz!(plot, Collection(items),
     elementcolor = elementcolor,
     vertexcolor  = vertexcolor,
     facetcolor   = facetcolor,
     showvertices = showvertices,
-    showfacets   = showfacets
+    showfacets   = showfacets,
+    decimation   = decimation,
   )
 end

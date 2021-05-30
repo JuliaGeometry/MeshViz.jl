@@ -20,8 +20,7 @@ Visualize Meshes.jl `object` with various options:
 * `showvertices` - tells whether or not to show the vertices
 * `showfacets`   - tells whether or not to show the facets
 * `variable`     - informs which variable to visualize
-* `isovalue`     - isosurface value to extract from 3D grid
-* `isorange`     - tolerance around the isosurface value
+* `decimation`   - decimation tolerance for polygons
 """
 @Makie.recipe(Viz, object) do scene
   Makie.Attributes(;
@@ -35,8 +34,7 @@ Visualize Meshes.jl `object` with various options:
     showvertices = false,
     showfacets   = true,
     variable     = nothing,
-    isovalue     = 0.0,
-    isorange     = 0.05,
+    decimation   = 0.05,
   )
 end
 

@@ -14,9 +14,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   facetcolor   = plot[:facetcolor][]
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
+  decimation   = plot[:decimation][]
 
   # helper functions
-  decimate(geometry) = simplify(geometry, DouglasPeucker(0.05))
+  decimate(geometry) = simplify(geometry, DouglasPeucker(decimation))
   triangulate(geometry) = discretize(geometry, FIST())
 
   # retrieve parametric dimension
