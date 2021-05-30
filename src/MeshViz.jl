@@ -44,6 +44,7 @@ end
 include("simplemesh.jl")
 include("cartesiangrid.jl")
 include("collection.jl")
+include("vectors.jl")
 
 # data
 include("data.jl")
