@@ -24,7 +24,7 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
   if all(ranks .== 1)
     # split 1D geometries into line segments
     coords = geomsegments(gset)
-    Makie.linesegments!(plot, coords,
+    Makie.lines!(plot, coords,
       color = facetcolor,
     )
   elseif all(ranks .== 2)
@@ -74,7 +74,7 @@ function geomsegments(gset)
     for point in chain
       push!(coords, coordinates(point))
     end
-    append!(coords, [nan, nan])
+    push!(coords, nan)
   end
   coords
 end
