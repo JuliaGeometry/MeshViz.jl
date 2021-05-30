@@ -15,6 +15,10 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
 
+  # helper functions
+  decimate(geometry) = simplify(geometry, DouglasPeucker(0.05))
+  triangulate(geometry) = discretize(geometry, FIST())
+
   # retrieve parametric dimension
   ranks = paramdim.(gset)
   if all(ranks .== 1)
@@ -25,6 +29,18 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
     )
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
+    polygons = decimate.(gset)
+    mesh = mapreduce(triangulate, merge, polygons)
+    viz!(plot, mesh,
+      elementcolor = elementcolor,
+      showfacets = false,
+    )
+    if showfacets
+      polychains = mapreduce(chains, vcat, polygons)
+      viz!(plot, GeometrySet(polychains),
+        color = facetcolor,
+      )
+    end
   elseif all(ranks .== 3)
     throw(ErrorException("not implemented"))
   else # mixed dimension
