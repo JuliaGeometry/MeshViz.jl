@@ -18,26 +18,8 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   facetcolor   = plot[:facetcolor][]
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
-  isovalue     = plot[:isovalue][]
-  isorange     = plot[:isorange][]
 
-  if elementcolor isa Symbol
-    # create the smallest mesh of simplices
-    mesh = cartesianmesh(or, sp, sz, nd)
-    viz!(plot, mesh,
-      elementcolor = elementcolor,
-      showvertices = false,
-      showfacets = false
-    )
-
-    if showfacets
-      # create a minimum number of segments
-      xyz  = cartesiansegments(or, sp, sz, nd)
-      Makie.linesegments!(plot, xyz...,
-        color = facetcolor
-      )
-    end
-  else
+  if elementcolor isa AbstractVector
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
     C   = reshape(elementcolor, sz)
@@ -53,6 +35,22 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
         marker = Makie.Rect3D(-sp, sp),
         markersize = 1,
         color = elementcolor,
+      )
+    end
+  else
+    # create the smallest mesh of simplices
+    mesh = cartesianmesh(or, sp, sz, nd)
+    viz!(plot, mesh,
+      elementcolor = elementcolor,
+      showvertices = false,
+      showfacets = false
+    )
+
+    if showfacets
+      # create a minimum number of segments
+      xyz  = cartesiansegments(or, sp, sz, nd)
+      Makie.linesegments!(plot, xyz...,
+        color = facetcolor
       )
     end
   end
