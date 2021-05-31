@@ -17,6 +17,7 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
 
+  # fallback to collection recipe
   viz!(plot, Collection(items),
     elementcolor = elementcolor,
     vertexcolor  = vertexcolor,
