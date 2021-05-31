@@ -37,9 +37,15 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
     polygons = decimate.(collection)
-    mesh = mapreduce(triangulate, merge, polygons)
+    meshes = triangulate.(polygons)
+    colors = if elementcolor isa AbstractVector
+      [elementcolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    else
+      elementcolor
+    end
+    mesh = reduce(merge, meshes)
     viz!(plot, mesh,
-      elementcolor = elementcolor,
+      elementcolor = colors,
       showvertices = false,
       showfacets = false,
     )
