@@ -32,7 +32,7 @@ mesh = readply("beethoven.ply")
 
 viz(mesh)
 ```
-![beethoven](beethoven.png)
+![beethoven](figs/beethoven.png)
 
 ```julia
 mesh = readply("dragon.ply")
@@ -43,7 +43,31 @@ viz(mesh,
   colormap=:Spectral
 )
 ```
-![dragon](dragon.png)
+![dragon](figs/dragon.png)
+
+```julia
+grid = CartesianGrid(10,10)
+
+viz(grid)
+```
+![grid2d](figs/grid2d.png)
+
+```julia
+viz(grid, elementcolor=1:nelements(grid))
+```
+![grid2d-color](figs/grid2d-color.png)
+
+```julia
+grid = CartesianGrid(10,10,10)
+
+viz(grid)
+```
+![grid3d](figs/grid3d.png)
+
+```julia
+viz(grid, elementcolor=1:nelements(grid))
+```
+![grid3d-color](figs/grid3d-color.png)
 
 ```julia
 using GeoTables
@@ -53,18 +77,18 @@ BRA = GeoTables.gadm("BRA", children=true)
 
 viz(BRA.geometry)
 ```
-![brazil](brazil.png)
+![brazil](figs/brazil.png)
 
 ```julia
 RIO = GeoTables.gadm("BRA", "Rio de Janeiro", children=true)
 
 viz(RIO.geometry, decimation=0.001)
 ```
-![rio](rio.png)
+![rio](figs/rio.png)
 
 ```julia
 viz(BRA.geometry, elementcolor=1:length(BRA.geometry))
 ```
-![brazil-color](brazil-color.png)
+![brazil-color](figs/brazil-color.png)
 
 Please check the docstring `?viz` for available attributes.
