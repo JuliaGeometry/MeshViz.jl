@@ -52,3 +52,28 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
     decimation   = decimation,
   )
 end
+
+Makie.plottype(::Domain) = Viz{<:Tuple{Domain}}
+
+function Makie.plot!(plot::Viz{<:Tuple{Domain}})
+  # retrieve domain object
+  domain = plot[:object][]
+
+  # Meshes.jl attributes
+  elementcolor = plot[:elementcolor][]
+  vertexcolor  = plot[:vertexcolor][]
+  facetcolor   = plot[:facetcolor][]
+  showvertices = plot[:showvertices][]
+  showfacets   = plot[:showfacets][]
+  decimation   = plot[:decimation][]
+
+  # fallback to vector recipe
+  viz!(plot, collect(domain),
+    elementcolor = elementcolor,
+    vertexcolor  = vertexcolor,
+    facetcolor   = facetcolor,
+    showvertices = showvertices,
+    showfacets   = showfacets,
+    decimation   = decimation,
+  )
+end
