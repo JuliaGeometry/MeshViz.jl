@@ -56,6 +56,13 @@ viz(BRA.geometry)
 ![brazil](brazil.png)
 
 ```julia
+RIO = GeoTables.gadm("BRA", "Rio de Janeiro", children=true)
+
+viz(RIO.geometry, decimation=0.001)
+```
+![rio](rio.png)
+
+```julia
 viz(BRA.geometry, elementcolor=1:length(BRA.geometry))
 ```
 ![brazil-color](brazil-color.png)
