@@ -30,8 +30,34 @@ end
 
 mesh = readply("beethoven.ply")
 
-viz(mesh, showfacets=true)
+viz(mesh)
 ```
 ![beethoven](beethoven.png)
+
+```julia
+mesh = readply("dragon.ply")
+
+viz(mesh,
+  showfacets=false,
+  elementcolor=1:nelements(mesh),
+  colormap=:Spectral
+)
+```
+![dragon](dragon.png)
+
+```julia
+using GeoTables
+
+# Brazil states as Meshes.jl polygons
+BRA = GeoTables.gadm("BRA", children=true)
+
+viz(BRA.geometry)
+```
+![brazil](brazil.png)
+
+```julia
+viz(BRA.geometry, elementcolor=1:length(BRA.geometry))
+```
+![brazil-color](brazil-color.png)
 
 Please check the docstring `?viz` for available attributes.
