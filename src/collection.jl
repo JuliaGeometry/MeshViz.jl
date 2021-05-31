@@ -26,13 +26,13 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
-      color = vertexcolor,
+      color = elementcolor,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments
     coords = geomsegments(collection)
     Makie.lines!(plot, coords,
-      color = facetcolor,
+      color = elementcolor,
     )
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
@@ -52,7 +52,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     if showfacets
       polychains = mapreduce(chains, vcat, polygons)
       viz!(plot, Collection(polychains),
-        facetcolor = facetcolor,
+        elementcolor = facetcolor,
       )
     end
   elseif all(ranks .== 3)
