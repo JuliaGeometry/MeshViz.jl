@@ -31,6 +31,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   # call existing recipe for underlying domain
   viz!(plot, dom,
     colormap     = plot[:colormap],
+    markersize   = plot[:markersize],
     elementcolor = elementcolor,
     vertexcolor  = vertexcolor,
     facetcolor   = facetcolor,

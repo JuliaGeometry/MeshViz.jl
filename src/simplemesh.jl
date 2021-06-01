@@ -64,6 +64,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   if showvertices
     Makie.scatter!(plot, Vec{d}.(eachrow(coords)),
+      markersize = plot[:markersize],
       color = vertexcolor,
     )
   end

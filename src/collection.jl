@@ -26,6 +26,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
+      markersize = plot[:markersize],
       color = elementcolor,
     )
   elseif all(ranks .== 1)

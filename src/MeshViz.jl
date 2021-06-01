@@ -26,6 +26,7 @@ Visualize Meshes.jl `object` with various options:
   Makie.Attributes(;
     # generic attributes
     colormap     = Makie.theme(scene, :colormap),
+    markersize   = Makie.theme(scene, :markersize),
 
     # Meshes.jl attributes
     elementcolor = :slategray3,
