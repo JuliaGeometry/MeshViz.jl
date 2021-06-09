@@ -7,6 +7,9 @@ module MeshViz
 using Meshes
 using Tables
 
+using CategoricalArrays: CategoricalValue
+using CategoricalArrays: levelcode
+
 import Makie
 
 """

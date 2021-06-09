@@ -26,7 +26,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   var = isnothing(variable) ? first(variables) : variable
 
   # element color from variable column
-  elementcolor = Tables.getcolumn(tab, var)
+  c = Tables.getcolumn(tab, var)
+
+  # handle categorical values
+  elementcolor = eltype(c) <: CategoricalValue ? levelcode.(c) : c
 
   # call existing recipe for underlying domain
   viz!(plot, dom,
