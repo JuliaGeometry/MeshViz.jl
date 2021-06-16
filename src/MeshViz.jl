@@ -38,7 +38,7 @@ Visualize Meshes.jl `object` with various options:
     showvertices = false,
     showfacets   = false,
     variable     = nothing,
-    decimation   = 0.05,
+    decimation   = 0.0,
   )
 end
 

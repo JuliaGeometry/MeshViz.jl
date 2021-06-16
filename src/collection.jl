@@ -17,7 +17,13 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   decimation   = plot[:decimation][]
 
   # helper functions
-  decimate(geometry) = simplify(geometry, DouglasPeucker(decimation))
+  function decimate(geometry)
+    if decimation > 0
+      simplify(geometry, DouglasPeucker(decimation))
+    else
+      geometry
+    end
+  end
   triangulate(geometry) = discretize(geometry, FIST())
 
   # retrieve parametric dimension
@@ -78,9 +84,13 @@ function geomsegments(gset)
   chains = []
   for geom in gset
     if geom isa Multi
-      append!(chains, vertices.(geom))
+      for g in geom
+        v = vertices(g)
+        push!(chains, [v; first(v)])
+      end
     else
-      push!(chains, vertices(geom))
+      v = vertices(geom)
+      push!(chains, [v; first(v)])
     end
   end
 
