@@ -73,7 +73,7 @@ viz(grid, elementcolor=1:nelements(grid))
 using GeoTables
 
 # Brazil states as Meshes.jl polygons
-BRA = GeoTables.gadm("BRA", children=true)
+BRA = GeoTables.gadm("BRA", children=true, decimation=0.02)
 
 viz(BRA.geometry)
 ```
