@@ -10,22 +10,22 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
   items = plot[:object][]
 
   # Meshes.jl attributes
-  elementcolor = plot[:elementcolor][]
-  vertexcolor  = plot[:vertexcolor][]
-  facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
-  showfacets   = plot[:showfacets][]
-  decimation   = plot[:decimation][]
+  elementcolor  = plot[:elementcolor][]
+  boundarycolor = plot[:boundarycolor][]
+  vertexcolor   = plot[:vertexcolor][]
+  showboundary  = plot[:showboundary][]
+  showvertices  = plot[:showvertices][]
+  decimation    = plot[:decimation][]
 
   # fallback to collection recipe
   viz!(plot, Collection(items),
-    markersize   = plot[:markersize],
-    elementcolor = elementcolor,
-    vertexcolor  = vertexcolor,
-    facetcolor   = facetcolor,
-    showvertices = showvertices,
-    showfacets   = showfacets,
-    decimation   = decimation,
+    markersize    = plot[:markersize],
+    elementcolor  = elementcolor,
+    facetcolor    = boundarycolor,
+    vertexcolor   = vertexcolor,
+    showfacets    = showboundary,
+    showvertices  = showvertices,
+    decimation    = decimation,
   )
 end
 
@@ -36,22 +36,22 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
   item = plot[:object][]
 
   # Meshes.jl attributes
-  elementcolor = plot[:elementcolor][]
-  vertexcolor  = plot[:vertexcolor][]
-  facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
-  showfacets   = plot[:showfacets][]
-  decimation   = plot[:decimation][]
+  elementcolor  = plot[:elementcolor][]
+  boundarycolor = plot[:boundarycolor][]
+  vertexcolor   = plot[:vertexcolor][]
+  showboundary  = plot[:showboundary][]
+  showvertices  = plot[:showvertices][]
+  decimation    = plot[:decimation][]
 
   # fallback to vector recipe
   viz!(plot, [item],
-    markersize   = plot[:markersize],
-    elementcolor = elementcolor,
-    vertexcolor  = vertexcolor,
-    facetcolor   = facetcolor,
-    showvertices = showvertices,
-    showfacets   = showfacets,
-    decimation   = decimation,
+    markersize    = plot[:markersize],
+    elementcolor  = elementcolor,
+    boundarycolor = boundarycolor,
+    vertexcolor   = vertexcolor,
+    showboundary  = showboundary,
+    showvertices  = showvertices,
+    decimation    = decimation,
   )
 end
 
@@ -62,21 +62,21 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
   domain = plot[:object][]
 
   # Meshes.jl attributes
-  elementcolor = plot[:elementcolor][]
-  vertexcolor  = plot[:vertexcolor][]
-  facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
-  showfacets   = plot[:showfacets][]
-  decimation   = plot[:decimation][]
+  elementcolor  = plot[:elementcolor][]
+  facetcolor    = plot[:facetcolor][]
+  vertexcolor   = plot[:vertexcolor][]
+  showfacets    = plot[:showfacets][]
+  showvertices  = plot[:showvertices][]
+  decimation    = plot[:decimation][]
 
   # fallback to vector recipe
   viz!(plot, collect(domain),
-    markersize   = plot[:markersize],
-    elementcolor = elementcolor,
-    vertexcolor  = vertexcolor,
-    facetcolor   = facetcolor,
-    showvertices = showvertices,
-    showfacets   = showfacets,
-    decimation   = decimation,
+    markersize    = plot[:markersize],
+    elementcolor  = elementcolor,
+    boundarycolor = facetcolor,
+    vertexcolor   = vertexcolor,
+    showboundary  = showfacets,
+    showvertices  = showvertices,
+    decimation    = decimation,
   )
 end
