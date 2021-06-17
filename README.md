@@ -30,7 +30,7 @@ end
 
 mesh = readply("beethoven.ply")
 
-viz(mesh)
+viz(mesh, showfacets = true)
 ```
 ![beethoven](figs/beethoven.png)
 
@@ -38,9 +38,9 @@ viz(mesh)
 mesh = readply("dragon.ply")
 
 viz(mesh,
-  showfacets=false,
-  elementcolor=1:nelements(mesh),
-  colormap=:Spectral
+  showfacets = false,
+  elementcolor = 1:nelements(mesh),
+  colormap = :Spectral
 )
 ```
 ![dragon](figs/dragon.png)
@@ -48,19 +48,19 @@ viz(mesh,
 ```julia
 grid = CartesianGrid(10,10)
 
-viz(grid)
+viz(grid, showfacets = true)
 ```
 ![grid2d](figs/grid2d.png)
 
 ```julia
-viz(grid, elementcolor=1:nelements(grid))
+viz(grid, elementcolor = 1:nelements(grid))
 ```
 ![grid2d-color](figs/grid2d-color.png)
 
 ```julia
 grid = CartesianGrid(10,10,10)
 
-viz(grid)
+viz(grid, showfacets = true)
 ```
 ![grid3d](figs/grid3d.png)
 
@@ -73,21 +73,21 @@ viz(grid, elementcolor=1:nelements(grid))
 using GeoTables
 
 # Brazil states as Meshes.jl polygons
-BRA = GeoTables.gadm("BRA", children=true, decimation=0.02)
+BRA = GeoTables.gadm("BRA", children=true)
 
-viz(BRA.geometry)
+viz(BRA.geometry, decimation = 0.02)
 ```
 ![brazil](figs/brazil.png)
 
 ```julia
 RIO = GeoTables.gadm("BRA", "Rio de Janeiro", children=true)
 
-viz(RIO.geometry, decimation=0.001)
+viz(RIO.geometry, decimation = 0.001)
 ```
 ![rio](figs/rio.png)
 
 ```julia
-viz(BRA.geometry, elementcolor=1:length(BRA.geometry))
+viz(BRA.geometry, elementcolor = 1:length(BRA.geometry))
 ```
 ![brazil-color](figs/brazil-color.png)
 
