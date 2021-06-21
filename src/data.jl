@@ -9,12 +9,15 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   data = plot[:object][]
 
   # Meshes.jl attributes
-  elementcolor = plot[:elementcolor][]
-  vertexcolor  = plot[:vertexcolor][]
-  facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
-  showfacets   = plot[:showfacets][]
-  variable     = plot[:variable][]
+  elementcolor  = plot[:elementcolor][]
+  boundarycolor = plot[:boundarycolor][]
+  facetcolor    = plot[:facetcolor][]
+  vertexcolor   = plot[:vertexcolor][]
+  showboundary  = plot[:showboundary][]
+  showfacets    = plot[:showfacets][]
+  showvertices  = plot[:showvertices][]
+  variable      = plot[:variable][]
+  decimation    = plot[:decimation][]
 
   # retrieve domain and element table
   dom, tab = domain(data), values(data)
@@ -33,12 +36,15 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
 
   # call existing recipe for underlying domain
   viz!(plot, dom,
-    colormap     = plot[:colormap],
-    markersize   = plot[:markersize],
-    elementcolor = elementcolor,
-    vertexcolor  = vertexcolor,
-    facetcolor   = facetcolor,
-    showvertices = showvertices,
-    showfacets   = showfacets,
+    colormap      = plot[:colormap],
+    markersize    = plot[:markersize],
+    elementcolor  = elementcolor,
+    boundarycolor = boundarycolor,
+    facetcolor    = facetcolor,
+    vertexcolor   = vertexcolor,
+    showboundary  = showboundary,
+    showfacets    = showfacets,
+    showvertices  = showvertices,
+    decimation    = decimation
   )
 end
