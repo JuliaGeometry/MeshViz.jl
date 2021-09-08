@@ -24,7 +24,10 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     xyz = cartesiancenters(or, sp, sz, nd)
     C   = reshape(elementcolor, sz)
     if nd == 2
-      Makie.heatmap!(plot, xyz..., C,
+      xs, ys = xyz
+      xs′ = xs .- sp[1] / 2
+      ys′ = ys .- sp[2] / 2
+      Makie.heatmap!(plot, xs′, ys′, C,
         colormap = plot[:colormap],
       )
     elseif nd == 3
