@@ -22,11 +22,11 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   if elementcolor isa AbstractVector
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
-    C   = reshape(elementcolor, sz)
     if nd == 2
       xs, ys = xyz
       xs′ = xs .- sp[1] / 2
       ys′ = ys .- sp[2] / 2
+      C   = reshape(elementcolor, sz)
       Makie.heatmap!(plot, xs′, ys′, C,
         colormap = plot[:colormap],
       )
