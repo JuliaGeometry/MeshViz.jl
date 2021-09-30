@@ -23,7 +23,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   elems = elements(topo)
 
   # retrieve coordinates of vertices
-  coords = reduce(hcat, coordinates.(verts))'
+  coords = coordinates.(verts)
 
   # decompose n-gons into triangles by
   # fan triangulation (assumes convexity)
@@ -63,7 +63,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
 
   if showvertices
-    Makie.scatter!(plot, Vec{d}.(eachrow(coords)),
+    Makie.scatter!(plot, coords,
       markersize = plot[:markersize],
       color = vertexcolor,
     )
@@ -84,10 +84,13 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     end
 
     # fill sentinel index with NaN coordinates
-    coords = [coords; fill(NaN, d)']
+    push!(coords, Vec(ntuple(i->NaN, d)))
+
+    # extract incident vertices
+    coords = coords[inds]
 
     # split coordinates to match signature
-    xyz = [coords[inds,j] for j in 1:d]
+    xyz = [getindex.(coords, j) for j in 1:d]
 
     Makie.lines!(plot, xyz...,
       color = facetcolor,
