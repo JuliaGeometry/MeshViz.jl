@@ -14,15 +14,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
 
-  # helper functions
-  function decimate(geometry)
+  # helper function
+  function mdecimate(geometry)
     if decimation > 0
-      simplify(geometry, DouglasPeucker(decimation))
+      decimate(geometry, decimation)
     else
       geometry
     end
   end
-  triangulate(geometry) = discretize(geometry, FIST())
 
   # retrieve parametric dimension
   ranks = paramdim.(collection)
@@ -41,7 +40,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     )
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
-    polygons = decimate.(collection)
+    polygons = mdecimate.(collection)
     meshes = triangulate.(polygons)
     colors = if elementcolor isa AbstractVector
       [elementcolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
@@ -55,7 +54,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       showfacets = false,
     )
     if showfacets
-      polychains = mapreduce(chains, vcat, polygons)
+      polychains = boundary.(polygons)
       viz!(plot, Collection(polychains),
         elementcolor = facetcolor,
       )
