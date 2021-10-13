@@ -35,7 +35,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
       coords = [(x,y,z) for x in xs for y in ys for z in zs]
       Makie.meshscatter!(plot, coords,
         colormap = plot[:colormap],
-        marker = Makie.Rect3D(-sp, sp),
+        marker = Makie.Rect3(-sp, sp),
         markersize = 1,
         color = elementcolor,
       )
