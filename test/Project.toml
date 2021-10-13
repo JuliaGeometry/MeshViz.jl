@@ -1,0 +1,10 @@
+[deps]
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+GeoTables = "e502b557-6362-48c1-8219-d30d308dcdb0"
+ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
+Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
+ReferenceTests = "324d217c-45ce-50fc-942e-d289b448e8cf"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[compat]
+CairoMakie = "0.6"
