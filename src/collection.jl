@@ -60,7 +60,18 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       )
     end
   elseif all(ranks .== 3)
-    throw(ErrorException("not implemented"))
+    meshes = boundary.(collection)
+    colors = if elementcolor isa AbstractVector
+      [elementcolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    else
+      elementcolor
+    end
+    mesh = reduce(merge, meshes)
+    viz!(plot, mesh,
+      elementcolor = colors,
+      showvertices = false,
+      showfacets = false,
+    )
   else # mixed dimension
     # visualize subsets of equal rank
     items = collect(collection)
