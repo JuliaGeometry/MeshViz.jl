@@ -37,11 +37,7 @@ viz(mesh, showfacets = true)
 ```julia
 mesh = readply("dragon.ply")
 
-viz(mesh,
-  color = 1:nelements(mesh),
-  showfacets = false,
-  colormap = :Spectral
-)
+viz(mesh, color = 1:nelements(mesh), showfacets = false, colormap = :Spectral)
 ```
 ![dragon](figs/dragon.png)
 
