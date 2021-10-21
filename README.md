@@ -38,8 +38,8 @@ viz(mesh, showfacets = true)
 mesh = readply("dragon.ply")
 
 viz(mesh,
+  color = 1:nelements(mesh),
   showfacets = false,
-  elementcolor = 1:nelements(mesh),
   colormap = :Spectral
 )
 ```
@@ -53,7 +53,7 @@ viz(grid, showfacets = true)
 ![grid2d](figs/grid2d.png)
 
 ```julia
-viz(grid, elementcolor = 1:nelements(grid))
+viz(grid, color = 1:nelements(grid))
 ```
 ![grid2d-color](figs/grid2d-color.png)
 
@@ -65,7 +65,7 @@ viz(grid, showfacets = true)
 ![grid3d](figs/grid3d.png)
 
 ```julia
-viz(grid, elementcolor=1:nelements(grid))
+viz(grid, color = 1:nelements(grid))
 ```
 ![grid3d-color](figs/grid3d-color.png)
 
@@ -87,7 +87,7 @@ viz(RIO.geometry, decimation = 0.001)
 ![rio](figs/rio.png)
 
 ```julia
-viz(BRA.geometry, elementcolor = 1:length(BRA.geometry))
+viz(BRA.geometry, color = 1:length(BRA.geometry))
 ```
 ![brazil-color](figs/brazil-color.png)
 
