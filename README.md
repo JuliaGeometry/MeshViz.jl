@@ -1,6 +1,6 @@
 # MeshViz.jl
 
-Makie.jl recipes for visualization of Meshes.jl objects.
+Makie.jl recipes for visualization of [Meshes.jl](https://github.com/JuliaGeometry/Meshes.jl).
 
 ## Installation
 
