@@ -14,9 +14,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
 
   # Meshes.jl attributes
   elementcolor = plot[:elementcolor][]
-  vertexcolor  = plot[:vertexcolor][]
   facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
 
   if elementcolor isa AbstractVector

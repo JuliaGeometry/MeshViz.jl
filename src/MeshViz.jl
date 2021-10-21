@@ -31,13 +31,15 @@ Visualize Meshes.jl `object` with various options:
   Makie.Attributes(;
     # generic attributes
     colormap      = Makie.theme(scene, :colormap),
-    markersize    = Makie.theme(scene, :markersize),
 
     # Meshes.jl attributes
+    pointsize     = Makie.theme(scene, :markersize),
+    pointcolor    = :black,
+    vertexsize    = Makie.theme(scene, :markersize),
+    vertexcolor   = :black,
     elementcolor  = :slategray3,
     boundarycolor = :gray30,
     facetcolor    = :gray30,
-    vertexcolor   = :black,
     showboundary  = true,
     showfacets    = false,
     showvertices  = false,

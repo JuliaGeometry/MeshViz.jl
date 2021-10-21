@@ -9,6 +9,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   collection = plot[:object][]
 
   # Meshes.jl attributes
+  pointsize    = plot[:pointsize][]
+  pointcolor   = plot[:pointcolor][]
   elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
@@ -29,8 +31,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
-      markersize = plot[:markersize],
-      color = elementcolor,
+      markersize = pointsize,
+      color = pointcolor,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments

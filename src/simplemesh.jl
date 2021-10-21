@@ -11,8 +11,9 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   n = nvertices(mesh)
 
   # Meshes.jl attributes
-  elementcolor = plot[:elementcolor][]
+  vertexsize   = plot[:vertexsize][]
   vertexcolor  = plot[:vertexcolor][]
+  elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
@@ -64,7 +65,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   if showvertices
     Makie.scatter!(plot, coords,
-      markersize = plot[:markersize],
+      markersize = vertexsize,
       color = vertexcolor,
     )
   end
