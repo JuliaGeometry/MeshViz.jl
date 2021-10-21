@@ -11,6 +11,7 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
 
   # fallback to collection recipe
   viz!(plot, Collection(items),
+    color        = plot[:color],
     pointsize    = plot[:pointsize],
     pointcolor   = plot[:pointcolor],
     vertexcolor  = plot[:vertexcolor],
@@ -30,6 +31,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
 
   # fallback to vector recipe
   viz!(plot, [item],
+    color         = plot[:color],
     pointsize     = plot[:pointsize],
     pointcolor    = plot[:pointcolor],
     vertexcolor   = plot[:vertexcolor],
@@ -49,6 +51,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
 
   # fallback to vector recipe
   viz!(plot, collect(domain),
+    color         = plot[:color],
     pointsize     = plot[:pointsize],
     pointcolor    = plot[:pointcolor],
     vertexcolor   = plot[:vertexcolor],

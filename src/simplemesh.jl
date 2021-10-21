@@ -11,6 +11,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   n = nvertices(mesh)
 
   # Meshes.jl attributes
+  color        = plot[:color][]
   vertexsize   = plot[:vertexsize][]
   vertexcolor  = plot[:vertexcolor][]
   elementcolor = plot[:elementcolor][]
@@ -41,25 +42,28 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # enable shading in 3D
   shading = embeddim(mesh) == 3
 
+  # choose attribute with element color
+  ecolor = isnothing(color) ? elementcolor : color
+
   # set element color
-  color = if elementcolor isa AbstractVector
+  finalcolor = if ecolor isa AbstractVector
     # map color to all vertices of elements
-    colors = Vector{eltype(elementcolor)}(undef, n)
+    colors = Vector{eltype(ecolor)}(undef, n)
     for (e, elem) in Iterators.enumerate(elems)
       for i in indices(elem)
-        colors[i] = elementcolor[e]
+        colors[i] = ecolor[e]
       end
     end
     colors
   else
     # default to single color
-    elementcolor
+    ecolor
   end
 
   Makie.mesh!(plot, coords, connec,
     colormap = plot[:colormap],
     shading = shading, 
-    color = color,
+    color = finalcolor,
   )
 
 

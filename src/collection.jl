@@ -9,12 +9,19 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   collection = plot[:object][]
 
   # Meshes.jl attributes
+  color        = plot[:color][]
   pointsize    = plot[:pointsize][]
   pointcolor   = plot[:pointcolor][]
   elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
+
+  # choose attribute with point color
+  pcolor = isnothing(color) ? pointcolor : color
+
+  # choose attribute with element color
+  ecolor = isnothing(color) ? elementcolor : color
 
   # helper function
   function mdecimate(geometry)
@@ -32,22 +39,22 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
       markersize = pointsize,
-      color = pointcolor,
+      color = pcolor,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments
     coords = geomsegments(collection)
     Makie.lines!(plot, coords,
-      color = elementcolor,
+      color = ecolor,
     )
   elseif all(ranks .== 2)
     # split 2D geometries into triangles
     polygons = mdecimate.(collection)
     meshes = triangulate.(polygons)
-    colors = if elementcolor isa AbstractVector
-      [elementcolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    colors = if ecolor isa AbstractVector
+      [ecolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
-      elementcolor
+      ecolor
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
@@ -63,10 +70,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     end
   elseif all(ranks .== 3)
     meshes = boundary.(collection)
-    colors = if elementcolor isa AbstractVector
-      [elementcolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    colors = if ecolor isa AbstractVector
+      [ecolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
-      elementcolor
+      ecolor
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,

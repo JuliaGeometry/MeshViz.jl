@@ -13,18 +13,22 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   sz = size(grid)
 
   # Meshes.jl attributes
+  color        = plot[:color][]
   elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
 
-  if elementcolor isa AbstractVector
+  # choose attribute with element color
+  ecolor = isnothing(color) ? elementcolor : color
+
+  if ecolor isa AbstractVector
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
     if nd == 2
       xs, ys = xyz
       xs′ = xs .- sp[1] / 2
       ys′ = ys .- sp[2] / 2
-      C   = reshape(elementcolor, sz)
+      C   = reshape(ecolor, sz)
       Makie.heatmap!(plot, xs′, ys′, C,
         colormap = plot[:colormap],
       )
@@ -35,14 +39,14 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
         colormap = plot[:colormap],
         marker = Makie.Rect3(-sp, sp),
         markersize = 1,
-        color = elementcolor,
+        color = ecolor,
       )
     end
   else
     # create the smallest mesh of simplices
     mesh = cartesianmesh(or, sp, sz, nd)
     viz!(plot, mesh,
-      elementcolor = elementcolor,
+      elementcolor = ecolor,
       showvertices = false,
       showfacets = false
     )
