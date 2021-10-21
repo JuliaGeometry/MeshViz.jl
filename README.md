@@ -14,28 +14,30 @@ Get the latest stable release with Julia's package manager:
 
 ```julia
 using Meshes, MeshViz
-import GLMakie
 
-using PlyIO
+# choose a Makie backend
+import GLMakie as Mke
 
-function readply(fname)
+using PlyIO: load_ply
+
+function loadply(fname)
   ply = load_ply(fname)
   x = ply["vertex"]["x"]
   y = ply["vertex"]["y"]
   z = ply["vertex"]["z"]
-  points = Meshes.Point.(x, y, z)
+  points = Point.(x, y, z)
   connec = [connect(Tuple(c.+1)) for c in ply["face"]["vertex_indices"]]
   SimpleMesh(points, connec)
 end
 
-mesh = readply("beethoven.ply")
+mesh = loadply("beethoven.ply")
 
 viz(mesh, showfacets = true)
 ```
 ![beethoven](figs/beethoven.png)
 
 ```julia
-mesh = readply("dragon.ply")
+mesh = loadply("dragon.ply")
 
 viz(mesh, color = 1:nelements(mesh), showfacets = false, colormap = :Spectral)
 ```
