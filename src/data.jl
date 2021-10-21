@@ -22,14 +22,13 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   c = Tables.getcolumn(tab, var)
 
   # handle categorical values
-  elementcolor = eltype(c) <: CategoricalValue ? levelcode.(c) : c
+  color = eltype(c) <: CategoricalValue ? levelcode.(c) : c
 
   # call recipe for underlying domain
   viz!(plot, dom,
-    elementcolor  = elementcolor,
+    color         = color,
     colormap      = plot[:colormap],
     pointsize     = plot[:pointsize],
-    pointcolor    = plot[:pointcolor],
     vertexcolor   = plot[:vertexcolor],
     boundarycolor = plot[:boundarycolor],
     facetcolor    = plot[:facetcolor],

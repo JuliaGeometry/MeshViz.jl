@@ -8,6 +8,11 @@ using Test
 import CairoMakie as Mke
 
 @testset "MeshViz.jl" begin
+  # point set
+  d = PointSet(rand(Point2, 100))
+  viz(d)
+  viz(d, pointcolor = :red)
+
   # 1D Cartesian grid
   d = CartesianGrid(10)
   # TODO
@@ -57,11 +62,7 @@ import CairoMakie as Mke
   viz(d, showfacets = true)
   viz(d, showfacets = true, facetcolor = :red)
   viz(d, elementcolor = 1:2)
-
-  d = meshdata(CartesianGrid(10,10), etable = (z=rand(100),w=1:100))
-  viz(d, variable = :z)
-  viz(d, variable = :w)
-  viz(d, colormap = :inferno)
+  viz(d, elementcolor = 1:2, colormap = :inferno)
 
   d1 = CartesianGrid(10,10)
   d2 = PointSet(rand(Point2, 100))
@@ -69,9 +70,21 @@ import CairoMakie as Mke
   viz(d1, color = 1:100)
   viz(d2, color = 1:100)
   viz(d3, color = 1:100)
+  viz(d1, color = 1:100, colormap = :inferno)
+  viz(d2, color = 1:100, colormap = :inferno)
+  viz(d3, color = 1:100, colormap = :inferno)
 
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   d = Collection([t, q])
   viz(d, color = 1:2)
+
+  d = meshdata(CartesianGrid(10,10), etable = (z=rand(100),w=1:100))
+  viz(d, variable = :z)
+  viz(d, variable = :w)
+  viz(d, colormap = :inferno)
+
+  d = meshdata(PointSet(rand(Point2,100)), etable = (z=rand(100),))
+  viz(d)
+  viz(d, colormap = :inferno)
 end

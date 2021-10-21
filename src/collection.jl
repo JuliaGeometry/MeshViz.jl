@@ -10,6 +10,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
 
   # Meshes.jl attributes
   color        = plot[:color][]
+  colormap     = plot[:colormap][]
   pointsize    = plot[:pointsize][]
   pointcolor   = plot[:pointcolor][]
   elementcolor = plot[:elementcolor][]
@@ -38,6 +39,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
+      colormap = colormap,
       markersize = pointsize,
       color = pcolor,
     )
@@ -58,6 +60,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
+      colormap = colormap,
       elementcolor = colors,
       showvertices = false,
       showfacets = false,
@@ -77,6 +80,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
+      colormap = colormap,
       elementcolor = colors,
       showvertices = false,
       showfacets = false,
