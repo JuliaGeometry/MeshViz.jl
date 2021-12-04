@@ -50,6 +50,20 @@ import CairoMakie as Mke
   viz(g, elementcolor = :orange)
   viz(g, elementcolor = :black, boundarycolor = :red)
 
+  g = Box((0.,0.), (1.,1.))
+  viz(g)      
+  viz(g, showboundary = false)
+  viz(g, elementcolor = :orange)
+  viz(g, elementcolor = :black, boundarycolor = :red)
+
+  g = Box((0.,0.,0.), (1.,1.,1.))
+  viz(g)      
+  viz(g, color = :orange)
+
+  g = Sphere((0.,0.,0.), 1.)
+  viz(g)
+  viz(g, color = :orange)
+
   p = rand(Point2, 100)
   viz(p)
   viz(p, pointsize = 20)

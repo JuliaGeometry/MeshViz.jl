@@ -50,9 +50,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       color = ecolor,
     )
   elseif all(ranks .== 2)
-    # split 2D geometries into triangles
-    polygons = mdecimate.(collection)
-    meshes = triangulate.(polygons)
+    # triangulate geometries
+    geoms  = mdecimate.(collection)
+    meshes = triangulate.(geoms)
     colors = if ecolor isa AbstractVector
       [ecolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
@@ -66,10 +66,12 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       showfacets = false,
     )
     if showfacets
-      polychains = boundary.(polygons)
-      viz!(plot, Collection(polychains),
-        elementcolor = facetcolor,
-      )
+      bounds = filter(!isnothing, boundary.(geoms))
+      if !isempty(bounds)
+        viz!(plot, Collection(bounds),
+          elementcolor = facetcolor,
+        )
+      end
     end
   elseif all(ranks .== 3)
     meshes = boundary.(collection)
