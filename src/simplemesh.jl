@@ -7,8 +7,6 @@ Makie.plottype(::SimpleMesh) = Viz{<:Tuple{SimpleMesh}}
 function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve mesh object
   mesh = plot[:object][]
-  d = embeddim(mesh)
-  n = nvertices(mesh)
 
   # Meshes.jl attributes
   color        = plot[:color][]
@@ -23,6 +21,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   verts = vertices(mesh)
   topo  = topology(mesh)
   elems = elements(topo)
+  dim   = embeddim(mesh)
+  nvert = nvertices(mesh)
 
   # coordinates of vertices
   coords = coordinates.(verts)
@@ -34,7 +34,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   connec = reduce(hcat, tris) |> transpose
 
   # enable shading in 3D
-  shading = embeddim(mesh) == 3
+  shading = dim == 3
 
   # choose attribute with element color
   ecolor = isnothing(color) ? elementcolor : color
@@ -42,7 +42,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # set element color
   finalcolor = if ecolor isa AbstractVector
     # map color to all vertices of elements
-    colors = Vector{eltype(ecolor)}(undef, n)
+    colors = Vector{eltype(ecolor)}(undef, nvert)
     for (e, elem) in Iterators.enumerate(elems)
       for i in indices(elem)
         colors[i] = ecolor[e]
@@ -78,17 +78,17 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     inds = Int[]
     for i in 1:nfacets(t)
       append!(inds, ∂(i))
-      push!(inds, n+1)
+      push!(inds, nvert+1)
     end
 
     # fill sentinel index with NaN coordinates
-    push!(coords, Vec(ntuple(i->NaN, d)))
+    push!(coords, Vec(ntuple(i->NaN, dim)))
 
     # extract incident vertices
     coords = coords[inds]
 
     # split coordinates to match signature
-    xyz = [getindex.(coords, j) for j in 1:d]
+    xyz = [getindex.(coords, j) for j in 1:dim]
 
     Makie.lines!(plot, xyz...,
       color = facetcolor,
