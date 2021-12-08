@@ -19,25 +19,19 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
 
-  # retrieve geometry + topology
+  # retrieve vertices + topology
   verts = vertices(mesh)
   topo  = topology(mesh)
   elems = elements(topo)
 
-  # retrieve coordinates of vertices
+  # coordinates of vertices
   coords = coordinates.(verts)
 
-  # decompose n-gons into triangles by
-  # fan triangulation (assumes convexity)
-  # https://en.wikipedia.org/wiki/Fan_triangulation
-  tris = Vector{Int}[]
-  for elem in elems
-    inds = indices(elem)
-    for i in 2:length(inds)-1
-      push!(tris, [inds[1], inds[i], inds[i+1]])
-    end
-  end
-  connec = reduce(hcat, tris)'
+  # triangulate polygons
+  tmesh  = triangulate(mesh)
+  ttopo  = topology(tmesh)
+  tris   = [collect(indices(Δ)) for Δ in elements(ttopo)]
+  connec = reduce(hcat, tris) |> transpose
 
   # enable shading in 3D
   shading = embeddim(mesh) == 3
@@ -65,7 +59,6 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     shading = shading, 
     color = finalcolor,
   )
-
 
   if showvertices
     Makie.scatter!(plot, coords,
