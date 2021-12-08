@@ -62,7 +62,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     viz!(plot, mesh,
       colormap = colormap,
       elementcolor = colors,
-      showvertices = false,
       showfacets = false,
     )
     if showfacets
@@ -84,7 +83,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     viz!(plot, mesh,
       colormap = colormap,
       elementcolor = colors,
-      showvertices = false,
       showfacets = false,
     )
   else # mixed dimension

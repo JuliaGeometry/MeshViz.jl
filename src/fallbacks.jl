@@ -14,11 +14,9 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
     color        = plot[:color],
     pointsize    = plot[:pointsize],
     pointcolor   = plot[:pointcolor],
-    vertexcolor  = plot[:vertexcolor],
     elementcolor = plot[:elementcolor],
     facetcolor   = plot[:boundarycolor],
     showfacets   = plot[:showboundary],
-    showvertices = plot[:showvertices],
     decimation   = plot[:decimation],
   )
 end
@@ -34,11 +32,9 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
     color         = plot[:color],
     pointsize     = plot[:pointsize],
     pointcolor    = plot[:pointcolor],
-    vertexcolor   = plot[:vertexcolor],
     elementcolor  = plot[:elementcolor],
     boundarycolor = plot[:boundarycolor],
     showboundary  = plot[:showboundary],
-    showvertices  = plot[:showvertices],
     decimation    = plot[:decimation],
   )
 end
@@ -54,11 +50,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
     color         = plot[:color],
     pointsize     = plot[:pointsize],
     pointcolor    = plot[:pointcolor],
-    vertexcolor   = plot[:vertexcolor],
     elementcolor  = plot[:elementcolor],
     boundarycolor = plot[:facetcolor],
     showboundary  = plot[:showfacets],
-    showvertices  = plot[:showvertices],
     decimation    = plot[:decimation],
   )
 end

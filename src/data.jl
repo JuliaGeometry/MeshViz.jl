@@ -29,12 +29,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
     color         = color,
     colormap      = plot[:colormap],
     pointsize     = plot[:pointsize],
-    vertexcolor   = plot[:vertexcolor],
     boundarycolor = plot[:boundarycolor],
     facetcolor    = plot[:facetcolor],
     showboundary  = plot[:showboundary],
     showfacets    = plot[:showfacets],
-    showvertices  = plot[:showvertices],
     decimation    = plot[:decimation],
   )
 end

@@ -10,11 +10,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   # Meshes.jl attributes
   color        = plot[:color][]
-  vertexsize   = plot[:vertexsize][]
-  vertexcolor  = plot[:vertexcolor][]
   elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
-  showvertices = plot[:showvertices][]
   showfacets   = plot[:showfacets][]
 
   # retrieve vertices + topology
@@ -59,13 +56,6 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     shading = shading, 
     color = finalcolor,
   )
-
-  if showvertices
-    Makie.scatter!(plot, coords,
-      markersize = vertexsize,
-      color = vertexcolor,
-    )
-  end
 
   if showfacets
     # use a sophisticated data structure

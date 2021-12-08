@@ -5,18 +5,20 @@
 Makie.plottype(::CartesianGrid) = Viz{<:Tuple{CartesianGrid}}
 
 function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
-  # retrieve point set object
+  # retrieve grid object
   grid = plot[:object][]
-  nd = embeddim(grid)
-  or = coordinates(minimum(grid))
-  sp = spacing(grid)
-  sz = size(grid)
 
   # Meshes.jl attributes
   color        = plot[:color][]
   elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
+
+  # relevant settings
+  nd = embeddim(grid)
+  or = coordinates(minimum(grid))
+  sp = spacing(grid)
+  sz = size(grid)
 
   # choose attribute with element color
   ecolor = isnothing(color) ? elementcolor : color
@@ -47,7 +49,6 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     mesh = cartesianmesh(or, sp, sz, nd)
     viz!(plot, mesh,
       elementcolor = ecolor,
-      showvertices = false,
       showfacets = false
     )
 
