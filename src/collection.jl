@@ -12,17 +12,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   color        = plot[:color][]
   colormap     = plot[:colormap][]
   pointsize    = plot[:pointsize][]
-  pointcolor   = plot[:pointcolor][]
-  elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
-
-  # choose attribute with point color
-  pcolor = isnothing(color) ? pointcolor : color
-
-  # choose attribute with element color
-  ecolor = isnothing(color) ? elementcolor : color
 
   # helper function
   function mdecimate(geometry)
@@ -39,50 +31,50 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(collection)
     Makie.scatter!(plot, coords,
+      color = color,
       colormap = colormap,
       markersize = pointsize,
-      color = pcolor,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments
     coords = geomsegments(collection)
     Makie.lines!(plot, coords,
-      color = ecolor,
+      color = color,
     )
   elseif all(ranks .== 2)
     # triangulate geometries
     geoms  = mdecimate.(collection)
     meshes = triangulate.(geoms)
-    colors = if ecolor isa AbstractVector
-      [ecolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    colors = if color isa AbstractVector
+      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
-      ecolor
+      color
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
+      color = colors,
       colormap = colormap,
-      elementcolor = colors,
       showfacets = false,
     )
     if showfacets
       bounds = filter(!isnothing, boundary.(geoms))
       if !isempty(bounds)
         viz!(plot, Collection(bounds),
-          elementcolor = facetcolor,
+          color = facetcolor,
         )
       end
     end
   elseif all(ranks .== 3)
     meshes = boundary.(collection)
-    colors = if ecolor isa AbstractVector
-      [ecolor[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    colors = if color isa AbstractVector
+      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
-      ecolor
+      color
     end
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
+      color = colors,
       colormap = colormap,
-      elementcolor = colors,
       showfacets = false,
     )
   else # mixed dimension

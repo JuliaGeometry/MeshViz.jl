@@ -10,7 +10,6 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 
   # Meshes.jl attributes
   color        = plot[:color][]
-  elementcolor = plot[:elementcolor][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
 
@@ -33,28 +32,25 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # enable shading in 3D
   shading = dim == 3
 
-  # choose attribute with element color
-  ecolor = isnothing(color) ? elementcolor : color
-
   # set element color
-  finalcolor = if ecolor isa AbstractVector
+  finalcolor = if color isa AbstractVector
     # map color to all vertices of elements
-    colors = Vector{eltype(ecolor)}(undef, nvert)
+    colors = Vector{eltype(color)}(undef, nvert)
     for (e, elem) in Iterators.enumerate(elems)
       for i in indices(elem)
-        colors[i] = ecolor[e]
+        colors[i] = color[e]
       end
     end
     colors
   else
     # default to single color
-    ecolor
+    color
   end
 
   Makie.mesh!(plot, coords, connec,
+    color = finalcolor,
     colormap = plot[:colormap],
     shading = shading, 
-    color = finalcolor,
   )
 
   if showfacets
