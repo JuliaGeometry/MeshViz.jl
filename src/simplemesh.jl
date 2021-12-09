@@ -9,46 +9,82 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   mesh = plot[:object][]
 
   # Meshes.jl attributes
-  color        = plot[:color][]
-  facetcolor   = plot[:facetcolor][]
-  showfacets   = plot[:showfacets][]
+  color      = plot[:color][]
+  facetcolor = plot[:facetcolor][]
+  showfacets = plot[:showfacets][]
 
-  # retrieve vertices + topology
+  # relevant settings
+  dim   = embeddim(mesh)
+  nvert = nvertices(mesh)
+  nelem = nelements(mesh)
   verts = vertices(mesh)
   topo  = topology(mesh)
   elems = elements(topo)
-  dim   = embeddim(mesh)
-  nvert = nvertices(mesh)
 
   # coordinates of vertices
   coords = coordinates.(verts)
 
-  # triangulate polygons
-  tmesh  = triangulate(mesh)
-  ttopo  = topology(tmesh)
-  tris   = [collect(indices(Δ)) for Δ in elements(ttopo)]
-  connec = reduce(hcat, tris) |> transpose
+  # fan triangulation (assume convexity)
+  tris4elem = map(elems) do elem
+    I = indices(elem)
+    [[I[1], I[i], I[i+1]] for i in 2:length(I)-1]
+  end
+
+  # flatten vector of triangles
+  tris = [tri for tris in tris4elem for tri in tris]
+
+  # element vs. vertex coloring
+  if color isa AbstractVector
+    ncolor = length(color)
+    if ncolor == nelem # element coloring
+      # duplicate vertices and adjust
+      # connectivities to avoid linear
+      # interpolation of colors
+      nt = 0
+      elem4tri = Dict{Int,Int}()
+      for e in 1:nelem
+        Δs = tris4elem[e]
+        for _ in 1:length(Δs)
+          nt += 1
+          elem4tri[nt] = e
+        end
+      end
+      nv = 3nt
+      tcoords = [coords[i] for tri in tris for i in tri]
+      tconnec = [collect(I) for I in Iterators.partition(1:nv, 3)]
+      tcolors = map(1:nv) do i
+        t = ceil(Int, i/3)
+        e = elem4tri[t]
+        color[e]
+      end
+    elseif ncolor == nvert # vertex coloring
+      # nothing needs to be done because
+      # this is the default in Makie and
+      # because the triangulation above
+      # does not change the vertices in
+      # the original polygonal mesh
+      tcoords = coords
+      tconnec = tris
+      tcolors = color
+    else
+      throw(ArgumentError("Provided $ncolor colors but the mesh has
+                           $nvert vertices and $nelem elements"))
+    end
+  else # single color
+    # nothing needs to be done
+    tcoords = coords
+    tconnec = tris
+    tcolors = color
+  end
+
+  # convert connectivities to matrix format
+  tmatrix = reduce(hcat, tconnec) |> transpose
 
   # enable shading in 3D
   shading = dim == 3
 
-  # set element color
-  finalcolor = if color isa AbstractVector
-    # map color to all vertices of elements
-    colors = Vector{eltype(color)}(undef, nvert)
-    for (e, elem) in Iterators.enumerate(elems)
-      for i in indices(elem)
-        colors[i] = color[e]
-      end
-    end
-    colors
-  else
-    # default to single color
-    color
-  end
-
-  Makie.mesh!(plot, coords, connec,
-    color = finalcolor,
+  Makie.mesh!(plot, tcoords, tmatrix,
+    color = tcolors,
     colormap = plot[:colormap],
     shading = shading, 
   )
