@@ -102,6 +102,15 @@ import CairoMakie as Mke
   viz(d, color = 1:2)
   viz(d, color = 1:2, colormap = :inferno)
 
+  # Simple meshes
+  s = Sphere((0.,0.,0.), 1.)
+  m = discretize(s, RegularDiscretization(10))
+  viz(m)
+  viz(m, color = 1:nvertices(m))
+  viz(m, color = 1:nelements(m))
+  viz(m, color = 1:nelements(m), showfacets = true)
+  viz(m, color = :orange, showfacets = true, facetcolor = :white)
+
   # Vector of points
   p = rand(Point2, 100)
   viz(p)
