@@ -8,7 +8,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   # retrieve collection object
   collection = plot[:object][]
 
-  # Meshes.jl attributes
   size         = plot[:size][]
   color        = plot[:color][]
   colormap     = plot[:colormap][]
@@ -16,20 +15,15 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
 
-  # helper function
-  function mdecimate(geometry)
-    if decimation > 0
-      decimate(geometry, decimation)
-    else
-      geometry
-    end
-  end
+  # decimate geometries if needed
+  geoms = decimation > 0 ? decimate.(collection, decimation) : collection
 
   # retrieve parametric dimension
-  ranks = paramdim.(collection)
+  ranks = paramdim.(geoms)
+
   if all(ranks .== 0)
     # visualize point set
-    coords = coordinates.(collection)
+    coords = coordinates.(geoms)
     Makie.scatter!(plot, coords,
       color = color,
       colormap = colormap,
@@ -37,13 +31,12 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments
-    coords = geomsegments(collection)
+    coords = geomsegments(geoms)
     Makie.lines!(plot, coords,
       color = color,
     )
   elseif all(ranks .== 2)
     # triangulate geometries
-    geoms  = mdecimate.(collection)
     meshes = triangulate.(geoms)
     colors = if color isa AbstractVector
       [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
@@ -65,7 +58,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       end
     end
   elseif all(ranks .== 3)
-    meshes = boundary.(collection)
+    meshes = boundary.(geoms)
     colors = if color isa AbstractVector
       [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
@@ -79,15 +72,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     )
   else # mixed dimension
     # visualize subsets of equal rank
-    items = collect(collection)
-    inds3 = findall(g -> paramdim(g) == 3, items)
-    inds2 = findall(g -> paramdim(g) == 2, items)
-    inds1 = findall(g -> paramdim(g) == 1, items)
-    inds0 = findall(g -> paramdim(g) == 0, items)
-    isempty(inds3) || viz!(plot, Collection(items[inds3]))
-    isempty(inds2) || viz!(plot, Collection(items[inds2]))
-    isempty(inds1) || viz!(plot, Collection(items[inds1]))
-    isempty(inds0) || viz!(plot, Collection(items[inds0]))
+    inds3 = findall(g -> paramdim(g) == 3, geoms)
+    inds2 = findall(g -> paramdim(g) == 2, geoms)
+    inds1 = findall(g -> paramdim(g) == 1, geoms)
+    inds0 = findall(g -> paramdim(g) == 0, geoms)
+    isempty(inds3) || viz!(plot, Collection(geoms[inds3]))
+    isempty(inds2) || viz!(plot, Collection(geoms[inds2]))
+    isempty(inds1) || viz!(plot, Collection(geoms[inds1]))
+    isempty(inds0) || viz!(plot, Collection(geoms[inds0]))
   end
 end
 
