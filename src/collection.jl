@@ -85,28 +85,22 @@ end
 
 # helper function to split 1D geometries
 # such as chains into line segments
-function geomsegments(gset)
-  chains = []
-  for geom in gset
-    if geom isa Multi
-      for g in geom
-        v = vertices(g)
-        push!(chains, [v; first(v)])
-      end
-    else
-      v = vertices(geom)
-      push!(chains, [v; first(v)])
-    end
-  end
-
-  Dim = embeddim(gset)
+function geomsegments(geoms)
+  Dim = embeddim(first(geoms))
   nan = Vec(ntuple(i->NaN, Dim))
-  coords = Vec{Dim,Float64}[]
-  for chain in chains
-    for point in chain
-      push!(coords, coordinates(point))
-    end
-    push!(coords, nan)
-  end
-  coords
+
+  # expand multi-chains into vector of chains
+  chains = mapreduce(demulti, vcat, geoms)
+
+  # operate on each chain individually
+  verts  = vertices.(chains)
+  coords = [coordinates.(vs) for vs in verts]
+  closed = [[xs; [first(xs)]] for xs in coords]
+
+  # join vertices of chains interleaved by special NaN
+  reduce((x,y) -> [x; [nan]; y], closed)
 end
+
+# helper function to expand multi-geometries
+demulti(m::Multi) = mapreduce(demulti, vcat, m)
+demulti(g) = g
