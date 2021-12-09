@@ -8,7 +8,6 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve mesh object
   mesh = plot[:object][]
 
-  # Meshes.jl attributes
   color      = plot[:color][]
   facetcolor = plot[:facetcolor][]
   showfacets = plot[:showfacets][]

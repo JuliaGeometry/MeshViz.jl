@@ -8,7 +8,6 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   # retrieve grid object
   grid = plot[:object][]
 
-  # Meshes.jl attributes
   color        = plot[:color][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
