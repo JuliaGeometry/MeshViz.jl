@@ -26,6 +26,21 @@ Visualize Meshes.jl `object` with various options:
 * `showfacets`    - tells whether or not to show the facets
 * `variable`      - informs which variable to visualize
 * `decimation`    - decimation tolerance for polygons
+
+The option `color` can be a single scalar or a vector
+of scalars. For meshes, the length of the vector of
+colors determines if the colors should be assigned to
+vertices or elements.
+
+## Examples
+
+```
+# vertex coloring (i.e. linear interpolation)
+viz(mesh, color = 1:nvertices(mesh))
+
+# element coloring (i.e. discrete colors)
+viz(mesh, color = 1:nelements(mesh))
+```
 """
 @Makie.recipe(Viz, object) do scene
   Makie.Attributes(;

@@ -39,6 +39,8 @@ viz(mesh, showfacets = true)
 ```julia
 mesh = loadply("dragon.ply")
 
+# for vertex coloring pass a vector of colors
+# with the same length of the number of vertices
 viz(mesh, color = 1:nvertices(mesh), colormap = :Spectral)
 ```
 ![dragon](figs/dragon.png)
@@ -51,6 +53,8 @@ viz(grid, showfacets = true)
 ![grid2d](figs/grid2d.png)
 
 ```julia
+# for element coloring pass a vector of colors
+# with the same length of the number of elements
 viz(grid, color = 1:nelements(grid))
 ```
 ![grid2d-color](figs/grid2d-color.png)
