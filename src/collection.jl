@@ -9,9 +9,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   collection = plot[:object][]
 
   # Meshes.jl attributes
+  size         = plot[:size][]
   color        = plot[:color][]
   colormap     = plot[:colormap][]
-  pointsize    = plot[:pointsize][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
@@ -33,7 +33,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     Makie.scatter!(plot, coords,
       color = color,
       colormap = colormap,
-      markersize = pointsize,
+      markersize = size,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments

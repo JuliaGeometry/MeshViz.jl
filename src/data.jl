@@ -26,9 +26,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
 
   # call recipe for underlying domain
   viz!(plot, dom,
+    size          = plot[:size],
     color         = color,
     colormap      = plot[:colormap],
-    pointsize     = plot[:pointsize],
     boundarycolor = plot[:boundarycolor],
     facetcolor    = plot[:facetcolor],
     showboundary  = plot[:showboundary],

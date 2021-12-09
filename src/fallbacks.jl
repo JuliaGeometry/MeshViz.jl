@@ -11,8 +11,8 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
 
   # fallback to collection recipe
   viz!(plot, Collection(items),
+    size         = plot[:size],
     color        = plot[:color],
-    pointsize    = plot[:pointsize],
     facetcolor   = plot[:boundarycolor],
     showfacets   = plot[:showboundary],
     decimation   = plot[:decimation],
@@ -27,8 +27,8 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
 
   # fallback to vector recipe
   viz!(plot, [item],
+    size          = plot[:size],
     color         = plot[:color],
-    pointsize     = plot[:pointsize],
     boundarycolor = plot[:boundarycolor],
     showboundary  = plot[:showboundary],
     decimation    = plot[:decimation],
@@ -43,8 +43,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
 
   # fallback to vector recipe
   viz!(plot, collect(domain),
+    size          = plot[:size],
     color         = plot[:color],
-    pointsize     = plot[:pointsize],
     boundarycolor = plot[:facetcolor],
     showboundary  = plot[:showfacets],
     decimation    = plot[:decimation],

@@ -17,8 +17,8 @@ import Makie
 
 Visualize Meshes.jl `object` with various options:
 
+* `size`          - size of points in point set
 * `color`         - color of geometries or points
-* `pointsize`     - size of points in point set
 * `boundarycolor` - color of the boundary (e.g. segments)
 * `facetcolor`    - color of the facets (e.g. edges)
 * `showboundary`  - tells whether or not to show the boundary
@@ -32,8 +32,8 @@ Visualize Meshes.jl `object` with various options:
     colormap      = Makie.theme(scene, :colormap),
 
     # Meshes.jl attributes
+    size          = Makie.theme(scene, :markersize),
     color         = :slategray3,
-    pointsize     = Makie.theme(scene, :markersize),
     boundarycolor = :gray30,
     facetcolor    = :gray30,
     showboundary  = true,
