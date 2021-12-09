@@ -39,7 +39,7 @@ viz(mesh, showfacets = true)
 ```julia
 mesh = loadply("dragon.ply")
 
-viz(mesh, color = 1:nelements(mesh), showfacets = false, colormap = :Spectral)
+viz(mesh, color = 1:nvertices(mesh), colormap = :Spectral)
 ```
 ![dragon](figs/dragon.png)
 
@@ -71,7 +71,7 @@ viz(grid, color = 1:nelements(grid))
 using GeoTables
 
 # Brazil states as Meshes.jl polygons
-BRA = GeoTables.gadm("BRA", children=true)
+BRA = GeoTables.gadm("BRA", children = true)
 
 viz(BRA.geometry, decimation = 0.02)
 ```
