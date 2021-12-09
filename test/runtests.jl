@@ -109,14 +109,14 @@ import CairoMakie as Mke
   viz(m, color = 1:nvertices(m))
   viz(m, color = 1:nelements(m))
   viz(m, color = 1:nelements(m), showfacets = true)
-  viz(m, color = :orange, showfacets = true, facetcolor = :white)
+  viz(m, color = :orange, showfacets = true, facetcolor = :cyan)
 
   # Vector of points
   p = rand(Point2, 100)
   viz(p)
   viz(p, color = 1:100)
   viz(p, color = 1:100, colormap = :inferno)
-  viz(p, pointsize = 20)
+  viz(p, size = 20)
 
   # Data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=rand(100),w=1:100))
