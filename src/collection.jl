@@ -16,7 +16,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   decimation   = plot[:decimation][]
 
   # decimate geometries if needed
-  geoms = decimation > 0 ? decimate.(collection, decimation) : collection
+  geoms = decimation > 0 ? decimate.(collection, decimation) : collect(collection)
 
   # retrieve parametric dimension
   ranks = paramdim.(geoms)
@@ -103,4 +103,4 @@ end
 
 # helper function to expand multi-geometries
 demulti(m::Multi) = mapreduce(demulti, vcat, m)
-demulti(g) = g
+demulti(g) = [g]
