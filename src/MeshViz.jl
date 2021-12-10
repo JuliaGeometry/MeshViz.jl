@@ -10,6 +10,8 @@ using Tables
 using CategoricalArrays: CategoricalValue
 using CategoricalArrays: levelcode
 
+using Colors: distinguishable_colors
+
 import Makie
 
 """
@@ -60,6 +62,7 @@ end
 include("simplemesh.jl")
 include("cartesiangrid.jl")
 include("collection.jl")
+include("partition.jl")
 include("fallbacks.jl")
 
 # data

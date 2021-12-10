@@ -119,6 +119,16 @@ import CairoMakie as Mke
   viz(m, color = 1:nelements(m), showfacets = true)
   viz(m, color = :orange, showfacets = true, facetcolor = :cyan)
 
+  # 2D partitions
+  g = CartesianGrid(10, 10)
+  p = partition(g, PlanePartition((1.,1.)))
+  viz(p)
+
+  # 3D partitions
+  g = CartesianGrid(10, 10, 10)
+  p = partition(g, PlanePartition((1.,1.,1.)))
+  viz(p)
+
   # Vector of points
   p = rand(Point2, 100)
   viz(p)
