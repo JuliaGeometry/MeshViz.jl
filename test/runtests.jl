@@ -46,17 +46,25 @@ import CairoMakie as Mke
   viz(d, color = 1:1000)
   viz(d, color = 1:1000, colormap = :inferno)
 
-  # N-gons
+  # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   viz(t)      
   viz(t, showboundary = false)
   viz(t, color = :orange)
-  viz(t, color = :black, boundarycolor = :red)
+  viz(t, color = :cyan, boundarycolor = :red)
   viz(q)      
   viz(q, showboundary = false)
   viz(q, color = :orange)
-  viz(q, color = :black, boundarycolor = :red)
+  viz(q, color = :cyan, boundarycolor = :red)
+
+  # 3D N-gons
+  o = Octagon([(0.0,0.0,1.0), (0.5,-0.5,0.0), (1.0,0.0,0.0), (1.5,0.5,-0.5),
+               (1.0,1.0,0.0), (0.5,1.5,0.0), (0.0,1.0,0.0), (-0.5,0.5,0.0)])
+  viz(o)
+  viz(o, showboundary = false)
+  viz(o, color = :orange)
+  viz(o, color = :cyan, boundarycolor = :red)
 
   # Polygonal areas
   p = PolyArea((0.,0.), (0.5,-1.5), (1.,0.), (1.5,0.5),
@@ -64,7 +72,7 @@ import CairoMakie as Mke
   viz(p)      
   viz(p, showboundary = false)
   viz(p, color = :orange)
-  viz(p, color = :black, boundarycolor = :red)
+  viz(p, color = :cyan, boundarycolor = :red)
 
   # Multi-geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
@@ -73,14 +81,14 @@ import CairoMakie as Mke
   viz(m)      
   viz(m, showboundary = false)
   viz(m, color = :orange)
-  viz(m, color = :black, boundarycolor = :red)
+  viz(m, color = :cyan, boundarycolor = :red)
 
   # 2D boxes
   b = Box((0.,0.), (1.,1.))
   viz(b)      
   viz(b, showboundary = false)
   viz(b, color = :orange)
-  viz(b, color = :black, boundarycolor = :red)
+  viz(b, color = :cyan, boundarycolor = :red)
 
   # 3D boxes
   b = Box((0.,0.,0.), (1.,1.,1.))
