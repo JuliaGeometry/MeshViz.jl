@@ -78,8 +78,8 @@ function cartesianmesh(or, sp, sz, nd)
     G = Point3(or) + Vec3(sp[1]*sz[1], sp[2]*sz[2], sp[3]*sz[3])
     H = Point3(or) + Vec3(0, sp[2]*sz[2], sp[3]*sz[3])
     points = [A, B, C, D, E, F, G, H]
-    connec = connect.([(1,2,3,4),(8,7,6,5),(2,1,5,6),
-                       (2,6,7,3),(3,7,8,4),(4,8,5,1)])
+    connec = connect.([(4,3,2,1),(5,6,7,8),(6,5,1,2),
+                       (3,7,6,2),(4,8,7,3),(1,5,8,4)])
     SimpleMesh(points, connec)
   else
     throw(ErrorException("not implemented"))
