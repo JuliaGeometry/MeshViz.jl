@@ -14,7 +14,7 @@ Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 CategoricalArrays = "0.10"
 Colors = "0.12"
 Makie = "0.13, 0.14, 0.15"
-Meshes = "0.16, 0.17, 0.18"
+Meshes = "0.19"
 Tables = "1.4"
 julia = "1"
 
