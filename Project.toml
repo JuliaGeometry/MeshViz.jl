@@ -16,10 +16,4 @@ Colors = "0.12"
 Makie = "0.13, 0.14, 0.15, 0.16"
 Meshes = "0.19"
 Tables = "1.4"
-julia = "1"
-
-[extras]
-Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
-
-[targets]
-test = ["Test"]
+julia = "1.6"
