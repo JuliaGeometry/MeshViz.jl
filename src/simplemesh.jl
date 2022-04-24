@@ -21,7 +21,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   elems = elements(topo)
 
   # coordinates of vertices
-  coords = coordinates.(verts)
+  coords  = coordinates.(verts)
+  ncoords = length(coords)
 
   # fan triangulation (assume convexity)
   tris4elem = map(elems) do elem
@@ -99,7 +100,7 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
     inds = Int[]
     for i in 1:nfacets(t)
       append!(inds, ∂(i))
-      push!(inds, nvert+1)
+      push!(inds, ncoords+1)
     end
 
     # fill sentinel index with NaN coordinates
