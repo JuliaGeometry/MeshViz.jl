@@ -28,6 +28,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   viz!(plot, dom,
     size          = plot[:size],
     color         = color,
+    alpha         = plot[:alpha][],
     colorscheme   = plot[:colorscheme],
     boundarycolor = plot[:boundarycolor],
     facetcolor    = plot[:facetcolor],

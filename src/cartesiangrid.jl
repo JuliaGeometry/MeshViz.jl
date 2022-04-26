@@ -9,12 +9,13 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   grid = plot[:object][]
 
   color        = plot[:color][]
+  alpha        = plot[:alpha][]
   colorscheme  = plot[:colorscheme][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme)
+  colorant = process(color, colorscheme, alpha)
 
   # relevant settings
   nd = embeddim(grid)
@@ -45,6 +46,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     mesh = cartesianmesh(or, sp, sz, nd)
     viz!(plot, mesh,
       color = color,
+      alpha = alpha,
       showfacets = false
     )
 

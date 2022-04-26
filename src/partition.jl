@@ -15,6 +15,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Partition}})
     viz!(plot, subset,
       size         = plot[:size],
       color        = colors[i],
+      alpha        = plot[:alpha],
       facetcolor   = plot[:boundarycolor],
       showfacets   = plot[:showboundary],
       decimation   = plot[:decimation],

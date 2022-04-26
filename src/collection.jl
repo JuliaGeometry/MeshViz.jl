@@ -10,13 +10,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
 
   size         = plot[:size][]
   color        = plot[:color][]
+  alpha        = plot[:alpha][]
   colorscheme  = plot[:colorscheme][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme)
+  colorant = process(color, colorscheme, alpha)
 
   # decimate geometries if needed
   geoms = decimation > 0 ? decimate.(collection, decimation) : collect(collection)
@@ -48,6 +49,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
+      alpha = alpha,
       colorscheme = colorscheme,
       showfacets = false,
     )
@@ -69,6 +71,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
+      alpha = alpha,
       colorscheme = colorscheme,
       showfacets = false,
     )

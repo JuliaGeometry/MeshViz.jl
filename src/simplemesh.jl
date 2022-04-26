@@ -9,12 +9,13 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   mesh = plot[:object][]
 
   color       = plot[:color][]
+  alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
   facetcolor  = plot[:facetcolor][]
   showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme)
+  colorant = process(color, colorscheme, alpha)
 
   # relevant settings
   dim   = embeddim(mesh)
