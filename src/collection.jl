@@ -10,10 +10,13 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
 
   size         = plot[:size][]
   color        = plot[:color][]
-  colormap     = plot[:colormap][]
+  colorscheme  = plot[:colorscheme][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
   decimation   = plot[:decimation][]
+
+  # process color spec into colorant
+  colorant = process(color, colorscheme)
 
   # decimate geometries if needed
   geoms = decimation > 0 ? decimate.(collection, decimation) : collect(collection)
@@ -25,15 +28,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     # visualize point set
     coords = coordinates.(geoms)
     Makie.scatter!(plot, coords,
-      color = color,
-      colormap = colormap,
+      color = colorant,
       markersize = size,
     )
   elseif all(ranks .== 1)
     # split 1D geometries into line segments
     coords = geomsegments(geoms)
     Makie.lines!(plot, coords,
-      color = color,
+      color = colorant,
     )
   elseif all(ranks .== 2)
     # triangulate geometries
@@ -46,7 +48,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
-      colormap = colormap,
+      colorscheme = colorscheme,
       showfacets = false,
     )
     if showfacets
@@ -67,7 +69,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     mesh = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
-      colormap = colormap,
+      colorscheme = colorscheme,
       showfacets = false,
     )
   else # mixed dimension

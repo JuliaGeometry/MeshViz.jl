@@ -18,7 +18,7 @@ import CairoMakie as Mke
   @test_reference "data/pset2D-1.png" viz(p)
   @test_reference "data/pset2D-2.png" viz(p, color = :red)
   @test_reference "data/pset2D-3.png" viz(p, color = 1:4)
-  @test_reference "data/pset2D-4.png" viz(p, color = 1:4, colormap = :inferno)
+  @test_reference "data/pset2D-4.png" viz(p, color = 1:4, colorscheme = :inferno)
 
   # 3D point set
   p = PointSet(Point3[(0.,0.,0.), (1.,0.,0.), (1.,1.,0.), (0.,1.,0.),
@@ -26,7 +26,7 @@ import CairoMakie as Mke
   @test_reference "data/pset3D-1.png" viz(p)
   @test_reference "data/pset3D-2.png" viz(p, color = :red)
   @test_reference "data/pset3D-3.png" viz(p, color = 1:8)
-  @test_reference "data/pset3D-4.png" viz(p, color = 1:8, colormap = :inferno)
+  @test_reference "data/pset3D-4.png" viz(p, color = 1:8, colorscheme = :inferno)
 
   # 1D Cartesian grid
   d = CartesianGrid(10)
@@ -38,7 +38,7 @@ import CairoMakie as Mke
   @test_reference "data/grid2D-2.png" viz(d, showfacets = true)
   @test_reference "data/grid2D-3.png" viz(d, showfacets = true, facetcolor = :red)
   @test_reference "data/grid2D-4.png" viz(d, color = 1:100)
-  @test_reference "data/grid2D-5.png" viz(d, color = 1:100, colormap = :inferno)
+  @test_reference "data/grid2D-5.png" viz(d, color = 1:100, colorscheme = :inferno)
 
   # 3D Cartesian grid
   d = CartesianGrid(10,10,10)
@@ -46,7 +46,7 @@ import CairoMakie as Mke
   @test_reference "data/grid3D-2.png" viz(d, showfacets = true)
   @test_reference "data/grid3D-3.png" viz(d, showfacets = true, facetcolor = :red)
   @test_reference "data/grid3D-4.png" viz(d, color = 1:1000)
-  @test_reference "data/grid3D-5.png" viz(d, color = 1:1000, colormap = :inferno)
+  @test_reference "data/grid3D-5.png" viz(d, color = 1:1000, colorscheme = :inferno)
 
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
@@ -111,7 +111,7 @@ import CairoMakie as Mke
   @test_reference "data/collec2D-2.png" viz(d, showfacets = true)
   @test_reference "data/collec2D-3.png" viz(d, showfacets = true, facetcolor = :red)
   @test_reference "data/collec2D-4.png" viz(d, color = 1:2)
-  @test_reference "data/collec2D-5.png" viz(d, color = 1:2, colormap = :inferno)
+  @test_reference "data/collec2D-5.png" viz(d, color = 1:2, colorscheme = :inferno)
 
   # Simple meshes
   s = Sphere((0.,0.,0.), 1.)
@@ -138,18 +138,18 @@ import CairoMakie as Mke
   p = Point2[(0.,0.), (1.,0.), (1.,1.), (0.,1.)]
   @test_reference "data/points2D-1.png" viz(p)
   @test_reference "data/points2D-2.png" viz(p, color = 1:4)
-  @test_reference "data/points2D-3.png" viz(p, color = 1:4, colormap = :inferno)
+  @test_reference "data/points2D-3.png" viz(p, color = 1:4, colorscheme = :inferno)
   @test_reference "data/points2D-4.png" viz(p, size = 20)
 
   # Data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=1:100,w=1:100))
   @test_reference "data/griddata2D-1.png" viz(d, variable = :z)
   @test_reference "data/griddata2D-2.png" viz(d, variable = :w)
-  @test_reference "data/griddata2D-3.png" viz(d, colormap = :inferno)
+  @test_reference "data/griddata2D-3.png" viz(d, colorscheme = :inferno)
 
   # Data over point set
   p = PointSet(centroid.(CartesianGrid(10,10)))
   d = meshdata(p, etable = (z=1:100,))
   @test_reference "data/psetdata2D-1.png" viz(d)
-  @test_reference "data/psetdata2D-2.png" viz(d, colormap = :inferno)
+  @test_reference "data/psetdata2D-2.png" viz(d, colorscheme = :inferno)
 end
