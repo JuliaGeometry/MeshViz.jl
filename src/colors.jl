@@ -7,10 +7,11 @@ ascolorscheme(name::Symbol) = colorschemes[name]
 ascolorscheme(name::AbstractString) = ascolorscheme(Symbol(name))
 ascolorscheme(scheme) = scheme
 
-# convert value to colorant, optinally using color scheme object
+# convert value to colorant, optionally using color scheme object
 ascolor(value::Symbol, scheme) = ascolor(string(value), scheme)
 ascolor(value::AbstractString, scheme) = parse(Colorant, value)
 ascolor(value::CategoricalValue, scheme) = scheme[levelcode(value)]
+ascolor(value::Missing, scheme) = parse(Colorant, "rgba(0,0,0,0)")
 ascolor(value, scheme) = convert(Colorant, value)
 
 # --------------------------------

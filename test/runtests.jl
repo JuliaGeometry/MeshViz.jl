@@ -205,4 +205,6 @@ import CairoMakie as Mke
   @test_reference "data/values-1.png" viz(d, color = c, colorscheme = :Accent_4)
   c = categorical(rand(1:10, 100))
   @test_reference "data/values-2.png" viz(d, color = c, colorscheme = :BrBG_10)
+  c = [fill(missing, 50); categorical(rand(1:4, 50))]
+  @test_reference "data/values-3.png" viz(d, color = c, colorscheme = :BrBG_4)
 end
