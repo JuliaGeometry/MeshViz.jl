@@ -20,8 +20,26 @@ ascolor(value, scheme) = convert(Colorant, value)
 
 # STEP 1: convert user input to colors
 step1(values, scheme) = ascolor.(values, Ref(scheme))
-step1(numbers::AbstractVector{<:Number}, scheme) =
-  get(scheme, numbers, :extrema)
+function step1(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Missing}}
+  # find indices with invalid and valid numbers
+  isinvalid(v) = ismissing(v) || isnan(v)
+  iinds = findall(isinvalid, numbers)
+  vinds = setdiff(1:length(numbers), iinds)
+
+  # invalid numbers are assigned full transparency
+  icolors = parse(Colorant, "rgba(0,0,0,0)")
+
+  # valid numbers are assigned colors from scheme
+  vnumbers = Number.(numbers[vinds])
+  vcolors  = get(scheme, vnumbers, :extrema)
+
+  # build final vector of colors
+  colors = Vector{Colorant}(undef, length(numbers))
+  colors[iinds] .= icolors
+  colors[vinds] .= vcolors
+
+  colors
+end
 
 # STEP 2: add transparency to colors
 step2(colors, alphas) = coloralpha.(colors, alphas)

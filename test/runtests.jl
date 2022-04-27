@@ -207,4 +207,7 @@ import CairoMakie as Mke
   @test_reference "data/values-2.png" viz(d, color = c, colorscheme = :BrBG_10)
   c = [fill(missing, 50); categorical(rand(1:4, 50))]
   @test_reference "data/values-3.png" viz(d, color = c, colorscheme = :BrBG_4)
+  d = CartesianGrid(2,2)
+  c = [1,missing,3,NaN]
+  @test_reference "data/values-4.png" viz(d, color = c, colorscheme = :Accent_4)
 end
