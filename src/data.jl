@@ -18,16 +18,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
   # select variable to visualize
   var = isnothing(variable) ? first(variables) : variable
 
-  # element color from variable column
-  c = Tables.getcolumn(tab, var)
-
-  # handle categorical values
-  color = eltype(c) <: CategoricalValue ? levelcode.(c) : c
-
   # call recipe for underlying domain
   viz!(plot, dom,
     size          = plot[:size],
-    color         = color,
+    color         = Tables.getcolumn(tab, var),
     alpha         = plot[:alpha][],
     colorscheme   = plot[:colorscheme],
     boundarycolor = plot[:boundarycolor],

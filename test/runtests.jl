@@ -1,6 +1,7 @@
 using MeshViz
 using Meshes
 using GeoTables
+using CategoricalArrays
 using ReferenceTests
 using ImageIO
 using Random
@@ -197,4 +198,11 @@ import CairoMakie as Mke
   @test_reference "data/psetdata2D-2.png" viz(d, colorscheme = :inferno)
   @test_reference "data/psetdata2D-3.png" viz(d, variable = :z, alpha = 0.5)
   @test_reference "data/psetdata2D-4.png" viz(d, variable = :z, colorscheme = :inferno, alpha = 0.5)
+
+  # custom values as colors
+  d = CartesianGrid(10,10)
+  c = categorical(rand(1:4, 100))
+  @test_reference "data/values-1.png" viz(d, color = c, colorscheme = :Accent_4)
+  c = categorical(rand(1:10, 100))
+  @test_reference "data/values-2.png" viz(d, color = c, colorscheme = :BrBG_10)
 end
