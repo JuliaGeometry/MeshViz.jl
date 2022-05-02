@@ -41,7 +41,7 @@ mesh = loadply("dragon.ply")
 
 # for vertex coloring pass a vector of colors
 # with the same length of the number of vertices
-viz(mesh, color = 1:nvertices(mesh), colormap = :Spectral)
+viz(mesh, color = 1:nvertices(mesh), colorscheme = :Spectral)
 ```
 ![dragon](figs/dragon.png)
 
