@@ -59,6 +59,14 @@ import CairoMakie as Mke
   @test_reference "data/grid3D-7.png" viz(d, color = :red, alpha = 0.5)
   @test_reference "data/grid3D-8.png" viz(d, color = 1:1000, alpha = 0.5)
 
+  # 2D chain
+  c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
+  @test_reference "data/chain2D-1.png" viz(c)
+  @test_reference "data/chain2D-2.png" viz(c, color = :orange)
+  c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.), (0.,0.))
+  @test_reference "data/chain2D-3.png" viz(c)
+  @test_reference "data/chain2D-4.png" viz(c, color = :orange)
+
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   @test_reference "data/tri2D-1.png" viz(t)      

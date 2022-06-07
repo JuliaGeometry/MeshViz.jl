@@ -99,11 +99,17 @@ function geomsegments(geoms)
 
   # operate on each chain individually
   verts  = vertices.(chains)
-  coords = [coordinates.(vs) for vs in verts]
-  closed = [[xs; [first(xs)]] for xs in coords]
+  coords = map(1:length(chains)) do i
+    xs = coordinates.(verts[i])
+    if isclosed(chains[i])
+      [xs; [first(xs)]]
+    else
+      xs
+    end
+  end
 
   # join vertices of chains interleaved by special NaN
-  reduce((x,y) -> [x; [nan]; y], closed)
+  reduce((x,y) -> [x; [nan]; y], coords)
 end
 
 # helper function to expand multi-geometries
