@@ -47,6 +47,8 @@ import CairoMakie as Mke
   @test_reference "data/grid2D-6.png" viz(d, color = :red)
   @test_reference "data/grid2D-7.png" viz(d, color = :red, alpha = 0.5)
   @test_reference "data/grid2D-8.png" viz(d, color = 1:100, alpha = 0.5)
+  @test_reference "data/grid2D-9.png" viz(d, color = 1:100, showfacets = true)
+  @test_reference "data/grid2D-10.png" viz(d, color = 1:100, showfacets = true, facetcolor = :red)
 
   # 3D Cartesian grid
   d = CartesianGrid(10,10,10)
@@ -58,6 +60,8 @@ import CairoMakie as Mke
   @test_reference "data/grid3D-6.png" viz(d, color = :red)
   @test_reference "data/grid3D-7.png" viz(d, color = :red, alpha = 0.5)
   @test_reference "data/grid3D-8.png" viz(d, color = 1:1000, alpha = 0.5)
+  @test_reference "data/grid3D-9.png" viz(d, color = 1:1000, showfacets = true)
+  @test_reference "data/grid3D-10.png" viz(d, color = 1:1000, showfacets = true, facetcolor = :red)
 
   # 2D chain
   c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
