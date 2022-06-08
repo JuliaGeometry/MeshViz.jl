@@ -28,10 +28,10 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     xyz = cartesiancenters(or, sp, sz, nd)
     if nd == 2
       xs, ys = xyz
-      xs′ = xs .- sp[1] / 2
-      ys′ = ys .- sp[2] / 2
+      xs⁻ = xs .- sp[1] / 2
+      ys⁻ = ys .- sp[2] / 2
       C   = reshape(colorant, sz)
-      Makie.heatmap!(plot, xs′, ys′, C)
+      Makie.heatmap!(plot, xs⁻, ys⁻, C)
     elseif nd == 3
       xs, ys, zs = xyz
       coords = [(x,y,z) for x in xs for y in ys for z in zs]
