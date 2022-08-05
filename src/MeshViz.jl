@@ -71,6 +71,7 @@ include("cartesiangrid.jl")
 include("collection.jl")
 include("partition.jl")
 include("fallbacks.jl")
+include("optimized.jl")
 
 # data
 include("data.jl")

@@ -195,6 +195,18 @@ import CairoMakie as Mke
   @test_reference "data/geoms2D-5.png" viz(g, color = :red, alpha = 0.5)
   @test_reference "data/geoms2D-6.png" viz(g, color = 1:2, alpha = 0.5)
 
+  # Views of grids (optimized for performance)
+  g = CartesianGrid(10,10)
+  v = view(g, 1:2:100)
+  @test_reference "data/gridview2D-1.png" viz(v)
+  @test_reference "data/gridview2D-2.png" viz(v, color=1:50)
+  @test_reference "data/gridview2D-3.png" viz(v, color=1:50, colorscheme = :inferno)
+  g = CartesianGrid(10,10,10)
+  v = view(g, 1:2:1000)
+  @test_reference "data/gridview3D-1.png" viz(v)
+  @test_reference "data/gridview3D-2.png" viz(v, color=1:500)
+  @test_reference "data/gridview3D-3.png" viz(v, color=1:500, colorscheme = :inferno)
+
   # Data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=1:100,w=1:100))
   @test_reference "data/griddata2D-1.png" viz(d, variable = :z)
@@ -212,12 +224,13 @@ import CairoMakie as Mke
   @test_reference "data/psetdata2D-4.png" viz(d, variable = :z, colorscheme = :inferno, alpha = 0.5)
 
   # custom values as colors
+  rng = MersenneTwister(123)
   d = CartesianGrid(10,10)
-  c = categorical(rand(1:4, 100))
+  c = categorical(rand(rng, 1:4, 100))
   @test_reference "data/values-1.png" viz(d, color = c, colorscheme = :Accent_4)
-  c = categorical(rand(1:10, 100))
+  c = categorical(rand(rng, 1:10, 100))
   @test_reference "data/values-2.png" viz(d, color = c, colorscheme = :BrBG_10)
-  c = [fill(missing, 50); categorical(rand(1:4, 50))]
+  c = [fill(missing, 50); categorical(rand(rng, 1:4, 50))]
   @test_reference "data/values-3.png" viz(d, color = c, colorscheme = :BrBG_4)
   d = CartesianGrid(2,2)
   c = [1,missing,3,NaN]
