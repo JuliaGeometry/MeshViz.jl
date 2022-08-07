@@ -32,7 +32,8 @@ function Makie.plot!(plot::Viz{<:Tuple{GridView}})
   shading = nd == 3
 
   # all geometries are equal, use mesh scatter
-  coords = @. coordinates(centroid(gridview))
+  coord(e) = coordinates(centroid(e))
+  coords = [coord(e) .+ sp/2 for e in gridview]
   Makie.meshscatter!(plot, coords,
     marker = Makie.Rect{nd}(-sp, sp),
     markersize = 1,
