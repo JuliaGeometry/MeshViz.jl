@@ -24,20 +24,24 @@ function Makie.plot!(plot::Viz{<:Tuple{GridView}})
   colorant = process(color, colorscheme, alpha)
 
   # retrieve underlying grid
-  grid = gridview.domain
-  nd   = embeddim(grid)
-  sp   = spacing(grid)
+  grid, _ = unview(gridview)
+  dims    = embeddim(grid)
+  sp      = spacing(grid)
 
   # enable shading in 3D
-  shading = nd == 3
+  shading = dims == 3
 
   # all geometries are equal, use mesh scatter
   coord(e) = coordinates(centroid(e))
   coords = [coord(e) .+ sp/2 for e in gridview]
   Makie.meshscatter!(plot, coords,
-    marker = Makie.Rect{nd}(-sp, sp),
+    marker = Makie.Rect{dims}(-sp, sp),
     markersize = 1,
     color = colorant,
     shading = shading,
   )
+
+  if showfacets
+    # TODO
+  end
 end
