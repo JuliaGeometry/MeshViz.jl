@@ -39,8 +39,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       color = colorant,
     )
   elseif all(ranks .== 2)
-    # triangulate geometries
-    meshes = triangulate.(geoms)
+    # simplexify geometries
+    meshes = simplexify.(geoms)
     colors = if color isa AbstractVector
       [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
     else
