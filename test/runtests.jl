@@ -35,7 +35,8 @@ import CairoMakie as Mke
 
   # 1D Cartesian grid
   d = CartesianGrid(10)
-  # TODO
+  @test_reference "data/grid1D-1.png" viz(d)
+  @test_reference "data/grid1D-2.png" viz(d, color = :red)
 
   # 2D Cartesian grid
   d = CartesianGrid(10,10)
@@ -73,13 +74,13 @@ import CairoMakie as Mke
 
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
-  @test_reference "data/tri2D-1.png" viz(t)      
+  @test_reference "data/tri2D-1.png" viz(t)
   @test_reference "data/tri2D-2.png" viz(t, showboundary = false)
   @test_reference "data/tri2D-3.png" viz(t, color = :orange)
   @test_reference "data/tri2D-4.png" viz(t, color = :cyan, boundarycolor = :red)
   @test_reference "data/tri2D-5.png" viz(t, color = :orange, alpha = 0.5)
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
-  @test_reference "data/quad2D-1.png" viz(q)      
+  @test_reference "data/quad2D-1.png" viz(q)
   @test_reference "data/quad2D-2.png" viz(q, showboundary = false)
   @test_reference "data/quad2D-3.png" viz(q, color = :orange)
   @test_reference "data/quad2D-4.png" viz(q, color = :cyan, boundarycolor = :red)
@@ -124,9 +125,35 @@ import CairoMakie as Mke
 
   # 3D boxes
   b = Box((0.,0.,0.), (1.,1.,1.))
-  @test_reference "data/box3D-1.png" viz(b)      
+  @test_reference "data/box3D-1.png" viz(b)
   @test_reference "data/box3D-2.png" viz(b, color = :orange)
   @test_reference "data/box3D-3.png" viz(b, color = :orange, alpha = 0.5)
+
+  # 2D bezier
+  b = BezierCurve((0.,0.), (1.,0.), (1.,1.))
+  @test_reference "data/bezier2D-1.png" viz(b)
+  @test_reference "data/bezier2D-2.png" viz(b, color = :orange)
+  @test_reference "data/bezier2D-3.png" viz(b, color = :orange, alpha = 0.5)
+
+  # 3D bezier
+  b = BezierCurve((0.,0.,0.), (1.,0.,0.), (1.,1.,1.))
+  @test_reference "data/bezier2D-1.png" viz(b)
+  @test_reference "data/bezier2D-2.png" viz(b, color = :orange)
+  @test_reference "data/bezier2D-3.png" viz(b, color = :orange, alpha = 0.5)
+
+  # 2D balls
+  b = Ball((0.,0.), 1.)
+  @test_reference "data/ball2D-1.png" viz(b)
+  @test_reference "data/ball2D-2.png" viz(b, showboundary = false)
+  @test_reference "data/ball2D-3.png" viz(b, color = :orange)
+  @test_reference "data/ball2D-4.png" viz(b, color = :cyan, boundarycolor = :red)
+  @test_reference "data/ball2D-5.png" viz(b, color = :orange, alpha = 0.5)
+
+  # 2D spheres
+  s = Sphere((0.,0.), 1.)
+  @test_reference "data/sphere2D-1.png" viz(s)
+  @test_reference "data/sphere2D-2.png" viz(s, color = :orange)
+  @test_reference "data/sphere2D-3.png" viz(s, color = :orange, alpha = 0.5)
 
   # 3D spheres
   s = Sphere((0.,0.,0.), 1.)
