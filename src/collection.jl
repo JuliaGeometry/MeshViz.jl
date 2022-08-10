@@ -35,7 +35,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 1)
     # simplexify geometries
     meshes = simplexify.(geoms)
-    coords = meshes2coords(meshes)
+    coords = meshsegments(meshes)
     Makie.lines!(plot, coords,
       color = colorant,
     )
@@ -87,25 +87,4 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds1) || viz!(plot, Collection(geoms[inds1]))
     isempty(inds0) || viz!(plot, Collection(geoms[inds0]))
   end
-end
-
-# helper function to convert meshes of segments
-# into a long list of simple coordinates
-function meshes2coords(meshes)
-  Dim = embeddim(first(meshes))
-  nan = Vec(ntuple(i->NaN, Dim))
-
-  coords = map(meshes) do mesh
-    vert = vertices(mesh)
-    topo = topology(mesh)
-    coords4(topo, vert)
-  end
-
-  reduce((x,y) -> [x; [nan]; y], coords)
-end
-
-function coords4(topo::GridTopology, vert)
-  xs = coordinates.(vert)
-  ip = first(isperiodic(topo))
-  ip ? [xs; [first(xs)]] : xs
 end

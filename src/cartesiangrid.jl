@@ -53,7 +53,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
 
   if showfacets
     # create a minimum number of segments
-    xyz  = cartesiansegments(or, sp, sz, nd)
+    xyz = cartesiansegments(or, sp, sz, nd)
     Makie.lines!(plot, xyz...,
       color = facetcolor
     )
