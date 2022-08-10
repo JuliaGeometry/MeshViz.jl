@@ -33,8 +33,9 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       markersize = size,
     )
   elseif all(ranks .== 1)
-    # split 1D geometries into line segments
-    coords = geomsegments(geoms)
+    # simplexify geometries
+    meshes = simplexify.(geoms)
+    coords = meshes2coords(meshes)
     Makie.lines!(plot, coords,
       color = colorant,
     )
@@ -88,30 +89,23 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   end
 end
 
-# helper function to split 1D geometries
-# such as chains into line segments
-function geomsegments(geoms)
-  Dim = embeddim(first(geoms))
+# helper function to convert meshes of segments
+# into a long list of simple coordinates
+function meshes2coords(meshes)
+  Dim = embeddim(first(meshes))
   nan = Vec(ntuple(i->NaN, Dim))
 
-  # expand multi-chains into vector of chains
-  chains = mapreduce(demulti, vcat, geoms)
-
-  # operate on each chain individually
-  verts  = vertices.(chains)
-  coords = map(1:length(chains)) do i
-    xs = coordinates.(verts[i])
-    if isclosed(chains[i])
-      [xs; [first(xs)]]
-    else
-      xs
-    end
+  coords = map(meshes) do mesh
+    vert = vertices(mesh)
+    topo = topology(mesh)
+    coords4(topo, vert)
   end
 
-  # join vertices of chains interleaved by special NaN
   reduce((x,y) -> [x; [nan]; y], coords)
 end
 
-# helper function to expand multi-geometries
-demulti(m::Multi) = mapreduce(demulti, vcat, m)
-demulti(g) = [g]
+function coords4(topo::GridTopology, vert)
+  xs = coordinates.(vert)
+  ip = first(isperiodic(topo))
+  ip ? [xs; [first(xs)]] : xs
+end
