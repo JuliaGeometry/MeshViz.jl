@@ -137,9 +137,9 @@ import CairoMakie as Mke
 
   # 3D bezier
   b = BezierCurve((0.,0.,0.), (1.,0.,0.), (1.,1.,1.))
-  @test_reference "data/bezier2D-1.png" viz(b)
-  @test_reference "data/bezier2D-2.png" viz(b, color = :orange)
-  @test_reference "data/bezier2D-3.png" viz(b, color = :orange, alpha = 0.5)
+  @test_reference "data/bezier3D-1.png" viz(b)
+  @test_reference "data/bezier3D-2.png" viz(b, color = :orange)
+  @test_reference "data/bezier3D-3.png" viz(b, color = :orange, alpha = 0.5)
 
   # 2D balls
   b = Ball((0.,0.), 1.)
