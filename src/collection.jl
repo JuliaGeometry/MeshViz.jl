@@ -35,12 +35,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 1)
     # simplexify geometries
     meshes = simplexify.(geoms)
-    colors = if color isa AbstractVector
-      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
-    else
-      color
-    end
-    mesh = reduce(merge, meshes)
+    colors = mayberepeat(color, meshes)
+    mesh   = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
       alpha = alpha,
@@ -50,12 +46,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 2)
     # simplexify geometries
     meshes = simplexify.(geoms)
-    colors = if color isa AbstractVector
-      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
-    else
-      color
-    end
-    mesh = reduce(merge, meshes)
+    colors = mayberepeat(color, meshes)
+    mesh   = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
       alpha = alpha,
@@ -72,12 +64,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     end
   elseif all(ranks .== 3)
     meshes = boundary.(geoms)
-    colors = if color isa AbstractVector
-      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
-    else
-      color
-    end
-    mesh = reduce(merge, meshes)
+    colors = mayberepeat(color, meshes)
+    mesh   = reduce(merge, meshes)
     viz!(plot, mesh,
       color = colors,
       alpha = alpha,
@@ -95,4 +83,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds1) || viz!(plot, Collection(geoms[inds1]))
     isempty(inds0) || viz!(plot, Collection(geoms[inds0]))
   end
+end
+
+mayberepeat(color, meshes) = color
+
+function mayberepeat(color::AbstractVector, meshes)
+  [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
 end
