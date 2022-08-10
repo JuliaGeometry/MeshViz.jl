@@ -161,6 +161,22 @@ import CairoMakie as Mke
   @test_reference "data/sphere3D-2.png" viz(s, color = :orange)
   @test_reference "data/sphere3D-3.png" viz(s, color = :orange, alpha = 0.5)
 
+  # cylinders
+  c = Cylinder(1.)
+  @test_reference "data/cylinder3D-1.png" viz(c)
+  @test_reference "data/cylinder3D-2.png" viz(c, color = :orange)
+  @test_reference "data/cylinder3D-3.png" viz(c, color = :orange, alpha = 0.5)
+  c = Cylinder(1., Segment((1.,0.,0.), (1.,1.,1.)))
+  @test_reference "data/cylinder3D-4.png" viz(c)
+  @test_reference "data/cylinder3D-5.png" viz(c, color = :orange)
+  @test_reference "data/cylinder3D-6.png" viz(c, color = :orange, alpha = 0.5)
+
+  # cylinder surface
+  c = CylinderSurface(1., Segment((1.,0.,0.), (1.,1.,1.)))
+  @test_reference "data/cylsurf3D-1.png" viz(c)
+  @test_reference "data/cylsurf3D-2.png" viz(c, color = :orange)
+  @test_reference "data/cylsurf3D-3.png" viz(c, color = :orange, alpha = 0.5)
+
   # Collections of geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
