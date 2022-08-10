@@ -35,7 +35,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 1)
     # simplexify geometries
     meshes = simplexify.(geoms)
-    coords = meshsegments(meshes)
+    coords = meshes2segments(meshes)
     Makie.lines!(plot, coords,
       color = colorant,
     )

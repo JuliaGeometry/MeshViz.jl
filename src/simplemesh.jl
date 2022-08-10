@@ -36,7 +36,7 @@ function viz1D(plot)
   # process color spec into colorant
   colorant = process(color, colorscheme, alpha)
 
-  coords = meshsegments([mesh])
+  coords = meshes2segments([mesh])
   Makie.lines!(plot, coords,
     color = colorant,
   )
@@ -169,20 +169,20 @@ end
 
 # helper function to convert meshes of segments
 # into a long list of floating point coordinates
-function meshsegments(meshes)
+function meshes2segments(meshes)
   Dim = embeddim(first(meshes))
   nan = Vec(ntuple(i->NaN, Dim))
 
   coords = map(meshes) do mesh
     vert = vertices(mesh)
     topo = topology(mesh)
-    coords4(topo, vert)
+    segmentsof(topo, vert)
   end
 
   reduce((x,y) -> [x; [nan]; y], coords)
 end
 
-function coords4(topo::GridTopology, vert)
+function segmentsof(topo::GridTopology, vert)
   xs = coordinates.(vert)
   ip = first(isperiodic(topo))
   ip ? [xs; [first(xs)]] : xs
