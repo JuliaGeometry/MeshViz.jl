@@ -63,7 +63,13 @@ end
 # helper function to create the smallest mesh
 # of simplices covering the Cartesian grid
 function cartesianmesh(or, sp, sz, nd)
-  if nd == 2
+  if nd == 1
+    A = Point2(or[1], 0) + Vec2(0, 0)
+    B = Point2(or[1], 0) + Vec2(sp[1]*sz[1], 0)
+    points = [A, B]
+    topo   = GridTopology(1)
+    SimpleMesh(points, topo)
+  elseif nd == 2
     A = Point2(or) + Vec2(0, 0)
     B = Point2(or) + Vec2(sp[1]*sz[1], 0)
     C = Point2(or) + Vec2(sp[1]*sz[1], sp[2]*sz[2])

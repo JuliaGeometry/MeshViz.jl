@@ -8,6 +8,48 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve mesh object
   mesh = plot[:object][]
 
+  # different recipes for meshes with
+  # 1D, 2D, 3D, ... ND simplices
+  rank = paramdim(mesh)
+  if rank == 1
+    # visualize segments
+    viz1D(plot)
+  elseif rank == 2
+    # visualize triangles
+    viz2D(plot)
+  elseif rank == 3
+    # visualize tetrahedrons
+    viz3D(plot)
+  end
+end
+
+function viz1D(plot)
+  # retrieve mesh object
+  mesh = plot[:object][]
+
+  color       = plot[:color][]
+  alpha       = plot[:alpha][]
+  colorscheme = plot[:colorscheme][]
+  facetcolor  = plot[:facetcolor][]
+  showfacets  = plot[:showfacets][]
+
+  # process color spec into colorant
+  colorant = process(color, colorscheme, alpha)
+
+  coords = meshes2coords([mesh])
+  Makie.lines!(plot, coords,
+    color = colorant,
+  )
+
+  if showfacets
+    # TODO
+  end
+end
+
+function viz2D(plot)
+  # retrieve mesh object
+  mesh = plot[:object][]
+
   color       = plot[:color][]
   alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
@@ -38,8 +80,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   tris = [tri for tris in tris4elem for tri in tris]
 
   # element vs. vertex coloring
-  if color isa AbstractVector
-    ncolor = length(color)
+  if colorant isa AbstractVector
+    ncolor = length(colorant)
     if ncolor == nelem # element coloring
       # duplicate vertices and adjust
       # connectivities to avoid linear
@@ -119,4 +161,8 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
       color = facetcolor,
     )
   end
+end
+
+function viz3D(plot)
+  @error "not implemented"
 end
