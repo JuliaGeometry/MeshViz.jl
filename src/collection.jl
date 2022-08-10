@@ -35,9 +35,17 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 1)
     # simplexify geometries
     meshes = simplexify.(geoms)
-    coords = meshes2segments(meshes)
-    Makie.lines!(plot, coords,
-      color = colorant,
+    colors = if color isa AbstractVector
+      [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
+    else
+      color
+    end
+    mesh = reduce(merge, meshes)
+    viz!(plot, mesh,
+      color = colors,
+      alpha = alpha,
+      colorscheme = colorscheme,
+      showfacets = false,
     )
   elseif all(ranks .== 2)
     # simplexify geometries

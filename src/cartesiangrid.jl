@@ -26,15 +26,31 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   if color isa AbstractVector
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
-    if nd == 2
+    if nd == 1
+      # rely on recipe for simplices
       xs, ys = xyz
-      xs⁻ = xs .- sp[1] / 2
-      ys⁻ = ys .- sp[2] / 2
-      C   = reshape(colorant, sz)
-      Makie.heatmap!(plot, xs⁻, ys⁻, C)
+      xs⁻ = [(xs .- sp[1] / 2); (last(xs) + sp[1] / 2)]
+      ys⁻ = [ys; last(ys)]
+      vert = [Point(x, y) for (x,y) in zip(xs⁻, ys⁻)]
+      topo = topology(grid)
+      mesh = SimpleMesh(collect(vert), topo)
+      viz!(plot, mesh,
+        color = color,
+        alpha = alpha,
+        colorscheme = colorscheme,
+        showfacets = showfacets,
+        facetcolor = facetcolor,
+      )
+    elseif nd == 2
+      xs, ys = xyz
+      C = reshape(colorant, sz)
+      Makie.heatmap!(plot, xs, ys, C)
     elseif nd == 3
       xs, ys, zs = xyz
-      coords = [(x,y,z) for x in xs for y in ys for z in zs]
+      xs⁺ = xs .+ sp[1]/2
+      ys⁺ = ys .+ sp[2]/2
+      zs⁺ = zs .+ sp[3]/2
+      coords = [(x,y,z) for x in xs⁺ for y in ys⁺ for z in zs⁺]
       Makie.meshscatter!(plot, coords,
         marker = Makie.Rect3(-sp, sp),
         markersize = 1,
@@ -147,14 +163,18 @@ end
 # helper function to create the center of
 # the elements of the Cartesian grid
 function cartesiancenters(or, sp, sz, nd)
-  if nd == 2
-    xs = range(or[1]+sp[1], step=sp[1], length=sz[1])
-    ys = range(or[2]+sp[2], step=sp[2], length=sz[2])
+  if nd == 1
+    xs = range(or[1]+sp[1]/2, step=sp[1], length=sz[1])
+    ys = fill(0.0, sz[1])
+    xs, ys
+  elseif nd == 2
+    xs = range(or[1]+sp[1]/2, step=sp[1], length=sz[1])
+    ys = range(or[2]+sp[2]/2, step=sp[2], length=sz[2])
     xs, ys
   elseif nd == 3
-    xs = range(or[1]+sp[1], step=sp[1], length=sz[1])
-    ys = range(or[2]+sp[2], step=sp[2], length=sz[2])
-    zs = range(or[3]+sp[3], step=sp[3], length=sz[3])
+    xs = range(or[1]+sp[1]/2, step=sp[1], length=sz[1])
+    ys = range(or[2]+sp[2]/2, step=sp[2], length=sz[2])
+    zs = range(or[3]+sp[3]/2, step=sp[3], length=sz[3])
     xs, ys, zs
   else
     throw(ErrorException("not implemented"))
