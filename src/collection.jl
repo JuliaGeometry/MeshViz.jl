@@ -67,6 +67,11 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       # nothing to be done
     elseif all(ranks .== 1)
       # all boundaries are point sets
+      points = mapreduce(collect, vcat, bounds)
+      viz!(plot, Collection(points),
+        color = facetcolor,
+        showfacets = false,
+      )
     elseif all(ranks .== 2)
       # all boundaries are geometries
       viz!(plot, Collection(bounds),
