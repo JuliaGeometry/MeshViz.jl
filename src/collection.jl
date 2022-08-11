@@ -25,6 +25,17 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   # retrieve parametric dimension
   ranks = paramdim.(geoms)
 
+  function _viz(meshes)
+    colors = mayberepeat(color, meshes)
+    mesh   = reduce(merge, meshes)
+    viz!(plot, mesh,
+      color = colors,
+      alpha = alpha,
+      colorscheme = colorscheme,
+      showfacets = false,
+    )
+  end
+
   if all(ranks .== 0)
     # visualize point set
     coords = coordinates.(geoms)
@@ -33,45 +44,11 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       markersize = size,
     )
   elseif all(ranks .== 1)
-    # simplexify geometries
-    meshes = simplexify.(geoms)
-    colors = mayberepeat(color, meshes)
-    mesh   = reduce(merge, meshes)
-    viz!(plot, mesh,
-      color = colors,
-      alpha = alpha,
-      colorscheme = colorscheme,
-      showfacets = false,
-    )
+    _viz(simplexify.(geoms))
   elseif all(ranks .== 2)
-    # simplexify geometries
-    meshes = simplexify.(geoms)
-    colors = mayberepeat(color, meshes)
-    mesh   = reduce(merge, meshes)
-    viz!(plot, mesh,
-      color = colors,
-      alpha = alpha,
-      colorscheme = colorscheme,
-      showfacets = false,
-    )
-    if showfacets
-      bounds = filter(!isnothing, boundary.(geoms))
-      if !isempty(bounds)
-        viz!(plot, Collection(bounds),
-          color = facetcolor,
-        )
-      end
-    end
+    _viz(simplexify.(geoms))
   elseif all(ranks .== 3)
-    meshes = boundary.(geoms)
-    colors = mayberepeat(color, meshes)
-    mesh   = reduce(merge, meshes)
-    viz!(plot, mesh,
-      color = colors,
-      alpha = alpha,
-      colorscheme = colorscheme,
-      showfacets = false,
-    )
+    _viz(boundary.(geoms))
   else # mixed dimension
     # visualize subsets of equal rank
     inds3 = findall(g -> paramdim(g) == 3, geoms)
@@ -83,10 +60,28 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds1) || viz!(plot, Collection(geoms[inds1]))
     isempty(inds0) || viz!(plot, Collection(geoms[inds0]))
   end
-end
 
-mayberepeat(color, meshes) = color
+  if showfacets
+    bounds = filter(!isnothing, boundary.(geoms))
+    if isempty(bounds)
+      # nothing to be done
+    elseif all(ranks .== 1)
+      # all boundaries are point sets
+    elseif all(ranks .== 2)
+      # all boundaries are geometries
+      viz!(plot, Collection(bounds),
+        color = facetcolor,
+        showfacets = false,
+      )
+    elseif all(ranks .== 3)
+      # we already visualized the boundaries because
+      # that is all we can do with 3D geometries
+    end
+  end
+end
 
 function mayberepeat(color::AbstractVector, meshes)
   [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
 end
+
+mayberepeat(color, meshes) = color
