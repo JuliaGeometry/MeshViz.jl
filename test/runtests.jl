@@ -227,7 +227,7 @@ import CairoMakie as Mke
   @test_reference "data/points2D-6.png" viz(p, color = :red, alpha = 0.5)
   @test_reference "data/points2D-7.png" viz(p, color = 1:4, alpha = 0.5)
 
-  # Vector of geometries
+  # Vector of 2D geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   g = [t, q]
@@ -237,6 +237,17 @@ import CairoMakie as Mke
   @test_reference "data/geoms2D-4.png" viz(g, color = :red)
   @test_reference "data/geoms2D-5.png" viz(g, color = :red, alpha = 0.5)
   @test_reference "data/geoms2D-6.png" viz(g, color = 1:2, alpha = 0.5)
+
+  # Vector of 3D geometries
+  c1 = Cylinder(2., Segment((0.,0.,0.), (1.,1.,0.)))
+  c2 = Cylinder(1., Segment((2.,2.,0.), (3.,3.,0.)))
+  g  = [c1, c2]
+  @test_reference "data/geoms3D-1.png" viz(g)
+  @test_reference "data/geoms3D-2.png" viz(g, color = 1:2)
+  @test_reference "data/geoms3D-3.png" viz(g, color = 1:2, colorscheme = :inferno)
+  @test_reference "data/geoms3D-4.png" viz(g, color = :red)
+  @test_reference "data/geoms3D-5.png" viz(g, color = :red, alpha = 0.5)
+  @test_reference "data/geoms3D-6.png" viz(g, color = 1:2, alpha = 0.5)
 
   # Views of grids (optimized for performance)
   g = CartesianGrid(10,10)

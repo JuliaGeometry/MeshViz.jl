@@ -48,7 +48,8 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   elseif all(ranks .== 2)
     _viz(simplexify.(geoms))
   elseif all(ranks .== 3)
-    _viz(boundary.(geoms))
+    bounds = boundary.(geoms)
+    _viz(simplexify.(bounds))
   else # mixed dimension
     # visualize subsets of equal rank
     inds3 = findall(g -> paramdim(g) == 3, geoms)
