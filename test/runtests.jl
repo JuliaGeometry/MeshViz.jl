@@ -189,19 +189,34 @@ import CairoMakie as Mke
   @test_reference "data/collec2D-6.png" viz(d, color = [:red,:green], alpha = 0.5)
   @test_reference "data/collec2D-7.png" viz(d, color = 1:2, alpha = 0.5)
 
-  # Simple meshes
+  # surface meshes
   s = Sphere((0.,0.,0.), 1.)
   m = discretize(s, RegularDiscretization(10))
   nv = nvertices(m)
   ne = nelements(m)
-  @test_reference "data/mesh3D-1.png" viz(m)
-  @test_reference "data/mesh3D-2.png" viz(m, color = 1:nv)
-  @test_reference "data/mesh3D-3.png" viz(m, color = 1:ne)
-  @test_reference "data/mesh3D-4.png" viz(m, color = 1:ne, showfacets = true)
-  @test_reference "data/mesh3D-5.png" viz(m, color = :orange, showfacets = true, facetcolor = :cyan)
-  @test_reference "data/mesh3D-6.png" viz(m, color = :orange, alpha = 0.5)
-  @test_reference "data/mesh3D-7.png" viz(m, color = 1:ne, alpha = 0.5)
-  @test_reference "data/mesh3D-8.png" viz(m, color = 1:ne, alpha = range(0.1, 1.0, length=ne))
+  @test_reference "data/surf3D-1.png" viz(m)
+  @test_reference "data/surf3D-2.png" viz(m, color = 1:nv)
+  @test_reference "data/surf3D-3.png" viz(m, color = 1:ne)
+  @test_reference "data/surf3D-4.png" viz(m, color = 1:ne, showfacets = true)
+  @test_reference "data/surf3D-5.png" viz(m, color = :orange, showfacets = true, facetcolor = :cyan)
+  @test_reference "data/surf3D-6.png" viz(m, color = :orange, alpha = 0.5)
+  @test_reference "data/surf3D-7.png" viz(m, color = 1:ne, alpha = 0.5)
+  @test_reference "data/surf3D-8.png" viz(m, color = 1:ne, alpha = range(0.1, 1.0, length=ne))
+
+  # volume meshes
+  g = CartesianGrid(10,10,10)
+  v = vertices(g)
+  e = collect(elements(topology(g)))
+  m = SimpleMesh(v, e)
+  nv = nvertices(m)
+  ne = nelements(m)
+  @test_reference "data/vol3D-1.png" viz(m)
+  @test_reference "data/vol3D-2.png" viz(m, color = 1:nv)
+  @test_reference "data/vol3D-3.png" viz(m, color = 1:ne)
+  @test_reference "data/vol3D-4.png" viz(m, color = :orange)
+  @test_reference "data/vol3D-5.png" viz(m, color = :orange, alpha = 0.5)
+  @test_reference "data/vol3D-6.png" viz(m, color = 1:ne, alpha = 0.5)
+  @test_reference "data/vol3D-7.png" viz(m, color = 1:ne, alpha = range(0.1, 1.0, length=ne))
 
   # 2D partitions
   Random.seed!(2020)

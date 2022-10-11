@@ -7,26 +7,23 @@ Makie.plottype(::SimpleMesh) = Viz{<:Tuple{SimpleMesh}}
 function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # retrieve mesh object
   mesh = plot[:object][]
+  rank = paramdim(mesh)
 
   # different recipes for meshes with
   # 1D, 2D, 3D, ... ND simplices
-  rank = paramdim(mesh)
   if rank == 1
     # visualize segments
-    viz1D(plot)
+    viz1D!(plot, mesh)
   elseif rank == 2
-    # visualize triangles
-    viz2D(plot)
+    # visualize polygons
+    viz2D!(plot, mesh)
   elseif rank == 3
-    # visualize tetrahedrons
-    viz3D(plot)
+    # visualize polyhedra
+    viz3D!(plot, mesh)
   end
 end
 
-function viz1D(plot)
-  # retrieve mesh object
-  mesh = plot[:object][]
-
+function viz1D!(plot, mesh)
   color       = plot[:color][]
   alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
@@ -51,10 +48,7 @@ function viz1D(plot)
   end
 end
 
-function viz2D(plot)
-  # retrieve mesh object
-  mesh = plot[:object][]
-
+function viz2D!(plot, mesh)
   color       = plot[:color][]
   alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
@@ -168,8 +162,18 @@ function viz2D(plot)
   end
 end
 
-function viz3D(plot)
-  @error "not implemented"
+function viz3D!(plot, mesh)
+  color       = plot[:color][]
+  alpha       = plot[:alpha][]
+  colorscheme = plot[:colorscheme][]
+
+  geoms  = elements(mesh)
+  bounds = boundary.(geoms)
+  meshes = simplexify.(bounds)
+  vizmany!(plot, meshes,
+    color, alpha,
+    colorscheme
+  )
 end
 
 function segmentsof(topo, vert)

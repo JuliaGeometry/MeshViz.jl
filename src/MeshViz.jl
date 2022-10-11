@@ -65,6 +65,9 @@ end
 # color handling
 include("colors.jl")
 
+# utilities
+include("utils.jl")
+
 # domain
 include("simplemesh.jl")
 include("cartesiangrid.jl")

@@ -25,17 +25,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   # retrieve parametric dimension
   ranks = paramdim.(geoms)
 
-  function _viz(meshes)
-    colors = mayberepeat(color, meshes)
-    mesh   = reduce(merge, meshes)
-    viz!(plot, mesh,
-      color = colors,
-      alpha = alpha,
-      colorscheme = colorscheme,
-      showfacets = false,
-    )
-  end
-
   if all(ranks .== 0)
     # visualize point set
     coords = coordinates.(geoms)
@@ -44,12 +33,15 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       markersize = size,
     )
   elseif all(ranks .== 1)
-    _viz(simplexify.(geoms))
+    vizmany!(plot, simplexify.(geoms),
+             color, alpha, colorscheme)
   elseif all(ranks .== 2)
-    _viz(simplexify.(geoms))
+    vizmany!(plot, simplexify.(geoms),
+             color, alpha, colorscheme)
   elseif all(ranks .== 3)
     bounds = boundary.(geoms)
-    _viz(simplexify.(bounds))
+    vizmany!(plot, simplexify.(bounds),
+             color, alpha, colorscheme)
   else # mixed dimension
     # visualize subsets of equal rank
     inds3 = findall(g -> paramdim(g) == 3, geoms)
@@ -85,9 +77,3 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     end
   end
 end
-
-function mayberepeat(color::AbstractVector, meshes)
-  [color[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
-end
-
-mayberepeat(color, meshes) = color
