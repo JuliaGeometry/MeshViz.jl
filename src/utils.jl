@@ -8,10 +8,15 @@ end
 
 mayberepeat(value, meshes) = value
 
-function vizmany!(plot, meshes, color, alpha, colorscheme)
+function vizmany!(plot, meshes)
+  color       = plot[:color][]
+  alpha       = plot[:alpha][]
+  colorscheme = plot[:colorscheme][]
+
   mesh   = reduce(merge, meshes)
   colors = mayberepeat(color, meshes)
   alphas = mayberepeat(alpha, meshes)
+
   viz!(plot, mesh,
     color = colors,
     alpha = alphas,

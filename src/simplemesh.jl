@@ -163,17 +163,10 @@ function viz2D!(plot, mesh)
 end
 
 function viz3D!(plot, mesh)
-  color       = plot[:color][]
-  alpha       = plot[:alpha][]
-  colorscheme = plot[:colorscheme][]
-
   geoms  = elements(mesh)
   bounds = boundary.(geoms)
   meshes = simplexify.(bounds)
-  vizmany!(plot, meshes,
-    color, alpha,
-    colorscheme
-  )
+  vizmany!(plot, meshes)
 end
 
 function segmentsof(topo, vert)
