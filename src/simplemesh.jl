@@ -165,7 +165,7 @@ end
 function viz3D!(plot, mesh)
   geoms  = elements(mesh)
   bounds = boundary.(geoms)
-  meshes = simplexify.(bounds)
+  meshes = discretize.(bounds)
   vizmany!(plot, meshes)
 end
 

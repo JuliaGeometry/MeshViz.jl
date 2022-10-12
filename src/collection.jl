@@ -33,12 +33,12 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       markersize = size,
     )
   elseif all(ranks .== 1)
-    vizmany!(plot, simplexify.(geoms))
+    vizmany!(plot, discretize.(geoms))
   elseif all(ranks .== 2)
-    vizmany!(plot, simplexify.(geoms))
+    vizmany!(plot, discretize.(geoms))
   elseif all(ranks .== 3)
     bounds = boundary.(geoms)
-    vizmany!(plot, simplexify.(bounds))
+    vizmany!(plot, discretize.(bounds))
   else # mixed dimension
     # visualize subsets of equal rank
     inds3 = findall(g -> paramdim(g) == 3, geoms)

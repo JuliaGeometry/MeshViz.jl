@@ -25,9 +25,7 @@ Visualize Meshes.jl `object` with various options:
 * `color`         - color of geometries or points
 * `alpha`         - transparency channel in [0,1]
 * `colorscheme`   - color scheme from ColorSchemes.jl
-* `boundarycolor` - color of the boundary (e.g. segments)
 * `facetcolor`    - color of the facets (e.g. edges)
-* `showboundary`  - tells whether or not to show the boundary
 * `showfacets`    - tells whether or not to show the facets
 * `variable`      - informs which variable to visualize
 * `decimation`    - decimation tolerance for polygons
@@ -53,9 +51,7 @@ viz(mesh, color = 1:nelements(mesh))
     color         = :slategray3,
     alpha         = 1.0,
     colorscheme   = :viridis,
-    boundarycolor = :gray30,
     facetcolor    = :gray30,
-    showboundary  = true,
     showfacets    = false,
     variable      = nothing,
     decimation    = 0.0,

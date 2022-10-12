@@ -75,24 +75,24 @@ import CairoMakie as Mke
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   @test_reference "data/tri2D-1.png" viz(t)
-  @test_reference "data/tri2D-2.png" viz(t, showboundary = false)
+  @test_reference "data/tri2D-2.png" viz(t, showfacets = true)
   @test_reference "data/tri2D-3.png" viz(t, color = :orange)
-  @test_reference "data/tri2D-4.png" viz(t, color = :cyan, boundarycolor = :red)
+  @test_reference "data/tri2D-4.png" viz(t, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/tri2D-5.png" viz(t, color = :orange, alpha = 0.5)
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   @test_reference "data/quad2D-1.png" viz(q)
-  @test_reference "data/quad2D-2.png" viz(q, showboundary = false)
+  @test_reference "data/quad2D-2.png" viz(q, showfacets = true)
   @test_reference "data/quad2D-3.png" viz(q, color = :orange)
-  @test_reference "data/quad2D-4.png" viz(q, color = :cyan, boundarycolor = :red)
+  @test_reference "data/quad2D-4.png" viz(q, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/quad2D-5.png" viz(q, color = :orange, alpha = 0.5)
 
   # 3D N-gons
   o = Octagon([(0.0,0.0,1.0), (0.5,-0.5,0.0), (1.0,0.0,0.0), (1.5,0.5,-0.5),
                (1.0,1.0,0.0), (0.5,1.5,0.0), (0.0,1.0,0.0), (-0.5,0.5,0.0)])
   @test_reference "data/oct3D-1.png" viz(o)
-  @test_reference "data/oct3D-2.png" viz(o, showboundary = false)
+  @test_reference "data/oct3D-2.png" viz(o, showfacets = true)
   @test_reference "data/oct3D-3.png" viz(o, color = :orange)
-  @test_reference "data/oct3D-4.png" viz(o, color = :cyan, boundarycolor = :red)
+  @test_reference "data/oct3D-4.png" viz(o, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/oct3D-5.png" viz(o, color = :orange, alpha = 0.5)
 
   # Polygonal areas
@@ -100,9 +100,9 @@ import CairoMakie as Mke
   p = PolyArea((0.,0.), (0.5,-1.5), (1.,0.), (1.5,0.5),
                (1.,1.), (0.5,1.5), (-0.5,0.5), (0.,0.))
   @test_reference "data/poly2D-1.png" viz(p)      
-  @test_reference "data/poly2D-2.png" viz(p, showboundary = false)
+  @test_reference "data/poly2D-2.png" viz(p, showfacets = true)
   @test_reference "data/poly2D-3.png" viz(p, color = :orange)
-  @test_reference "data/poly2D-4.png" viz(p, color = :cyan, boundarycolor = :red)
+  @test_reference "data/poly2D-4.png" viz(p, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/poly2D-5.png" viz(p, color = :orange, alpha = 0.5)
 
   # Multi-geometries
@@ -110,17 +110,17 @@ import CairoMakie as Mke
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   m = Multi([t, q])
   @test_reference "data/multi2D-1.png" viz(m)      
-  @test_reference "data/multi2D-2.png" viz(m, showboundary = false)
+  @test_reference "data/multi2D-2.png" viz(m, showfacets = true)
   @test_reference "data/multi2D-3.png" viz(m, color = :orange)
-  @test_reference "data/multi2D-4.png" viz(m, color = :cyan, boundarycolor = :red)
+  @test_reference "data/multi2D-4.png" viz(m, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/multi2D-5.png" viz(m, color = :orange, alpha = 0.5)
 
   # 2D boxes
   b = Box((0.,0.), (1.,1.))
   @test_reference "data/box2D-1.png" viz(b)      
-  @test_reference "data/box2D-2.png" viz(b, showboundary = false)
+  @test_reference "data/box2D-2.png" viz(b, showfacets = true)
   @test_reference "data/box2D-3.png" viz(b, color = :orange)
-  @test_reference "data/box2D-4.png" viz(b, color = :cyan, boundarycolor = :red)
+  @test_reference "data/box2D-4.png" viz(b, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/box2D-5.png" viz(b, color = :orange, alpha = 0.5)
 
   # 3D boxes
@@ -144,9 +144,9 @@ import CairoMakie as Mke
   # 2D balls
   b = Ball((0.,0.), 1.)
   @test_reference "data/ball2D-1.png" viz(b)
-  @test_reference "data/ball2D-2.png" viz(b, showboundary = false)
+  @test_reference "data/ball2D-2.png" viz(b, showfacets = true)
   @test_reference "data/ball2D-3.png" viz(b, color = :orange)
-  @test_reference "data/ball2D-4.png" viz(b, color = :cyan, boundarycolor = :red)
+  @test_reference "data/ball2D-4.png" viz(b, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/ball2D-5.png" viz(b, color = :orange, alpha = 0.5)
 
   # 2D spheres
@@ -252,6 +252,7 @@ import CairoMakie as Mke
   @test_reference "data/geoms2D-4.png" viz(g, color = :red)
   @test_reference "data/geoms2D-5.png" viz(g, color = :red, alpha = 0.5)
   @test_reference "data/geoms2D-6.png" viz(g, color = 1:2, alpha = 0.5)
+  @test_reference "data/geoms2D-7.png" viz(g, showfacets = true, facetcolor = :red)
 
   # Vector of 3D geometries
   c1 = Cylinder(2., Segment((0.,0.,0.), (1.,1.,0.)))

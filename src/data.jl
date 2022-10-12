@@ -24,9 +24,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Data}})
     color         = Tables.getcolumn(tab, var),
     alpha         = plot[:alpha][],
     colorscheme   = plot[:colorscheme],
-    boundarycolor = plot[:boundarycolor],
     facetcolor    = plot[:facetcolor],
-    showboundary  = plot[:showboundary],
     showfacets    = plot[:showfacets],
     decimation    = plot[:decimation],
   )
