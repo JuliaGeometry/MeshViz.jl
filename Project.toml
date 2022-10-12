@@ -1,7 +1,7 @@
 name = "MeshViz"
 uuid = "9ecf9c4f-6e5a-4b5e-83ae-06f2c7a661d8"
 authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com> and contributors"]
-version = "0.5.4"
+version = "0.6.0"
 
 [deps]
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
@@ -15,7 +15,7 @@ Tables = "bd369af6-aec1-5ad0-b16a-f7cc5008161c"
 CategoricalArrays = "0.10"
 ColorSchemes = "3.17"
 Colors = "0.12"
-Makie = "0.15, 0.16, 0.17"
+Makie = "0.17"
 Meshes = "0.25.9"
 Tables = "1.4"
 julia = "1.6"
