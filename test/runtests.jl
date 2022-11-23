@@ -177,7 +177,7 @@ import CairoMakie as Mke
   @test_reference "data/cylsurf3D-2.png" viz(c, color = :orange)
   @test_reference "data/cylsurf3D-3.png" viz(c, color = :orange, alpha = 0.5)
 
-  # Collections of geometries
+  # collections of geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   d = Collection([t, q])
@@ -232,7 +232,7 @@ import CairoMakie as Mke
   @test_reference "data/part3D-1.png" viz(p)
   @test_reference "data/part3D-2.png" viz(p, alpha = 0.5)
 
-  # Vector of points
+  # vector of points
   p = Point2[(0.,0.), (1.,0.), (1.,1.), (0.,1.)]
   @test_reference "data/points2D-1.png" viz(p)
   @test_reference "data/points2D-2.png" viz(p, color = 1:4)
@@ -242,7 +242,7 @@ import CairoMakie as Mke
   @test_reference "data/points2D-6.png" viz(p, color = :red, alpha = 0.5)
   @test_reference "data/points2D-7.png" viz(p, color = 1:4, alpha = 0.5)
 
-  # Vector of 2D geometries
+  # vector of 2D geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   g = [t, q]
@@ -254,7 +254,7 @@ import CairoMakie as Mke
   @test_reference "data/geoms2D-6.png" viz(g, color = 1:2, alpha = 0.5)
   @test_reference "data/geoms2D-7.png" viz(g, showfacets = true, facetcolor = :red)
 
-  # Vector of 3D geometries
+  # vector of 3D geometries
   c1 = Cylinder(2., Segment((0.,0.,0.), (1.,1.,0.)))
   c2 = Cylinder(1., Segment((2.,2.,0.), (3.,3.,0.)))
   g  = [c1, c2]
@@ -265,7 +265,7 @@ import CairoMakie as Mke
   @test_reference "data/geoms3D-5.png" viz(g, color = :red, alpha = 0.5)
   @test_reference "data/geoms3D-6.png" viz(g, color = 1:2, alpha = 0.5)
 
-  # Views of grids (optimized for performance)
+  # views of grids (optimized for performance)
   g = CartesianGrid(10,10)
   v = view(g, 1:2:100)
   @test_reference "data/gridview2D-1.png" viz(v)
@@ -277,7 +277,7 @@ import CairoMakie as Mke
   @test_reference "data/gridview3D-2.png" viz(v, color=1:500)
   @test_reference "data/gridview3D-3.png" viz(v, color=1:500, colorscheme = :inferno)
 
-  # Data over grid
+  # data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=1:100,w=1:100))
   @test_reference "data/griddata2D-1.png" viz(d, variable = :z)
   @test_reference "data/griddata2D-2.png" viz(d, variable = :w)
@@ -285,7 +285,7 @@ import CairoMakie as Mke
   @test_reference "data/griddata2D-4.png" viz(d, variable = :z, alpha = 0.5)
   @test_reference "data/griddata2D-5.png" viz(d, variable = :z, colorscheme = :inferno, alpha = 0.5)
 
-  # Data over point set
+  # data over point set
   p = PointSet(centroid.(CartesianGrid(10,10)))
   d = meshdata(p, etable = (z=1:100,))
   @test_reference "data/psetdata2D-1.png" viz(d)

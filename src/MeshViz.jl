@@ -7,10 +7,13 @@ module MeshViz
 using Meshes
 using Tables
 
+using ScientificTypes
+
 using CategoricalArrays: CategoricalValue
 using CategoricalArrays: levelcode
 
-using Colors: Colorant, coloralpha
+using Colors: Colorant
+using Colors: protanopic, coloralpha
 using Colors: distinguishable_colors
 using ColorSchemes: colorschemes
 
@@ -50,7 +53,7 @@ viz(mesh, color = 1:nelements(mesh))
     size          = Makie.theme(scene, :markersize),
     color         = :slategray3,
     alpha         = 1.0,
-    colorscheme   = :viridis,
+    colorscheme   = nothing,
     facetcolor    = :gray30,
     showfacets    = false,
     variable      = nothing,

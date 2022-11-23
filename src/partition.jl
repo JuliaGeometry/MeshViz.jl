@@ -8,7 +8,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Partition}})
   # retrieve partition object
   partition = plot[:object][]
 
-  colors = distinguishable_colors(length(partition))
+  colors = distinguishable_colors(length(partition), transform=protanopic)
 
   for (i, subset) in Iterators.enumerate(partition)
     # fallback to collection recipe
