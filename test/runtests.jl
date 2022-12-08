@@ -189,6 +189,20 @@ import CairoMakie as Mke
   @test_reference "data/collec2D-6.png" viz(d, color = [:red,:green], alpha = 0.5)
   @test_reference "data/collec2D-7.png" viz(d, color = 1:2, alpha = 0.5)
 
+  # collections of multi-3D-geometries
+  b1 = Box((0.,0.,0.), (1.,1.,1.))
+  b2 = Box((2.,1.,0.), (3.,2.,1.))
+  s1 = Ball((3.,0.,3.), 1.)
+  s2 = Ball((-1.,0.,-1.), 1.)
+  m1 = Multi([b1, b2])
+  m2 = Multi([s1, s2])
+  d = Collection([m1, m2])
+  @test_reference "data/collec3D-1.png" viz(d)
+  @test_reference "data/collec3D-2.png" viz(d, color = 1:2)
+  @test_reference "data/collec3D-3.png" viz(d, color = 1:2, colorscheme = :inferno)
+  @test_reference "data/collec3D-4.png" viz(d, color = [:red,:green], alpha = 0.5)
+  @test_reference "data/collec3D-5.png" viz(d, color = 1:2, alpha = 0.5)
+
   # surface meshes
   s = Sphere((0.,0.,0.), 1.)
   m = discretize(s, RegularDiscretization(10))
