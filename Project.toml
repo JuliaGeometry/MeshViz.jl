@@ -1,7 +1,7 @@
 name = "MeshViz"
 uuid = "9ecf9c4f-6e5a-4b5e-83ae-06f2c7a661d8"
 authors = ["Júlio Hoffimann <julio.hoffimann@gmail.com> and contributors"]
-version = "0.6.4"
+version = "0.7.0"
 
 [deps]
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
