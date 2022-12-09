@@ -29,13 +29,13 @@ defaultscheme(::Type{OrderedFactor{N}}) where {N} =
 # --------------------------------
 
 # STEP 0: find adequate color scheme for values
-step0(values::AbstractVector, scheme) =
+getscheme(values::AbstractVector, scheme) =
   isnothing(scheme) ? defaultscheme(values) : scheme
-step0(value, scheme) = scheme
+getscheme(value, scheme) = scheme
 
 # STEP 1: convert user input to colors
-step1(values, scheme) = ascolor.(values, Ref(scheme))
-function step1(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Missing}}
+tocolors(values, scheme) = ascolor.(values, Ref(scheme))
+function tocolors(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Missing}}
   # find indices with invalid and valid numbers
   isinvalid(v) = ismissing(v) || isnan(v)
   iinds = findall(isinvalid, numbers)
@@ -57,11 +57,11 @@ function step1(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Missin
 end
 
 # STEP 2: add transparency to colors
-step2(colors, alphas) = coloralpha.(colors, alphas)
-step2(colors, alpha::Number) = coloralpha.(colors, Ref(alpha))
+setalpha(colors, alphas) = coloralpha.(colors, alphas)
+setalpha(colors, alpha::Number) = coloralpha.(colors, Ref(alpha))
 
 function process(values, scheme, alphas)
-  scheme = step0(values, scheme)
-  colors = step1(values, ascolorscheme(scheme))
-  step2(colors, alphas)
+  scheme = getscheme(values, scheme) |> ascolorscheme
+  colors = tocolors(values, scheme)
+  setalpha(colors, alphas)
 end
