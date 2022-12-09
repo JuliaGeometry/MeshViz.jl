@@ -17,8 +17,6 @@ function Makie.plot!(plot::Viz{<:Tuple{GridView}})
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor][]
-  showfacets   = plot[:showfacets][]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -40,8 +38,4 @@ function Makie.plot!(plot::Viz{<:Tuple{GridView}})
     color = colorant,
     shading = shading,
   )
-
-  if showfacets
-    # TODO
-  end
 end

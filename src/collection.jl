@@ -8,19 +8,19 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   # retrieve collection object
   collection = plot[:object][]
 
-  size         = plot[:size][]
+  size         = plot[:size]
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor][]
-  showfacets   = plot[:showfacets][]
-  decimation   = plot[:decimation][]
+  facetcolor   = plot[:facetcolor]
+  showfacets   = plot[:showfacets]
+  decimation   = plot[:decimation]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
   # decimate geometries if needed
-  geoms = decimation > 0 ? decimate.(collection, decimation) : collect(collection)
+  geoms = decimation[] > 0 ? decimate.(collection, decimation[]) : collect(collection)
 
   # retrieve parametric dimension
   ranks = paramdim.(geoms)
@@ -51,7 +51,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds0) || viz!(plot, Collection(geoms[inds0]))
   end
 
-  if showfacets
+  if showfacets[]
     bounds = filter(!isnothing, boundary.(geoms))
     if isempty(bounds)
       # nothing to be done

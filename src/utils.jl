@@ -2,9 +2,8 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-function mayberepeat(value::AbstractVector, meshes)
+mayberepeat(value::AbstractVector, meshes) =
   [value[e] for (e, mesh) in enumerate(meshes) for _ in 1:nelements(mesh)]
-end
 
 mayberepeat(value, meshes) = value
 

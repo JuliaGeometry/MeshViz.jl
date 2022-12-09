@@ -27,8 +27,6 @@ function viz1D!(plot, mesh)
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
-  facetcolor  = plot[:facetcolor][]
-  showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -42,18 +40,14 @@ function viz1D!(plot, mesh)
   Makie.lines!(plot, coords,
     color = colorant,
   )
-
-  if showfacets
-    # TODO
-  end
 end
 
 function viz2D!(plot, mesh)
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
-  facetcolor  = plot[:facetcolor][]
-  showfacets  = plot[:showfacets][]
+  facetcolor  = plot[:facetcolor]
+  showfacets  = plot[:showfacets]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -133,7 +127,7 @@ function viz2D!(plot, mesh)
     shading = shading, 
   )
 
-  if showfacets
+  if showfacets[]
     # use a sophisticated data structure
     # to extract the edges from the n-gons
     t = convert(HalfEdgeTopology, topo)

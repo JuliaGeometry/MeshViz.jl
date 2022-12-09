@@ -11,8 +11,8 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor][]
-  showfacets   = plot[:showfacets][]
+  facetcolor   = plot[:facetcolor]
+  showfacets   = plot[:showfacets]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -67,7 +67,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     )
   end
 
-  if showfacets
+  if showfacets[]
     # create a minimum number of segments
     xyz = cartesiansegments(or, sp, sz, nd)
     Makie.lines!(plot, xyz...,
