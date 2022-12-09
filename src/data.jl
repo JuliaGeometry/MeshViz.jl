@@ -2,30 +2,24 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-Makie.plottype(::Data) = Viz{<:Tuple{Data}}
-
-function Makie.plot!(plot::Viz{<:Tuple{Data}})
-  # retrieve data and variable
-  data     = plot[:object][]
-  variable = plot[:variable][]
-
+function viewer(data::Data; kwargs...)
   # retrieve domain and element table
   dom, tab = domain(data), values(data)
 
   # list of all variables
-  variables = Tables.columnnames(tab)
+  cols = Tables.columns(tab)
+  vars = Tables.columnnames(cols)
 
-  # select variable to visualize
-  var = isnothing(variable) ? first(variables) : variable
+  # initialize visualization
+  fig    = Makie.Figure()
+  label  = Makie.Label(fig[1,1], "VARIABLE")
+  menu   = Makie.Menu(fig[1,2], options = collect(vars))
+  color  = Makie.@lift Tables.getcolumn(cols, $(menu.selection))
+  viz(fig[2,:], dom; color = color, kwargs...)
 
-  # call recipe for underlying domain
-  viz!(plot, dom,
-    size          = plot[:size],
-    color         = Tables.getcolumn(tab, var),
-    alpha         = plot[:alpha][],
-    colorscheme   = plot[:colorscheme],
-    facetcolor    = plot[:facetcolor],
-    showfacets    = plot[:showfacets],
-    decimation    = plot[:decimation],
-  )
+  Makie.on(menu.selection) do var
+    color[] = Tables.getcolumn(cols, var)
+  end
+
+  fig
 end

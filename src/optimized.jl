@@ -14,14 +14,14 @@ function Makie.plot!(plot::Viz{<:Tuple{GridView}})
   # retrieve grid view object
   gridview = plot[:object][]
 
-  color        = plot[:color][]
+  color        = plot[:color]
   alpha        = plot[:alpha][]
   colorscheme  = plot[:colorscheme][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, colorscheme, alpha)
 
   # retrieve underlying grid
   grid, _ = unview(gridview)

@@ -24,14 +24,14 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
 end
 
 function viz1D!(plot, mesh)
-  color       = plot[:color][]
+  color       = plot[:color]
   alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
   facetcolor  = plot[:facetcolor][]
   showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, colorscheme, alpha)
 
   # retrieve vertices and topology
   vert = vertices(mesh)
@@ -49,14 +49,14 @@ function viz1D!(plot, mesh)
 end
 
 function viz2D!(plot, mesh)
-  color       = plot[:color][]
+  color       = plot[:color]
   alpha       = plot[:alpha][]
   colorscheme = plot[:colorscheme][]
   facetcolor  = plot[:facetcolor][]
   showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, colorscheme, alpha)
 
   # relevant settings
   dim   = embeddim(mesh)
@@ -79,8 +79,8 @@ function viz2D!(plot, mesh)
   tris = [tri for tris in tris4elem for tri in tris]
 
   # element vs. vertex coloring
-  if colorant isa AbstractVector
-    ncolor = length(colorant)
+  if colorant[] isa AbstractVector
+    ncolor = length(colorant[])
     if ncolor == nelem # element coloring
       # duplicate vertices and adjust
       # connectivities to avoid linear
@@ -100,7 +100,7 @@ function viz2D!(plot, mesh)
       tcolors = map(1:nv) do i
         t = ceil(Int, i/3)
         e = elem4tri[t]
-        colorant[e]
+        colorant[][e]
       end
     elseif ncolor == nvert # vertex coloring
       # nothing needs to be done because

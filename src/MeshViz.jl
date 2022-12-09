@@ -30,7 +30,6 @@ Visualize Meshes.jl `object` with various options:
 * `colorscheme`   - color scheme from ColorSchemes.jl
 * `facetcolor`    - color of the facets (e.g. edges)
 * `showfacets`    - tells whether or not to show the facets
-* `variable`      - informs which variable to visualize
 * `decimation`    - decimation tolerance for polygons
 
 The option `color` can be a single scalar or a vector
@@ -56,7 +55,6 @@ viz(mesh, color = 1:nelements(mesh))
     colorscheme   = nothing,
     facetcolor    = :gray30,
     showfacets    = false,
-    variable      = nothing,
     decimation    = 0.0,
   )
 end
@@ -77,5 +75,7 @@ include("optimized.jl")
 
 # data
 include("data.jl")
+
+export viewer
 
 end

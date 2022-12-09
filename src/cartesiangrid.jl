@@ -8,14 +8,14 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   # retrieve grid object
   grid = plot[:object][]
 
-  color        = plot[:color][]
+  color        = plot[:color]
   alpha        = plot[:alpha][]
   colorscheme  = plot[:colorscheme][]
   facetcolor   = plot[:facetcolor][]
   showfacets   = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = process(color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, colorscheme, alpha)
 
   # relevant settings
   nd = embeddim(grid)
@@ -23,7 +23,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   sp = spacing(grid)
   sz = size(grid)
 
-  if color isa AbstractVector
+  if colorant[] isa AbstractVector
     # create a full heatmap or volume
     xyz = cartesiancenters(or, sp, sz, nd)
     if nd == 1
@@ -43,7 +43,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
       )
     elseif nd == 2
       xs, ys = xyz
-      C = reshape(colorant, sz)
+      C = Makie.@lift reshape($colorant, sz)
       Makie.heatmap!(plot, xs, ys, C)
     elseif nd == 3
       xs, ys, zs = xyz
