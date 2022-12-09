@@ -23,6 +23,7 @@ function viewer(data::Data; kwargs...)
   color  = Makie.@lift Tables.getcolumn(cols, $(menu.selection))
   viz(fig[2,:], dom; color = color, kwargs...)
 
+  # update visualization if necessary
   Makie.on(menu.selection) do var
     color[] = Tables.getcolumn(cols, var)
   end

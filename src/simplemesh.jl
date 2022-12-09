@@ -25,13 +25,13 @@ end
 
 function viz1D!(plot, mesh)
   color       = plot[:color]
-  alpha       = plot[:alpha][]
-  colorscheme = plot[:colorscheme][]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
   facetcolor  = plot[:facetcolor][]
   showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = Makie.@lift process($color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
   # retrieve vertices and topology
   vert = vertices(mesh)
@@ -50,13 +50,13 @@ end
 
 function viz2D!(plot, mesh)
   color       = plot[:color]
-  alpha       = plot[:alpha][]
-  colorscheme = plot[:colorscheme][]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
   facetcolor  = plot[:facetcolor][]
   showfacets  = plot[:showfacets][]
 
   # process color spec into colorant
-  colorant = Makie.@lift process($color, colorscheme, alpha)
+  colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
   # relevant settings
   dim   = embeddim(mesh)
