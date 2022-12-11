@@ -2,6 +2,12 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
+"""
+    viewer(data)
+
+Basic scientific viewer with menus, checkboxes, and other interactive
+elements for spatial `data` exploration.
+"""
 function viewer(data::Data)
   # retrieve domain and element table
   dom, tab = domain(data), values(data)
