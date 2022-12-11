@@ -25,10 +25,10 @@ function viewer(data::Data)
   # throw error if there are no plottable variables
   if isempty(plottable)
     throw(AssertionError("""
-      Could not find plottable attributes.
+      Could not find plottable variables.
       Please make sure that the scientific type of columns is correct.
       A common mistake is to try to plot a textual column `col` directly.
-      The column must be coerced to `Multiclass` or `OrderedFactor`.
+      The textual column must be coerced to `Multiclass` or `OrderedFactor`.
       For example, `table |> Coerce(:col => Multiclass)`.
       """))
   end
