@@ -27,16 +27,26 @@ function viewer(data::Data; kwargs...)
       """))
   end
 
+  # initialize figure and menu
+  fig    = Makie.Figure()
+  label  = Makie.Label(fig[1,1], "VARIABLE")
+  menu   = Makie.Menu(fig[1,2], options = collect(plottable))
+
+  # select plottable variable
+  var    = menu.selection
+  vals   = Makie.@lift Tables.getcolumn(cols, $var)
+  scheme = Makie.@lift defaultscheme($vals)
+  color  = Makie.@lift process($vals, $scheme, 1.0)
+
   # initialize visualization
-  fig   = Makie.Figure()
-  label = Makie.Label(fig[1,1], "VARIABLE")
-  menu  = Makie.Menu(fig[1,2], options = collect(plottable))
-  color = Makie.@lift Tables.getcolumn(cols, $(menu.selection))
-  viz(fig[2,:], dom; color = color, kwargs...)
+  viz(fig[2,:], dom; color = color, colorscheme = scheme, kwargs...)
+  Makie.Colorbar(fig[2,3], colormap = scheme)
 
   # update visualization if necessary
   Makie.on(menu.selection) do var
-    color[] = Tables.getcolumn(cols, var)
+    vals[]   = Tables.getcolumn(cols, var)
+    scheme[] = defaultscheme(vals[])
+    color[]  = process(vals[], scheme[], 1.0)
   end
 
   fig

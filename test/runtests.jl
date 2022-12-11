@@ -293,18 +293,12 @@ import CairoMakie as Mke
 
   # data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=1:100,))
-  @test_reference "data/griddata2D-1.png" viewer(d)
-  @test_reference "data/griddata2D-2.png" viewer(d, colorscheme = :inferno)
-  @test_reference "data/griddata2D-3.png" viewer(d, alpha = 0.5)
-  @test_reference "data/griddata2D-4.png" viewer(d, colorscheme = :inferno, alpha = 0.5)
+  @test_reference "data/griddata2D.png" viewer(d)
 
   # data over point set
   p = PointSet(centroid.(CartesianGrid(10,10)))
   d = meshdata(p, etable = (z=1:100,))
-  @test_reference "data/psetdata2D-1.png" viewer(d)
-  @test_reference "data/psetdata2D-2.png" viewer(d, colorscheme = :inferno)
-  @test_reference "data/psetdata2D-3.png" viewer(d, alpha = 0.5)
-  @test_reference "data/psetdata2D-4.png" viewer(d, colorscheme = :inferno, alpha = 0.5)
+  @test_reference "data/psetdata2D.png" viewer(d)
 
   # custom values as colors
   rng = MersenneTwister(123)
