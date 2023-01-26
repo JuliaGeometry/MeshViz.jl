@@ -1,13 +1,12 @@
 using MeshViz
 using Meshes
-using GeoTables
 using CategoricalArrays
 using ReferenceTests
 using ImageIO
 using Random
 using Test
 
-import CairoMakie as Mke
+import GLMakie as Mke
 
 @testset "MeshViz.jl" begin
   # 1D point set
