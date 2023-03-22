@@ -50,7 +50,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
       xs⁺ = xs .+ sp[1]/2
       ys⁺ = ys .+ sp[2]/2
       zs⁺ = zs .+ sp[3]/2
-      coords = [(x,y,z) for x in xs⁺ for y in ys⁺ for z in zs⁺]
+      coords = [(x,y,z) for z in zs⁺ for y in ys⁺ for x in xs⁺]
       Makie.meshscatter!(plot, coords,
         marker = Makie.Rect3(-1 .* sp, sp),
         markersize = 1,
