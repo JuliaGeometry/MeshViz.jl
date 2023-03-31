@@ -6,6 +6,7 @@ module MeshViz
 
 using Meshes
 using Tables
+import DelaunayTriangulation: DelaunayTriangulation, Triangulation
 
 using ScientificTypes
 
@@ -67,6 +68,7 @@ include("utils.jl")
 
 # domain
 include("simplemesh.jl")
+include("triplot.jl")
 include("cartesiangrid.jl")
 include("collection.jl")
 include("partition.jl")

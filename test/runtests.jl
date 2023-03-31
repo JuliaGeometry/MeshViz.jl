@@ -3,6 +3,7 @@ using Meshes
 using CategoricalArrays
 using ReferenceTests
 using ImageIO
+using DelaunayTriangulation
 using Random
 using Test
 
@@ -311,4 +312,27 @@ import GLMakie as Mke
   d = CartesianGrid(2,2)
   c = [1,missing,3,NaN]
   @test_reference "data/values-4.png" viz(d, color = c, colorscheme = :Accent_4)
+
+  # triangulation
+  points = [0.0 3.0 2.0 -1.0 4.0 -2.0 2.0 5.0; 1.0 -1.0 0.0 2.0 2.0 -1.0 1.0 1.0]
+  tri = triangulate(points, randomise=false)
+  _mesh = MeshViz._convert(SimpleMesh, tri)
+  @test _mesh.vertices == Meshes.Point2.(eachcol(points))
+  @test _mesh.topology.connec == connect.(get_triangles(tri), Triangle)
+  _chain = MeshViz._convert(Chain, get_convex_hull(tri))
+  @test _chain == let pts = Tuple.(eachcol(points))
+    Chain(pts[8], pts[5], pts[4], pts[6], pts[2], pts[8])
+  end
+  @test_reference "data/triplot-1.png" viz(tri, showfacets=true)
+  @test_reference "data/triplot-2.png" viz(tri, showfacets=true, color=1:8)
+  @test_reference "data/triplot-3.png" viz(tri, showfacets=true, color=1:9)
+  ch = get_convex_hull(tri)
+  fig, ax, sc = viz(tri, showfacets=true)
+  viz!(ax, ch, color=:red)
+  @test_reference "data/chplot-1.png" begin
+    fig, ax, sc = viz(tri, showfacets=true)
+    viz!(ax, ch, color=:red)
+    fig
+  end
 end
+
