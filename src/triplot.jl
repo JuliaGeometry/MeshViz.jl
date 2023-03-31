@@ -28,17 +28,3 @@ function _convert(::Type{Chain}, ch::DelaunayTriangulation.ConvexHull)
     return Chain(points)
 end
 Makie.convert_arguments(::Type{<:Viz}, ch::DelaunayTriangulation.ConvexHull) = (_convert(Chain, ch),)
-
-#=
-points = [0.0 3.0 2.0 -1.0 4.0 -2.0 2.0 5.0; 1.0 -1.0 0.0 2.0 2.0 -1.0 1.0 1.0]
-tri = triangulate(points)
-_mesh = convert(SimpleMesh, tri)
-@test _mesh.vertices == Meshes.Point2.(eachcol(points))
-@test _mesh.topology.connec == connect.(get_triangles(tri), Triangle)
-
-fig, ax, sc = viz(_mesh, showfacets=true)
-ax2 = Axis(fig[1, 2])
-triplot!(ax2, tri)
-
-fig
-=#
