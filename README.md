@@ -25,8 +25,9 @@ function loadply(fname)
   x = ply["vertex"]["x"]
   y = ply["vertex"]["y"]
   z = ply["vertex"]["z"]
+  I = ply["face"]["vertex_indices"]
   points = Point.(x, y, z)
-  connec = [connect(Tuple(c.+1)) for c in ply["face"]["vertex_indices"]]
+  connec = [connect(Tuple(i.+1)) for i in I]
   SimpleMesh(points, connec)
 end
 
