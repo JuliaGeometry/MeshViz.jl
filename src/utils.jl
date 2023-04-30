@@ -12,9 +12,9 @@ function vizmany!(plot, meshes)
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
 
-  mesh   = reduce(merge, meshes)
-  colors = Makie.@lift mayberepeat($color, meshes)
-  alphas = Makie.@lift mayberepeat($alpha, meshes)
+  mesh   = Makie.@lift reduce(merge, $meshes)
+  colors = Makie.@lift mayberepeat($color, $meshes)
+  alphas = Makie.@lift mayberepeat($alpha, $meshes)
 
   viz!(plot, mesh,
     color = colors,
