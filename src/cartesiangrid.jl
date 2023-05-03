@@ -5,75 +5,185 @@
 Makie.plottype(::CartesianGrid) = Viz{<:Tuple{CartesianGrid}}
 
 function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
-  # retrieve grid object
-  grid = plot[:object][]
+  # retrieve parameters
+  grid       = plot[:object][]
+  color      = plot[:color][]
+  showfacets = plot[:showfacets][]
+  ndim       = embeddim(grid)
 
-  color        = plot[:color]
-  alpha        = plot[:alpha]
-  colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor]
-  showfacets   = plot[:showfacets]
+  # different recipes for Cartesian grids
+  # with 1D, 2D, 3D elements
+  if color isa AbstractVector
+    # visualize grid as heatmap or volume
+    if ndim == 1
+      vizgrid1D!(plot)
+    elseif ndim == 2
+      vizgrid2D!(plot)
+    elseif ndim == 3
+      vizgrid3D!(plot)
+    end
+  else
+    # create the smallest mesh of simplices
+    vizgrid!(plot)
+  end
+
+  if showfacets
+    # create minimum number of segments
+    vizsegs!(plot)
+  end
+end
+
+function vizgrid1D!(plot)
+  grid        = plot[:object]
+  color       = plot[:color]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
+  showfacets  = plot[:showfacets]
+  facetcolor  = plot[:facetcolor]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
-  # relevant settings
-  nd = embeddim(grid)
-  or = coordinates(minimum(grid))
-  sp = spacing(grid)
-  sz = size(grid)
+  cparams = Makie.@lift let
+    nd = embeddim($grid)
+    or = coordinates(minimum($grid))
+    sp = spacing($grid)
+    sz = size($grid)
 
-  if colorant[] isa AbstractVector
-    # create a full heatmap or volume
-    xyz = cartesiancenters(or, sp, sz, nd)
-    if nd == 1
-      # rely on recipe for simplices
-      xs, ys = xyz
-      xs⁻ = [(xs .- sp[1] / 2); (last(xs) + sp[1] / 2)]
-      ys⁻ = [ys; last(ys)]
-      vert = [Point(x, y) for (x,y) in zip(xs⁻, ys⁻)]
-      topo = topology(grid)
-      mesh = SimpleMesh(collect(vert), topo)
-      viz!(plot, mesh,
-        color = color,
-        alpha = alpha,
-        colorscheme = colorscheme,
-        showfacets = showfacets,
-        facetcolor = facetcolor,
-      )
-    elseif nd == 2
-      xs, ys = xyz
-      C = Makie.@lift reshape($colorant, sz)
-      Makie.heatmap!(plot, xs, ys, C)
-    elseif nd == 3
-      xs, ys, zs = xyz
-      xs⁺ = xs .+ sp[1]/2
-      ys⁺ = ys .+ sp[2]/2
-      zs⁺ = zs .+ sp[3]/2
-      coords = [(x,y,z) for z in zs⁺ for y in ys⁺ for x in xs⁺]
-      Makie.meshscatter!(plot, coords,
-        marker = Makie.Rect3(-1 .* sp, sp),
-        markersize = 1,
-        color = colorant,
-      )
-    end
-  else
-    # create the smallest mesh of simplices
-    mesh = cartesianmesh(or, sp, sz, nd)
-    viz!(plot, mesh,
-      color = color,
-      alpha = alpha,
-      showfacets = false
-    )
+    xs, ys = cartesiancenters(or, sp, sz, nd)
+
+    xs⁻ = [(xs .- sp[1] / 2); (last(xs) + sp[1] / 2)]
+    ys⁻ = [ys; last(ys)]
+
+    points = [Point(x, y) for (x,y) in zip(xs⁻, ys⁻)]
+    mesh   = SimpleMesh(points, topology($grid))
+
+    colors = [$colorant; last($colorant)]
+
+    mesh, colors
   end
 
-  if showfacets[]
-    # create a minimum number of segments
-    xyz = cartesiansegments(or, sp, sz, nd)
-    Makie.lines!(plot, xyz...,
-      color = facetcolor
-    )
+  # unpack observable of parameters
+  mesh   = Makie.@lift $cparams[1]
+  colors = Makie.@lift $cparams[2]
+
+  # rely on recipe for simplices
+  viz!(plot, mesh,
+    color = colors,
+    showfacets = showfacets,
+    facetcolor = facetcolor,
+  )
+end
+
+function vizgrid2D!(plot)
+  grid        = plot[:object]
+  color       = plot[:color]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
+
+  # process color spec into colorant
+  colorant = Makie.@lift process($color, $colorscheme, $alpha)
+
+  cparams = Makie.@lift let
+    nd = embeddim($grid)
+    or = coordinates(minimum($grid))
+    sp = spacing($grid)
+    sz = size($grid)
+
+    xs, ys = cartesiancenters(or, sp, sz, nd)
+
+    C = reshape($colorant, sz)
+
+    xs, ys, C
   end
+
+  # unpack observable of parameters
+  xs = Makie.@lift $cparams[1]
+  ys = Makie.@lift $cparams[2]
+  C  = Makie.@lift $cparams[3]
+
+  Makie.heatmap!(plot, xs, ys, C)
+end
+
+function vizgrid3D!(plot)
+  grid        = plot[:object]
+  color       = plot[:color]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
+
+  # process color spec into colorant
+  colorant = Makie.@lift process($color, $colorscheme, $alpha)
+
+  cparams = Makie.@lift let
+    nd = embeddim($grid)
+    or = coordinates(minimum($grid))
+    sp = spacing($grid)
+    sz = size($grid)
+
+    xs, ys, zs = cartesiancenters(or, sp, sz, nd)
+
+    xs⁺ = xs .+ sp[1]/2
+    ys⁺ = ys .+ sp[2]/2
+    zs⁺ = zs .+ sp[3]/2
+
+    coords = [(x,y,z) for z in zs⁺ for y in ys⁺ for x in xs⁺]
+
+    marker = Makie.Rect3(-1 .* sp, sp)
+
+    coords, marker
+  end
+
+  # unpack observable of parameters
+  coords = Makie.@lift $cparams[1]
+  marker = Makie.@lift $cparams[2]
+
+  Makie.meshscatter!(plot, coords,
+    marker = marker,
+    markersize = 1,
+    color = colorant,
+  )
+end
+
+function vizgrid!(plot)
+  grid  = plot[:object]
+  color = plot[:color]
+  alpha = plot[:alpha]
+
+  mesh = Makie.@lift let
+    nd = embeddim($grid)
+    or = coordinates(minimum($grid))
+    sp = spacing($grid)
+    sz = size($grid)
+
+    cartesianmesh(or, sp, sz, nd)
+  end
+
+  viz!(plot, mesh,
+    color = color,
+    alpha = alpha,
+    showfacets = false
+  )
+end
+
+function vizsegs!(plot)
+  grid       = plot[:object]
+  facetcolor = plot[:facetcolor]
+
+  cparams = Makie.@lift let
+    nd = embeddim($grid)
+    or = coordinates(minimum($grid))
+    sp = spacing($grid)
+    sz = size($grid)
+
+    cartesiansegments(or, sp, sz, nd)
+  end
+
+  # unpack observable of parameters
+  xyz = [(Makie.@lift $cparams[i]) for i in 1:embeddim(grid[])]
+
+  Makie.lines!(plot, xyz...,
+    color = facetcolor
+  )
 end
 
 # helper function to create the smallest mesh
@@ -83,29 +193,16 @@ function cartesianmesh(or, sp, sz, nd)
     A = Point2(or[1], 0) + Vec2(0, 0)
     B = Point2(or[1], 0) + Vec2(sp[1]*sz[1], 0)
     points = [A, B]
-    topo   = GridTopology(1)
-    SimpleMesh(points, topo)
+    connec = connect.([(1,2)])
+    SimpleMesh(points, connec)
   elseif nd == 2
     A = Point2(or) + Vec2(0, 0)
-    B = Point2(or) + Vec2(sp[1]*sz[1], 0)
-    C = Point2(or) + Vec2(sp[1]*sz[1], sp[2]*sz[2])
-    D = Point2(or) + Vec2(0, sp[2]*sz[2])
-    points = [A, B, C, D]
-    connec = connect.([(1,2,3),(3,4,1)])
-    SimpleMesh(points, connec)
+    B = Point2(or) + Vec2(sp[1]*sz[1], sp[2]*sz[2])
+    discretize(Box(A, B))
   elseif nd == 3
     A = Point3(or) + Vec3(0, 0, 0)
-    B = Point3(or) + Vec3(sp[1]*sz[1], 0, 0)
-    C = Point3(or) + Vec3(sp[1]*sz[1], sp[2]*sz[2], 0)
-    D = Point3(or) + Vec3(0, sp[2]*sz[2], 0)
-    E = Point3(or) + Vec3(0, 0, sp[3]*sz[3])
-    F = Point3(or) + Vec3(sp[1]*sz[1], 0, sp[3]*sz[3])
-    G = Point3(or) + Vec3(sp[1]*sz[1], sp[2]*sz[2], sp[3]*sz[3])
-    H = Point3(or) + Vec3(0, sp[2]*sz[2], sp[3]*sz[3])
-    points = [A, B, C, D, E, F, G, H]
-    connec = connect.([(4,3,2,1),(5,6,7,8),(6,5,1,2),
-                       (3,7,6,2),(4,8,7,3),(1,5,8,4)])
-    SimpleMesh(points, connec)
+    B = Point3(or) + Vec3(sp[1]*sz[1], sp[2]*sz[2], sp[3]*sz[3])
+    boundary(Box(A, B))
   else
     throw(ErrorException("not implemented"))
   end

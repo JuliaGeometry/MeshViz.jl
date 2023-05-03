@@ -13,17 +13,17 @@ function Makie.plot!(plot::Viz{<:Tuple{SimpleMesh}})
   # 1D, 2D, 3D, ... ND simplices
   if rank == 1
     # visualize segments
-    viz1D!(plot)
+    vizmesh1D!(plot)
   elseif rank == 2
     # visualize polygons
-    viz2D!(plot)
+    vizmesh2D!(plot)
   elseif rank == 3
     # visualize polyhedra
-    viz3D!(plot)
+    vizmesh3D!(plot)
   end
 end
 
-function viz1D!(plot)
+function vizmesh1D!(plot)
   mesh        = plot[:object]
   color       = plot[:color]
   alpha       = plot[:alpha]
@@ -45,7 +45,7 @@ function viz1D!(plot)
   )
 end
 
-function viz2D!(plot)
+function vizmesh2D!(plot)
   mesh        = plot[:object]
   color       = plot[:color]
   alpha       = plot[:alpha]
@@ -186,7 +186,7 @@ function viz2D!(plot)
   end
 end
 
-function viz3D!(plot)
+function vizmesh3D!(plot)
   mesh   = plot[:object]
   meshes = Makie.@lift let
     geoms  = elements($mesh)
