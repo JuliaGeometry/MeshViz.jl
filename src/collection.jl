@@ -12,13 +12,12 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   colorscheme  = plot[:colorscheme]
   facetcolor   = plot[:facetcolor]
   showfacets   = plot[:showfacets]
-  decimation   = plot[:decimation]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
   # decimate geometries if needed
-  geoms = Makie.@lift $decimation > 0 ? decimate.($collection, $decimation) : collect($collection)
+  geoms = Makie.@lift collect($collection)
 
   # retrieve parametric dimension
   ranks = Makie.@lift paramdim.($geoms)
