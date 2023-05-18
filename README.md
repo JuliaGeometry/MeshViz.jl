@@ -78,14 +78,14 @@ using GeoTables
 # Brazil states as Meshes.jl polygons
 BRA = GeoTables.gadm("BRA", depth = 1)
 
-viz(BRA.geometry, decimation = 0.02)
+viz(BRA.geometry)
 ```
 ![brazil](figs/brazil.png)
 
 ```julia
 RIO = GeoTables.gadm("BRA", "Rio de Janeiro", depth = 1)
 
-viz(RIO.geometry, decimation = 0.001)
+viz(RIO.geometry)
 ```
 ![rio](figs/rio.png)
 
