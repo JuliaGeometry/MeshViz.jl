@@ -20,6 +20,15 @@ using ColorSchemes: colorschemes
 import Makie
 
 """
+    Aes(size=1)
+
+# to-do
+"""
+Base.@kwdef struct Aes
+  size::Makie.Observable{Int} = 1
+end
+
+"""
     viz(object)
 
 Visualize Meshes.jl `object` with various options:
@@ -46,14 +55,16 @@ viz(mesh, color = 1:nvertices(mesh))
 viz(mesh, color = 1:nelements(mesh))
 ```
 """
-@Makie.recipe(Viz, object) do scene
+Makie.@recipe(Viz, object) do scene
   Makie.Attributes(;
-    size          = Makie.theme(scene, :markersize),
     color         = :slategray3,
     alpha         = 1.0,
     colorscheme   = nothing,
     facetcolor    = :gray30,
-    showfacets    = false
+    showfacets    = false,
+    aes0          = Aes(
+      size=Makie.theme(scene, :markersize)
+    )
   )
 end
 
@@ -74,6 +85,7 @@ include("optimized.jl")
 # data
 include("data.jl")
 
+export Aes
 export viewer
 
 end
