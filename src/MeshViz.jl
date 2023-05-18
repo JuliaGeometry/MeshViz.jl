@@ -20,12 +20,12 @@ using ColorSchemes: colorschemes
 import Makie
 
 """
-    Aes(size=1)
+    Aes(size=12)
 
 # to-do
 """
 Base.@kwdef struct Aes
-  size::Makie.Observable{Int} = 1
+  size::Makie.Observable{Int} = 12
 end
 
 """
@@ -62,9 +62,7 @@ Makie.@recipe(Viz, object) do scene
     colorscheme   = nothing,
     facetcolor    = :gray30,
     showfacets    = false,
-    aes0          = Aes(
-      size=Makie.theme(scene, :markersize)
-    )
+    aes0          = Aes()
   )
 end
 
