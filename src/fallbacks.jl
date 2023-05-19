@@ -14,9 +14,7 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
     aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme],
-    facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    colorscheme = plot[:colorscheme]
   )
 end
 
@@ -31,9 +29,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
     aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme],
-    facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    colorscheme = plot[:colorscheme]
   )
 end
 
@@ -48,8 +44,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
     aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme],
-    facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    colorscheme = plot[:colorscheme]
   )
 end

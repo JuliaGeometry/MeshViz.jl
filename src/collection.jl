@@ -10,8 +10,6 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor]
-  showfacets   = plot[:showfacets]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -50,7 +48,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds0[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds0])))
   end
 
-  if showfacets[]
+  if aes.segments[]
     bounds = Makie.@lift filter(!isnothing, boundary.($geoms))
     if isempty(bounds[])
       # nothing to be done
@@ -58,14 +56,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       # all boundaries are point sets
       points = Makie.@lift mapreduce(collect, vcat, $bounds)
       viz!(plot, (Makie.@lift Collection($points)),
-        color = facetcolor,
-        showfacets = false,
+        color = aes.segmentcolor,
+        aes = Aes(segments=false)
       )
     elseif all(ranks[] .== 2)
       # all boundaries are geometries
       viz!(plot, (Makie.@lift Collection($bounds)),
-        color = facetcolor,
-        showfacets = false,
+        color = aes.segmentcolor,
+        aes = Aes(segments=false)
       )
     elseif all(ranks[] .== 3)
       # we already visualized the boundaries because

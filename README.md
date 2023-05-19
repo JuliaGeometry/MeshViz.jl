@@ -33,7 +33,7 @@ end
 
 mesh = loadply("beethoven.ply")
 
-viz(mesh, showfacets = true)
+viz(mesh, aes = Aes(segments=true))
 ```
 ![beethoven](figs/beethoven.png)
 
@@ -49,7 +49,7 @@ viz(mesh, color = 1:nvertices(mesh), colorscheme = :Spectral)
 ```julia
 grid = CartesianGrid(10,10)
 
-viz(grid, showfacets = true)
+viz(grid, aes = Aes(segments=true))
 ```
 ![grid2d](figs/grid2d.png)
 
@@ -63,7 +63,7 @@ viz(grid, color = 1:nelements(grid))
 ```julia
 grid = CartesianGrid(10,10,10)
 
-viz(grid, showfacets = true)
+viz(grid, aes = Aes(segments=true))
 ```
 ![grid3d](figs/grid3d.png)
 
