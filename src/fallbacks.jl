@@ -2,19 +2,20 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-Makie.plottype(::AbstractVector{<:PointOrGeometry}) =
-  Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}}
+Makie.plottype(::AbstractVector{<:PointOrGeometry}) = Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}}
 
 function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
   # retrieve items object
   items = plot[:object]
 
   # fallback to collection recipe
-  viz!(plot, (Makie.@lift Collection($items)),
-    aes         = plot[:aes],
-    color       = plot[:color],
-    alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme]
+  viz!(
+    plot,
+    (Makie.@lift Collection($items)),
+    aes=plot[:aes],
+    color=plot[:color],
+    alpha=plot[:alpha],
+    colorscheme=plot[:colorscheme]
   )
 end
 
@@ -25,11 +26,13 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
   item = plot[:object]
 
   # fallback to vector recipe
-  viz!(plot, (Makie.@lift [$item]),
-    aes         = plot[:aes],
-    color       = plot[:color],
-    alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme]
+  viz!(
+    plot,
+    (Makie.@lift [$item]),
+    aes=plot[:aes],
+    color=plot[:color],
+    alpha=plot[:alpha],
+    colorscheme=plot[:colorscheme]
   )
 end
 
@@ -40,10 +43,12 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
   domain = plot[:object]
 
   # fallback to vector recipe
-  viz!(plot, (Makie.@lift collect($domain)),
-    aes         = plot[:aes],
-    color       = plot[:color],
-    alpha       = plot[:alpha],
-    colorscheme = plot[:colorscheme]
+  viz!(
+    plot,
+    (Makie.@lift collect($domain)),
+    aes=plot[:aes],
+    color=plot[:color],
+    alpha=plot[:alpha],
+    colorscheme=plot[:colorscheme]
   )
 end

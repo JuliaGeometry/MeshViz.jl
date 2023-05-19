@@ -19,18 +19,15 @@ defaultscheme(values) = defaultscheme(elscitype(values))
 defaultscheme(::Type{Unknown}) = colorschemes[:viridis]
 defaultscheme(::Type{Continuous}) = colorschemes[:viridis]
 defaultscheme(::Type{Count}) = colorschemes[:viridis]
-defaultscheme(::Type{Multiclass{N}}) where {N} =
-  distinguishable_colors(N, transform=protanopic)
-defaultscheme(::Type{OrderedFactor{N}}) where {N} =
-  distinguishable_colors(N, transform=protanopic)
+defaultscheme(::Type{Multiclass{N}}) where {N} = distinguishable_colors(N, transform=protanopic)
+defaultscheme(::Type{OrderedFactor{N}}) where {N} = distinguishable_colors(N, transform=protanopic)
 
 # --------------------------------
 # PROCESS COLORS PROVIDED BY USER
 # --------------------------------
 
 # STEP 0: find adequate color scheme for values
-getscheme(values::AbstractVector, scheme) =
-  isnothing(scheme) ? defaultscheme(values) : scheme
+getscheme(values::AbstractVector, scheme) = isnothing(scheme) ? defaultscheme(values) : scheme
 getscheme(value, scheme) = scheme
 
 # STEP 1: convert user input to colors
@@ -46,7 +43,7 @@ function tocolors(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Mis
 
   # valid numbers are assigned colors from scheme
   vnumbers = Number.(numbers[vinds])
-  vcolors  = get(scheme, vnumbers, :extrema)
+  vcolors = get(scheme, vnumbers, :extrema)
 
   # build final vector of colors
   colors = Vector{Colorant}(undef, length(numbers))
