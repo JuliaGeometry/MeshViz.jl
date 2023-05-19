@@ -25,12 +25,12 @@ import Makie
 Defines aesthetic plot attributes of geometries.
 
 Aesthetic attributes:
-* `points` - show points (vertices) on poligons
+* `points` - show points
 * `pointsize` - size of points
 * `pointcolor` - color of points
-* `segments` - show segments on poligons
+* `segments` - show segments
 * `segmentsize` - size (or "width") of segments
-* `segmentcolor` - color of segments (e.g. edges)
+* `segmentcolor` - color of segments
 """
 Base.@kwdef struct Aes
   points::Makie.Observable{Bool} = false
