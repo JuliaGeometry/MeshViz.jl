@@ -34,18 +34,18 @@ function viewer(data::Data)
   end
 
   # initialize figure and menu
-  fig    = Makie.Figure()
-  label  = Makie.Label(fig[1,1], "VARIABLE")
-  menu   = Makie.Menu(fig[1,2], options = collect(plottable))
+  fig = Makie.Figure()
+  label = Makie.Label(fig[1, 1], "VARIABLE")
+  menu = Makie.Menu(fig[1, 2], options=collect(plottable))
 
   # select plottable variable
-  var  = menu.selection
+  var = menu.selection
   vals = Makie.@lift Tables.getcolumn(cols, $var)
   cmap = Makie.@lift defaultscheme($vals)
 
   # initialize visualization
-  viz(fig[2,:], dom; color = vals)
-  Makie.Colorbar(fig[2,3], colormap = cmap)
+  viz(fig[2, :], dom; color=vals)
+  Makie.Colorbar(fig[2, 3], colormap=cmap)
 
   # update visualization if necessary
   Makie.on(menu.selection) do var

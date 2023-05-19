@@ -61,14 +61,7 @@ viz(mesh, color = 1:nelements(mesh))
 ```
 """
 Makie.@recipe(Viz, object) do scene
-  Makie.Attributes(;
-    color         = :slategray3,
-    alpha         = 1.0,
-    colorscheme   = nothing,
-    facetcolor    = :gray30,
-    showfacets    = false,
-    aes           = Aes()
-  )
+  Makie.Attributes(; color=:slategray3, alpha=1.0, colorscheme=nothing, facetcolor=:gray30, showfacets=false, aes=Aes())
 end
 
 # color handling
