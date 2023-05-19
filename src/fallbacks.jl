@@ -11,7 +11,7 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
 
   # fallback to collection recipe
   viz!(plot, (Makie.@lift Collection($items)),
-    aes0        = plot[:aes0],
+    aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
@@ -28,7 +28,7 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
 
   # fallback to vector recipe
   viz!(plot, (Makie.@lift [$item]),
-    aes0        = plot[:aes0],
+    aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
@@ -45,7 +45,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
 
   # fallback to vector recipe
   viz!(plot, (Makie.@lift collect($domain)),
-    aes0        = plot[:aes0],
+    aes         = plot[:aes],
     color       = plot[:color],
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],

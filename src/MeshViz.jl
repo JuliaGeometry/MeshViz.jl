@@ -20,15 +20,17 @@ using ColorSchemes: colorschemes
 import Makie
 
 """
-    Aes(size=12)
+    Aes(attrib1=val1, attrib2=val2, ...)
 
-Defines the aesthetic plot attributes of a geometry.
+Defines aesthetic plot attributes of geometries.
 
 Aesthetic attributes:
-* `size` - size of geometries
+* `pointsize` - size of points
+* `segmentsize` - size (or "width") of segments
 """
 Base.@kwdef struct Aes
-  size::Makie.Observable{Int} = 12
+  pointsize::Makie.Observable{Float64} = 12
+  segmentsize::Makie.Observable{Float64} = 1.5
 end
 
 """
@@ -41,7 +43,7 @@ Visualize Meshes.jl `object` with various options:
 * `colorscheme` - color scheme from ColorSchemes.jl
 * `facetcolor`  - color of the facets (e.g. edges)
 * `showfacets`  - tells whether or not to show the facets
-* `aes0`        - aesthetic attributes of geometry of parametric dimension 0
+* `aes`         - aesthetic attributes
 
 The option `color` can be a single scalar or a vector
 of scalars. For meshes, the length of the vector of
@@ -65,7 +67,7 @@ Makie.@recipe(Viz, object) do scene
     colorscheme   = nothing,
     facetcolor    = :gray30,
     showfacets    = false,
-    aes0          = Aes()
+    aes           = Aes()
   )
 end
 

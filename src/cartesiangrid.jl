@@ -167,6 +167,7 @@ end
 
 function vizsegs!(plot)
   grid       = plot[:object]
+  aes        = plot[:aes][]
   facetcolor = plot[:facetcolor]
 
   cparams = Makie.@lift let
@@ -182,7 +183,8 @@ function vizsegs!(plot)
   xyz = [(Makie.@lift $cparams[i]) for i in 1:embeddim(grid[])]
 
   Makie.lines!(plot, xyz...,
-    color = facetcolor
+    color = facetcolor,
+    linewidth = aes.segmentsize
   )
 end
 

@@ -25,6 +25,7 @@ end
 
 function vizmesh1D!(plot)
   mesh        = plot[:object]
+  aes         = plot[:aes][]
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
@@ -42,11 +43,13 @@ function vizmesh1D!(plot)
   # visualize segments
   Makie.lines!(plot, coords,
     color = colorant,
+    linewidth = aes.segmentsize
   )
 end
 
 function vizmesh2D!(plot)
   mesh        = plot[:object]
+  aes         = plot[:aes][]
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
@@ -182,6 +185,7 @@ function vizmesh2D!(plot)
 
     Makie.lines!(plot, xyz...,
       color = facetcolor,
+      linewidth = aes.segmentsize
     )
   end
 end

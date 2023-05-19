@@ -6,7 +6,7 @@ Makie.plottype(::Collection) = Viz{<:Tuple{Collection}}
 
 function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   collection   = plot[:object]
-  aes0         = plot[:aes0][]
+  aes          = plot[:aes][]
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
@@ -27,7 +27,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     coords = Makie.@lift coordinates.($geoms)
     Makie.scatter!(plot, coords,
       color = colorant,
-      markersize = aes0.size,
+      markersize = aes.pointsize
     )
   elseif all(ranks[] .== 1)
     meshes = Makie.@lift discretize.($geoms)
