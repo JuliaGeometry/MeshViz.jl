@@ -20,16 +20,28 @@ using ColorSchemes: colorschemes
 import Makie
 
 """
+    Aes(size=12)
+
+Defines the aesthetic plot attributes of a geometry.
+
+Aesthetic attributes:
+* `size` - size of geometries
+"""
+Base.@kwdef struct Aes
+  size::Makie.Observable{Int} = 12
+end
+
+"""
     viz(object)
 
 Visualize Meshes.jl `object` with various options:
 
-* `size`          - size of points in point set
-* `color`         - color of geometries or points
-* `alpha`         - transparency channel in [0,1]
-* `colorscheme`   - color scheme from ColorSchemes.jl
-* `facetcolor`    - color of the facets (e.g. edges)
-* `showfacets`    - tells whether or not to show the facets
+* `color`       - color of geometries or points
+* `alpha`       - transparency channel in [0,1]
+* `colorscheme` - color scheme from ColorSchemes.jl
+* `facetcolor`  - color of the facets (e.g. edges)
+* `showfacets`  - tells whether or not to show the facets
+* `aes0`        - aesthetic attributes of geometry of parametric dimension 0
 
 The option `color` can be a single scalar or a vector
 of scalars. For meshes, the length of the vector of
@@ -38,7 +50,7 @@ vertices or elements.
 
 ## Examples
 
-```
+```julia
 # vertex coloring (i.e. linear interpolation)
 viz(mesh, color = 1:nvertices(mesh))
 
@@ -46,14 +58,14 @@ viz(mesh, color = 1:nvertices(mesh))
 viz(mesh, color = 1:nelements(mesh))
 ```
 """
-@Makie.recipe(Viz, object) do scene
+Makie.@recipe(Viz, object) do scene
   Makie.Attributes(;
-    size          = Makie.theme(scene, :markersize),
     color         = :slategray3,
     alpha         = 1.0,
     colorscheme   = nothing,
     facetcolor    = :gray30,
-    showfacets    = false
+    showfacets    = false,
+    aes0          = Aes()
   )
 end
 
@@ -74,6 +86,7 @@ include("optimized.jl")
 # data
 include("data.jl")
 
+export Aes
 export viewer
 
 end
