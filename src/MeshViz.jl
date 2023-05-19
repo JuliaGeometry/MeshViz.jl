@@ -20,13 +20,13 @@ using ColorSchemes: colorschemes
 import Makie
 
 """
-    Aes(pointsize=12, segmentsize=1.5)
+    Aes(attrib1=val1, attrib2=val2, ...)
 
 Defines aesthetic plot attributes of geometries.
 
 Aesthetic attributes:
 * `pointsize` - size of points
-* `segmentsize` - line width of segments
+* `segmentsize` - size (or "width") of segments
 """
 Base.@kwdef struct Aes
   pointsize::Makie.Observable{Float64} = 12
