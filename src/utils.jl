@@ -20,6 +20,6 @@ function vizmany!(plot, meshes)
     color = colors,
     alpha = alphas,
     colorscheme = colorscheme,
-    showfacets = false,
+    aes = Aes(segments=false)
   )
 end
