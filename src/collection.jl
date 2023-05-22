@@ -5,13 +5,13 @@
 Makie.plottype(::Collection) = Viz{<:Tuple{Collection}}
 
 function Makie.plot!(plot::Viz{<:Tuple{Collection}})
-  collection   = plot[:object]
-  size         = plot[:size]
-  color        = plot[:color]
-  alpha        = plot[:alpha]
-  colorscheme  = plot[:colorscheme]
-  facetcolor   = plot[:facetcolor]
-  showfacets   = plot[:showfacets]
+  collection  = plot[:object]
+  color       = plot[:color]
+  alpha       = plot[:alpha]
+  colorscheme = plot[:colorscheme]
+  facetcolor  = plot[:facetcolor]
+  showfacets  = plot[:showfacets]
+  pointsize   = plot[:pointsize]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -27,7 +27,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     coords = Makie.@lift coordinates.($geoms)
     Makie.scatter!(plot, coords,
       color = colorant,
-      markersize = size,
+      markersize = pointsize,
     )
   elseif all(ranks[] .== 1)
     meshes = Makie.@lift discretize.($geoms)

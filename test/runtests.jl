@@ -250,7 +250,7 @@ import GLMakie as Mke
   @test_reference "data/points2D-1.png" viz(p)
   @test_reference "data/points2D-2.png" viz(p, color = 1:4)
   @test_reference "data/points2D-3.png" viz(p, color = 1:4, colorscheme = :inferno)
-  @test_reference "data/points2D-4.png" viz(p, size = 20)
+  @test_reference "data/points2D-4.png" viz(p, pointsize = 20)
   @test_reference "data/points2D-5.png" viz(p, color = :red)
   @test_reference "data/points2D-6.png" viz(p, color = :red, alpha = 0.5)
   @test_reference "data/points2D-7.png" viz(p, color = 1:4, alpha = 0.5)
