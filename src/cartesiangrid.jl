@@ -7,8 +7,8 @@ Makie.plottype(::CartesianGrid) = Viz{<:Tuple{CartesianGrid}}
 function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
   # retrieve parameters
   grid       = plot[:object][]
-  aes        = plot[:aes][]
   color      = plot[:color][]
+  showfacets = plot[:showfacets][]
   ndim       = embeddim(grid)
 
   # different recipes for Cartesian grids
@@ -27,7 +27,7 @@ function Makie.plot!(plot::Viz{<:Tuple{CartesianGrid}})
     vizgrid!(plot)
   end
 
-  if aes.segments[]
+  if showfacets
     # create minimum number of segments
     vizsegs!(plot)
   end
@@ -35,10 +35,11 @@ end
 
 function vizgrid1D!(plot)
   grid        = plot[:object]
-  aes         = plot[:aes]
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
+  showfacets  = plot[:showfacets]
+  facetcolor  = plot[:facetcolor]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -69,7 +70,8 @@ function vizgrid1D!(plot)
   # rely on recipe for simplices
   viz!(plot, mesh,
     color = colors,
-    aes = aes
+    showfacets = showfacets,
+    facetcolor = facetcolor,
   )
 end
 
@@ -159,13 +161,13 @@ function vizgrid!(plot)
   viz!(plot, mesh,
     color = color,
     alpha = alpha,
-    aes = Aes(segments=false)
+    showfacets = false
   )
 end
 
 function vizsegs!(plot)
-  grid = plot[:object]
-  aes  = plot[:aes][]
+  grid       = plot[:object]
+  facetcolor = plot[:facetcolor]
 
   cparams = Makie.@lift let
     nd = embeddim($grid)
@@ -180,8 +182,7 @@ function vizsegs!(plot)
   xyz = [(Makie.@lift $cparams[i]) for i in 1:embeddim(grid[])]
 
   Makie.lines!(plot, xyz...,
-    color = aes.segmentcolor,
-    linewidth = aes.segmentsize
+    color = facetcolor
   )
 end
 

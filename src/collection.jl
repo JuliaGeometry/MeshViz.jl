@@ -6,10 +6,12 @@ Makie.plottype(::Collection) = Viz{<:Tuple{Collection}}
 
 function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   collection   = plot[:object]
-  aes          = plot[:aes][]
+  size         = plot[:size]
   color        = plot[:color]
   alpha        = plot[:alpha]
   colorscheme  = plot[:colorscheme]
+  facetcolor   = plot[:facetcolor]
+  showfacets   = plot[:showfacets]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -25,7 +27,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     coords = Makie.@lift coordinates.($geoms)
     Makie.scatter!(plot, coords,
       color = colorant,
-      markersize = aes.pointsize
+      markersize = size,
     )
   elseif all(ranks[] .== 1)
     meshes = Makie.@lift discretize.($geoms)
@@ -48,7 +50,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     isempty(inds0[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds0])))
   end
 
-  if aes.segments[]
+  if showfacets[]
     bounds = Makie.@lift filter(!isnothing, boundary.($geoms))
     if isempty(bounds[])
       # nothing to be done
@@ -56,14 +58,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       # all boundaries are point sets
       points = Makie.@lift mapreduce(collect, vcat, $bounds)
       viz!(plot, (Makie.@lift Collection($points)),
-        color = aes.segmentcolor,
-        aes = Aes(segments=false)
+        color = facetcolor,
+        showfacets = false,
       )
     elseif all(ranks[] .== 2)
       # all boundaries are geometries
       viz!(plot, (Makie.@lift Collection($bounds)),
-        color = aes.segmentcolor,
-        aes = Aes(segments=false)
+        color = facetcolor,
+        showfacets = false,
       )
     elseif all(ranks[] .== 3)
       # we already visualized the boundaries because
