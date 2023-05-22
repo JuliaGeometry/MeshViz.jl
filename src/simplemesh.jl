@@ -28,6 +28,7 @@ function vizmesh1D!(plot)
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
+  segmentsize = plot[:segmentsize]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -42,6 +43,7 @@ function vizmesh1D!(plot)
   # visualize segments
   Makie.lines!(plot, coords,
     color = colorant,
+    linewidth = segmentsize
   )
 end
 
@@ -52,6 +54,7 @@ function vizmesh2D!(plot)
   colorscheme = plot[:colorscheme]
   facetcolor  = plot[:facetcolor]
   showfacets  = plot[:showfacets]
+  segmentsize = plot[:segmentsize]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -182,6 +185,7 @@ function vizmesh2D!(plot)
 
     Makie.lines!(plot, xyz...,
       color = facetcolor,
+      linewidth = segmentsize
     )
   end
 end

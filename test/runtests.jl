@@ -49,6 +49,8 @@ import GLMakie as Mke
   @test_reference "data/grid2D-8.png" viz(d, color = 1:100, alpha = 0.5)
   @test_reference "data/grid2D-9.png" viz(d, color = 1:100, showfacets = true)
   @test_reference "data/grid2D-10.png" viz(d, color = 1:100, showfacets = true, facetcolor = :red)
+  @test_reference "data/grid2D-11.png" viz(d, showfacets = true, segmentsize = 5)
+  @test_reference "data/grid2D-12.png" viz(d, showfacets = true, facetcolor = :red, segmentsize = 5)
 
   # 3D Cartesian grid
   d = CartesianGrid(10,10,10)
@@ -62,6 +64,8 @@ import GLMakie as Mke
   @test_reference "data/grid3D-8.png" viz(d, color = 1:1000, alpha = 0.5)
   @test_reference "data/grid3D-9.png" viz(d, color = 1:1000, showfacets = true)
   @test_reference "data/grid3D-10.png" viz(d, color = 1:1000, showfacets = true, facetcolor = :red)
+  @test_reference "data/grid3D-11.png" viz(d, showfacets = true, segmentsize = 5)
+  @test_reference "data/grid3D-12.png" viz(d, showfacets = true, facetcolor = :red, segmentsize = 5)
 
   # 2D chain
   c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
@@ -70,6 +74,8 @@ import GLMakie as Mke
   c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.), (0.,0.))
   @test_reference "data/chain2D-3.png" viz(c)
   @test_reference "data/chain2D-4.png" viz(c, color = :orange)
+  @test_reference "data/chain2D-5.png" viz(c, segmentsize = 5)
+  @test_reference "data/chain2D-6.png" viz(c, color = :orange, segmentsize = 5)
 
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
@@ -250,7 +256,7 @@ import GLMakie as Mke
   @test_reference "data/points2D-1.png" viz(p)
   @test_reference "data/points2D-2.png" viz(p, color = 1:4)
   @test_reference "data/points2D-3.png" viz(p, color = 1:4, colorscheme = :inferno)
-  @test_reference "data/points2D-4.png" viz(p, size = 20)
+  @test_reference "data/points2D-4.png" viz(p, pointsize = 20)
   @test_reference "data/points2D-5.png" viz(p, color = :red)
   @test_reference "data/points2D-6.png" viz(p, color = :red, alpha = 0.5)
   @test_reference "data/points2D-7.png" viz(p, color = 1:4, alpha = 0.5)

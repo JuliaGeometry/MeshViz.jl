@@ -166,8 +166,9 @@ function vizgrid!(plot)
 end
 
 function vizsegs!(plot)
-  grid       = plot[:object]
-  facetcolor = plot[:facetcolor]
+  grid        = plot[:object]
+  facetcolor  = plot[:facetcolor]
+  segmentsize = plot[:segmentsize]
 
   cparams = Makie.@lift let
     nd = embeddim($grid)
@@ -182,7 +183,8 @@ function vizsegs!(plot)
   xyz = [(Makie.@lift $cparams[i]) for i in 1:embeddim(grid[])]
 
   Makie.lines!(plot, xyz...,
-    color = facetcolor
+    color = facetcolor,
+    linewidth = segmentsize
   )
 end
 

@@ -11,6 +11,7 @@ function vizmany!(plot, meshes)
   color       = plot[:color]
   alpha       = plot[:alpha]
   colorscheme = plot[:colorscheme]
+  segmentsize = plot[:segmentsize]
 
   mesh   = Makie.@lift reduce(merge, $meshes)
   colors = Makie.@lift mayberepeat($color, $meshes)
@@ -21,5 +22,6 @@ function vizmany!(plot, meshes)
     alpha = alphas,
     colorscheme = colorscheme,
     showfacets = false,
+    segmentsize = segmentsize
   )
 end
