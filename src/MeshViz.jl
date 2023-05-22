@@ -30,6 +30,7 @@ Visualize Meshes.jl `object` with various options:
 * `colorscheme`   - color scheme from ColorSchemes.jl
 * `facetcolor`    - color of the facets (e.g. edges)
 * `showfacets`    - tells whether or not to show the facets
+* `linewidth`     - width of segments
 
 The option `color` can be a single scalar or a vector
 of scalars. For meshes, the length of the vector of
@@ -47,13 +48,14 @@ viz(mesh, color = 1:nelements(mesh))
 ```
 """
 @Makie.recipe(Viz, object) do scene
-  Makie.Attributes(;
-    size          = Makie.theme(scene, :markersize),
-    color         = :slategray3,
-    alpha         = 1.0,
-    colorscheme   = nothing,
-    facetcolor    = :gray30,
-    showfacets    = false
+  Makie.Attributes(
+    size        = Makie.theme(scene, :markersize),
+    color       = :slategray3,
+    alpha       = 1.0,
+    colorscheme = nothing,
+    facetcolor  = :gray30,
+    showfacets  = false,
+    linewidth   = Makie.theme(scene, :linewidth)
   )
 end
 

@@ -16,7 +16,8 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
     facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    showfacets  = plot[:showfacets],
+    linewidth   = plot[:linewidth]
   )
 end
 
@@ -33,7 +34,8 @@ function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
     facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    showfacets  = plot[:showfacets],
+    linewidth   = plot[:linewidth]
   )
 end
 
@@ -50,6 +52,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Domain}})
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
     facetcolor  = plot[:facetcolor],
-    showfacets  = plot[:showfacets]
+    showfacets  = plot[:showfacets],
+    linewidth   = plot[:linewidth]
   )
 end
