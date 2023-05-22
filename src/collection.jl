@@ -12,6 +12,7 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
   facetcolor  = plot[:facetcolor]
   showfacets  = plot[:showfacets]
   pointsize   = plot[:pointsize]
+  segmentsize = plot[:segmentsize]
 
   # process color spec into colorant
   colorant = Makie.@lift process($color, $colorscheme, $alpha)
@@ -60,12 +61,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
       viz!(plot, (Makie.@lift Collection($points)),
         color = facetcolor,
         showfacets = false,
+        pointsize = pointsize
       )
     elseif all(ranks[] .== 2)
       # all boundaries are geometries
       viz!(plot, (Makie.@lift Collection($bounds)),
         color = facetcolor,
         showfacets = false,
+        segmentsize = segmentsize
       )
     elseif all(ranks[] .== 3)
       # we already visualized the boundaries because

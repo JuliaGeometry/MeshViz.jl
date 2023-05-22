@@ -76,6 +76,11 @@ import GLMakie as Mke
   @test_reference "data/chain2D-4.png" viz(c, color = :orange)
   @test_reference "data/chain2D-5.png" viz(c, segmentsize = 5)
   @test_reference "data/chain2D-6.png" viz(c, color = :orange, segmentsize = 5)
+  c = Chain((1.,0.5), (1.,1.), (2.,0.), (0.,0.))
+  @test_reference "data/chain2D-7.png" viz(c, showfacets = true)
+  @test_reference "data/chain2D-8.png" viz(c, showfacets = true, facetcolor = :red)
+  @test_reference "data/chain2D-9.png" viz(c, showfacets = true, pointsize = 20)
+  @test_reference "data/chain2D-10.png" viz(c, showfacets = true, facetcolor = :red, pointsize = 20)
 
   # 2D N-gons
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
@@ -84,12 +89,16 @@ import GLMakie as Mke
   @test_reference "data/tri2D-3.png" viz(t, color = :orange)
   @test_reference "data/tri2D-4.png" viz(t, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/tri2D-5.png" viz(t, color = :orange, alpha = 0.5)
+  @test_reference "data/tri2D-6.png" viz(t, showfacets = true, segmentsize = 5)
+  @test_reference "data/tri2D-7.png" viz(t, showfacets = true, facetcolor = :red, segmentsize = 5)
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   @test_reference "data/quad2D-1.png" viz(q)
   @test_reference "data/quad2D-2.png" viz(q, showfacets = true)
   @test_reference "data/quad2D-3.png" viz(q, color = :orange)
   @test_reference "data/quad2D-4.png" viz(q, color = :cyan, showfacets = true, facetcolor = :red)
   @test_reference "data/quad2D-5.png" viz(q, color = :orange, alpha = 0.5)
+  @test_reference "data/quad2D-6.png" viz(q, showfacets = true, segmentsize = 5)
+  @test_reference "data/quad2D-7.png" viz(q, showfacets = true, facetcolor = :red, segmentsize = 5)
 
   # 3D N-gons
   o = Octagon([(0.0,0.0,1.0), (0.5,-0.5,0.0), (1.0,0.0,0.0), (1.5,0.5,-0.5),
