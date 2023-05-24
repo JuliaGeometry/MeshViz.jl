@@ -41,7 +41,7 @@ function vizmesh1D!(plot)
   end
 
   # repeat colors for vertices of segments
-  colorant = Makie.@lift begin
+  colorant = Makie.@lift let
     if $colors isa AbstractVector
       c = [$colors[e] for e in 1:nelements($mesh) for _ in 1:3]
       c[begin:end-1]
