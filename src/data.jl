@@ -3,12 +3,13 @@
 # ------------------------------------------------------------------
 
 """
-    viewer(data)
+    viewer(data; kwargs...)
 
 Basic scientific viewer with menus, checkboxes, and other interactive
-elements for spatial `data` exploration.
+elements for spatial `data` exploration. The options `kwargs` are
+forwarded to the [`viz`](@ref) function.
 """
-function viewer(data::Data)
+function viewer(data::Data; kwargs...)
   # retrieve domain and element table
   dom, tab = domain(data), values(data)
 
@@ -44,7 +45,7 @@ function viewer(data::Data)
   cmap = Makie.@lift defaultscheme($vals)
 
   # initialize visualization
-  viz(fig[2,:], dom; color = vals)
+  viz(fig[2,:], dom; color = vals, kwargs...)
   Makie.Colorbar(fig[2,3], colormap = cmap)
 
   # update visualization if necessary
