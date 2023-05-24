@@ -31,7 +31,7 @@ function vizmesh1D!(plot)
   segmentsize = plot[:segmentsize]
 
   # process color spec into colorant
-  colors = Makie.@lift process($color, $colorscheme, $alpha)
+  colorant = Makie.@lift process($color, $colorscheme, $alpha)
 
   # retrieve coordinates of segments
   coords = Makie.@lift let
@@ -41,18 +41,18 @@ function vizmesh1D!(plot)
   end
 
   # repeat colors for vertices of segments
-  colorant = Makie.@lift let
-    if $colors isa AbstractVector
-      c = [$colors[e] for e in 1:nelements($mesh) for _ in 1:3]
+  colors = Makie.@lift let
+    if $colorant isa AbstractVector
+      c = [$colorant[e] for e in 1:nelements($mesh) for _ in 1:3]
       c[begin:end-1]
     else
-      $colors
+      $colorant
     end
   end
 
   # visualize segments
   Makie.lines!(plot, coords,
-    color = colorant,
+    color = colors,
     linewidth = segmentsize
   )
 end
