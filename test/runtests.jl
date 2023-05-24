@@ -191,7 +191,17 @@ import GLMakie as Mke
   @test_reference "data/cylsurf3D-2.png" viz(c, color = :orange)
   @test_reference "data/cylsurf3D-3.png" viz(c, color = :orange, alpha = 0.5)
 
-  # collections of geometries
+  # collections of 1D geometries
+  c1 = Chain((0.,0.), (1.,1.), (0.,1.))
+  c2 = Chain((1.,1.), (2.,2.), (1.,2.))
+  c  = Collection([c1, c2])
+  @test_reference "data/collec1D-1.png" viz(c)
+  @test_reference "data/collec1D-2.png" viz(c, color = 1:2)
+  @test_reference "data/collec1D-3.png" viz(c, color = 1:2, colorscheme = :inferno)
+  @test_reference "data/collec1D-4.png" viz(c, color = [:red,:green], alpha = 0.5)
+  @test_reference "data/collec1D-5.png" viz(c, color = 1:2, alpha = 0.5)
+
+  # collections of 2D geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
   d = Collection([t, q])
@@ -203,7 +213,7 @@ import GLMakie as Mke
   @test_reference "data/collec2D-6.png" viz(d, color = [:red,:green], alpha = 0.5)
   @test_reference "data/collec2D-7.png" viz(d, color = 1:2, alpha = 0.5)
 
-  # collections of multi-3D-geometries
+  # collections of 3D multi-geometries
   b1 = Box((0.,0.,0.), (1.,1.,1.))
   b2 = Box((2.,1.,0.), (3.,2.,1.))
   s1 = Ball((3.,0.,3.), 1.)
