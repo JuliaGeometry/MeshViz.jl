@@ -68,15 +68,15 @@ import GLMakie as Mke
   @test_reference "data/grid3D-12.png" viz(d, showfacets = true, facetcolor = :red, segmentsize = 5)
 
   # 2D chain
-  c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
+  c = Rope((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
   @test_reference "data/chain2D-1.png" viz(c)
   @test_reference "data/chain2D-2.png" viz(c, color = :orange)
-  c = Chain((0.,0.), (1.,0.5), (1.,1.), (2.,0.), (0.,0.))
+  c = Ring((0.,0.), (1.,0.5), (1.,1.), (2.,0.))
   @test_reference "data/chain2D-3.png" viz(c)
   @test_reference "data/chain2D-4.png" viz(c, color = :orange)
   @test_reference "data/chain2D-5.png" viz(c, segmentsize = 5)
   @test_reference "data/chain2D-6.png" viz(c, color = :orange, segmentsize = 5)
-  c = Chain((1.,0.5), (1.,1.), (2.,0.), (0.,0.))
+  c = Rope((1.,0.5), (1.,1.), (2.,0.), (0.,0.))
   @test_reference "data/chain2D-7.png" viz(c, showfacets = true)
   @test_reference "data/chain2D-8.png" viz(c, showfacets = true, facetcolor = :red)
   @test_reference "data/chain2D-9.png" viz(c, showfacets = true, pointsize = 20)
@@ -112,7 +112,7 @@ import GLMakie as Mke
   # Polygonal areas
   Random.seed!(2020)
   p = PolyArea((0.,0.), (0.5,-1.5), (1.,0.), (1.5,0.5),
-               (1.,1.), (0.5,1.5), (-0.5,0.5), (0.,0.))
+               (1.,1.), (0.5,1.5), (-0.5,0.5))
   @test_reference "data/poly2D-1.png" viz(p)      
   @test_reference "data/poly2D-2.png" viz(p, showfacets = true)
   @test_reference "data/poly2D-3.png" viz(p, color = :orange)
@@ -192,8 +192,8 @@ import GLMakie as Mke
   @test_reference "data/cylsurf3D-3.png" viz(c, color = :orange, alpha = 0.5)
 
   # collections of 1D geometries
-  c1 = Chain((0.,0.), (1.,1.), (0.,1.))
-  c2 = Chain((1.,1.), (2.,2.), (1.,2.))
+  c1 = Rope((0.,0.), (1.,1.), (0.,1.))
+  c2 = Rope((1.,1.), (2.,2.), (1.,2.))
   c  = Collection([c1, c2])
   @test_reference "data/collec1D-1.png" viz(c)
   @test_reference "data/collec1D-2.png" viz(c, color = 1:2)
