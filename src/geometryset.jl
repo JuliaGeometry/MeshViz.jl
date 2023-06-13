@@ -2,9 +2,9 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-Makie.plottype(::Collection) = Viz{<:Tuple{Collection}}
+Makie.plottype(::GeometrySet) = Viz{<:Tuple{GeometrySet}}
 
-function Makie.plot!(plot::Viz{<:Tuple{Collection}})
+function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
   collection  = plot[:object]
   color       = plot[:color]
   alpha       = plot[:alpha]
@@ -45,10 +45,10 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     inds2 = Makie.@lift findall(g -> paramdim(g) == 2, $geoms)
     inds1 = Makie.@lift findall(g -> paramdim(g) == 1, $geoms)
     inds0 = Makie.@lift findall(g -> paramdim(g) == 0, $geoms)
-    isempty(inds3[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds3])))
-    isempty(inds2[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds2])))
-    isempty(inds1[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds1])))
-    isempty(inds0[]) || viz!(plot, (Makie.@lift Collection($geoms[$inds0])))
+    isempty(inds3[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds3])))
+    isempty(inds2[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds2])))
+    isempty(inds1[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds1])))
+    isempty(inds0[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds0])))
   end
 
   if showfacets[]
@@ -58,14 +58,14 @@ function Makie.plot!(plot::Viz{<:Tuple{Collection}})
     elseif all(ranks[] .== 1)
       # all boundaries are point sets
       points = Makie.@lift mapreduce(collect, vcat, $bounds)
-      viz!(plot, (Makie.@lift Collection($points)),
+      viz!(plot, (Makie.@lift GeometrySet($points)),
         color = facetcolor,
         showfacets = false,
         pointsize = pointsize
       )
     elseif all(ranks[] .== 2)
       # all boundaries are geometries
-      viz!(plot, (Makie.@lift Collection($bounds)),
+      viz!(plot, (Makie.@lift GeometrySet($bounds)),
         color = facetcolor,
         showfacets = false,
         segmentsize = segmentsize

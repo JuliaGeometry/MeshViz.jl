@@ -2,15 +2,15 @@
 # Licensed under the MIT License. See LICENSE in the project root.
 # ------------------------------------------------------------------
 
-Makie.plottype(::AbstractVector{<:PointOrGeometry}) =
-  Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}}
+Makie.plottype(::AbstractVector{<:Geometry}) =
+  Viz{<:Tuple{AbstractVector{<:Geometry}}}
 
-function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
-  # retrieve items object
-  items = plot[:object]
+function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:Geometry}}})
+  # retrieve geometries
+  geoms = plot[:object]
 
-  # fallback to collection recipe
-  viz!(plot, (Makie.@lift Collection($items)),
+  # fallback to geometry set recipe
+  viz!(plot, (Makie.@lift GeometrySet($geoms)),
     color       = plot[:color],
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],
@@ -21,14 +21,14 @@ function Makie.plot!(plot::Viz{<:Tuple{AbstractVector{<:PointOrGeometry}}})
   )
 end
 
-Makie.plottype(::PointOrGeometry) = Viz{<:Tuple{PointOrGeometry}}
+Makie.plottype(::Geometry) = Viz{<:Tuple{Geometry}}
 
-function Makie.plot!(plot::Viz{<:Tuple{PointOrGeometry}})
-  # retrieve item object
-  item = plot[:object]
+function Makie.plot!(plot::Viz{<:Tuple{Geometry}})
+  # retrieve geometry
+  geom = plot[:object]
 
   # fallback to vector recipe
-  viz!(plot, (Makie.@lift [$item]),
+  viz!(plot, (Makie.@lift [$geom]),
     color       = plot[:color],
     alpha       = plot[:alpha],
     colorscheme = plot[:colorscheme],

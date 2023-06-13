@@ -68,7 +68,7 @@ include("utils.jl")
 # domain
 include("simplemesh.jl")
 include("cartesiangrid.jl")
-include("collection.jl")
+include("geometryset.jl")
 include("partition.jl")
 include("fallbacks.jl")
 include("optimized.jl")

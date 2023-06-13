@@ -194,7 +194,7 @@ import GLMakie as Mke
   # collections of 1D geometries
   c1 = Rope((0.,0.), (1.,1.), (0.,1.))
   c2 = Rope((1.,1.), (2.,2.), (1.,2.))
-  c  = Collection([c1, c2])
+  c  = GeometrySet([c1, c2])
   @test_reference "data/collec1D-1.png" viz(c)
   @test_reference "data/collec1D-2.png" viz(c, color = 1:2)
   @test_reference "data/collec1D-3.png" viz(c, color = 1:2, colorscheme = :inferno)
@@ -204,7 +204,7 @@ import GLMakie as Mke
   # collections of 2D geometries
   t = Triangle((1.,0.), (2.,0.), (2.,1.))
   q = Quadrangle((0.,0.), (1.,0.), (1.,1.), (0.,1.))
-  d = Collection([t, q])
+  d = GeometrySet([t, q])
   @test_reference "data/collec2D-1.png" viz(d)
   @test_reference "data/collec2D-2.png" viz(d, showfacets = true)
   @test_reference "data/collec2D-3.png" viz(d, showfacets = true, facetcolor = :red)
@@ -220,7 +220,7 @@ import GLMakie as Mke
   s2 = Ball((-1.,0.,-1.), 1.)
   m1 = Multi([b1, b2])
   m2 = Multi([s1, s2])
-  d = Collection([m1, m2])
+  d = GeometrySet([m1, m2])
   @test_reference "data/collec3D-1.png" viz(d)
   @test_reference "data/collec3D-2.png" viz(d, color = 1:2)
   @test_reference "data/collec3D-3.png" viz(d, color = 1:2, colorscheme = :inferno)
