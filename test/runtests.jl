@@ -1,6 +1,7 @@
 using MeshViz
 using Meshes
 using CategoricalArrays
+using Unitful
 using ReferenceTests
 using ImageIO
 using Random
@@ -336,4 +337,6 @@ import GLMakie as Mke
   d = CartesianGrid(2,2)
   c = [1,missing,3,NaN]
   @test_reference "data/values-4.png" viz(d, color = c, colorscheme = :Accent_4)
+  c = [1u"km/hr", 2u"km/hr", 3u"km/hr", 4u"km/hr"]
+  @test_reference "data/values-5.png" viz(d, color = c, colorscheme = :viridis)
 end

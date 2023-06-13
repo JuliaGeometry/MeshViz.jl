@@ -11,6 +11,7 @@ using ScientificTypes
 
 using CategoricalArrays: CategoricalValue
 using CategoricalArrays: levelcode
+using Unitful: unit, ustrip
 
 using Colors: Colorant
 using Colors: protanopic, coloralpha

@@ -45,8 +45,10 @@ function tocolors(numbers::AbstractVector{V}, scheme) where {V<:Union{Number,Mis
   icolors = parse(Colorant, "rgba(0,0,0,0)")
 
   # valid numbers are assigned colors from scheme
-  vnumbers = Number.(numbers[vinds])
-  vcolors  = get(scheme, vnumbers, :extrema)
+  vnumbers  = numbers[vinds]
+  firstunit = unit(first(vnumbers))
+  vunitless = ustrip.(Ref(firstunit), vnumbers)
+  vcolors   = get(scheme, vunitless, :extrema)
 
   # build final vector of colors
   colors = Vector{Colorant}(undef, length(numbers))
