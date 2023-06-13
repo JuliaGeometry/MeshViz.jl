@@ -180,13 +180,13 @@ import GLMakie as Mke
   @test_reference "data/cylinder3D-1.png" viz(c)
   @test_reference "data/cylinder3D-2.png" viz(c, color = :orange)
   @test_reference "data/cylinder3D-3.png" viz(c, color = :orange, alpha = 0.5)
-  c = Cylinder(Segment((1.,0.,0.), (1.,1.,1.)), 1.)
+  c = Cylinder((1.,0.,0.), (1.,1.,1.), 1.)
   @test_reference "data/cylinder3D-4.png" viz(c)
   @test_reference "data/cylinder3D-5.png" viz(c, color = :orange)
   @test_reference "data/cylinder3D-6.png" viz(c, color = :orange, alpha = 0.5)
 
   # cylinder surface
-  c = CylinderSurface(Segment((1.,0.,0.), (1.,1.,1.)), 1.)
+  c = CylinderSurface((1.,0.,0.), (1.,1.,1.), 1.)
   @test_reference "data/cylsurf3D-1.png" viz(c)
   @test_reference "data/cylsurf3D-2.png" viz(c, color = :orange)
   @test_reference "data/cylsurf3D-3.png" viz(c, color = :orange, alpha = 0.5)
@@ -293,8 +293,8 @@ import GLMakie as Mke
   @test_reference "data/geoms2D-7.png" viz(g, showfacets = true, facetcolor = :red)
 
   # vector of 3D geometries
-  c1 = Cylinder(Segment((0.,0.,0.), (1.,1.,0.)), 2.)
-  c2 = Cylinder(Segment((2.,2.,0.), (3.,3.,0.)), 1.)
+  c1 = Cylinder((0.,0.,0.), (1.,1.,0.), 2.)
+  c2 = Cylinder((2.,2.,0.), (3.,3.,0.), 1.)
   g  = [c1, c2]
   @test_reference "data/geoms3D-1.png" viz(g)
   @test_reference "data/geoms3D-2.png" viz(g, color = 1:2)
