@@ -1,5 +1,6 @@
 [deps]
 CategoricalArrays = "324d7699-5711-5eae-9e2f-1d82baa6b597"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
 Meshes = "eacbb407-ea5a-433e-ab97-5258b1ca43fa"
@@ -9,4 +10,4 @@ Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
 
 [compat]
-GLMakie = "=0.8.1"
+GLMakie = "=0.8.6"

@@ -9,9 +9,13 @@ using Tables
 
 using ScientificTypes
 
+using CategoricalArrays: CategoricalVector
 using CategoricalArrays: CategoricalValue
 using CategoricalArrays: levelcode
-using Unitful: unit, ustrip
+using Dates: DateTime, Date
+using Dates: datetime2unix
+using Unitful: Quantity
+using Unitful: ustrip
 
 using Colors: Colorant
 using Colors: protanopic, coloralpha

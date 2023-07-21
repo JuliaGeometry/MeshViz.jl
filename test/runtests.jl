@@ -2,6 +2,7 @@ using MeshViz
 using Meshes
 using CategoricalArrays
 using Unitful
+using Dates
 using ReferenceTests
 using ImageIO
 using Random
@@ -335,8 +336,12 @@ import GLMakie as Mke
   c = [fill(missing, 50); categorical(rand(rng, 1:4, 50))]
   @test_reference "data/values-3.png" viz(d, color = c, colorscheme = :BrBG_4)
   d = CartesianGrid(2,2)
-  c = [1,missing,3,NaN]
+  c = [1,missing,3,missing]
   @test_reference "data/values-4.png" viz(d, color = c, colorscheme = :Accent_4)
   c = [1u"km/hr", 2u"km/hr", 3u"km/hr", 4u"km/hr"]
   @test_reference "data/values-5.png" viz(d, color = c, colorscheme = :viridis)
+  c = [DateTime(2023,1,1), DateTime(2023,1,2), DateTime(2023,1,3), DateTime(2023,1,4)]
+  @test_reference "data/values-6.png" viz(d, color = c, colorscheme = :viridis)
+  c = [Date(2023,1,1), Date(2023,1,2), Date(2023,1,3), Date(2023,1,4)]
+  @test_reference "data/values-7.png" viz(d, color = c, colorscheme = :viridis)
 end
