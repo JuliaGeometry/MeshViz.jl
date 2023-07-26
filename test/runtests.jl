@@ -305,6 +305,18 @@ import GLMakie as Mke
   @test_reference "data/geoms3D-5.png" viz(g, color = :red, alpha = 0.5)
   @test_reference "data/geoms3D-6.png" viz(g, color = 1:2, alpha = 0.5)
 
+  # vector of 1D, 2D, 3D geometries
+  p = Point(2, 2, 0)
+  t = Triangle((1, 0, 2), (1, 1, 2), (0, 1, 2))
+  h = first(CartesianGrid(1,1,1))
+  g = [p, t, h]
+  @test_reference "data/geoms-1.png" viz(g)
+  @test_reference "data/geoms-2.png" viz(g, color = 1:3)
+  @test_reference "data/geoms-3.png" viz(g, color = 1:3, colorscheme = :inferno)
+  @test_reference "data/geoms-4.png" viz(g, color = :red)
+  @test_reference "data/geoms-5.png" viz(g, color = :red, alpha = 0.5)
+  @test_reference "data/geoms-6.png" viz(g, color = 1:3, alpha = 0.5)
+
   # views of grids (optimized for performance)
   g = CartesianGrid(10,10)
   v = view(g, 1:2:100)

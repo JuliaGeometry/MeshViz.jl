@@ -41,14 +41,18 @@ function Makie.plot!(plot::Viz{<:Tuple{GeometrySet}})
     vizmany!(plot, meshes)
   else # mixed dimension
     # visualize subsets of equal rank
-    inds3 = Makie.@lift findall(g -> paramdim(g) == 3, $geoms)
-    inds2 = Makie.@lift findall(g -> paramdim(g) == 2, $geoms)
-    inds1 = Makie.@lift findall(g -> paramdim(g) == 1, $geoms)
-    inds0 = Makie.@lift findall(g -> paramdim(g) == 0, $geoms)
-    isempty(inds3[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds3])))
-    isempty(inds2[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds2])))
-    isempty(inds1[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds1])))
-    isempty(inds0[]) || viz!(plot, (Makie.@lift GeometrySet($geoms[$inds0])))
+    for rank in (3, 2, 1, 0)
+      inds = Makie.@lift findall(g -> paramdim(g) == rank, $geoms)
+      if !isempty(inds[])
+        gset = Makie.@lift GeometrySet($geoms[$inds])
+        if colorant[] isa AbstractVector
+          cset = Makie.@lift $colorant[$inds]
+        else
+          cset = colorant
+        end
+        viz!(plot, gset, color = cset)
+      end
+    end
   end
 
   if showfacets[]
