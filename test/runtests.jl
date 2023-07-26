@@ -317,6 +317,20 @@ import GLMakie as Mke
   @test_reference "data/gridview3D-2.png" viz(v, color=1:500)
   @test_reference "data/gridview3D-3.png" viz(v, color=1:500, colorscheme = :inferno)
 
+  # views of meshes
+  g = CartesianGrid(10,10)
+  m = convert(SimpleMesh, g)
+  v = view(m, 1:2:100)
+  @test_reference "data/meshview2D-1.png" viz(v)
+  @test_reference "data/meshview2D-2.png" viz(v, color=1:50)
+  @test_reference "data/meshview2D-3.png" viz(v, color=1:50, colorscheme = :inferno)
+  g = CartesianGrid(10,10,10)
+  m = convert(SimpleMesh, g)
+  v = view(m, 1:2:1000)
+  @test_reference "data/meshview3D-1.png" viz(v)
+  @test_reference "data/meshview3D-2.png" viz(v, color=1:500)
+  @test_reference "data/meshview3D-3.png" viz(v, color=1:500, colorscheme = :inferno)
+
   # data over grid
   d = meshdata(CartesianGrid(10,10), etable = (z=1:100,))
   @test_reference "data/griddata2D.png" viewer(d)
